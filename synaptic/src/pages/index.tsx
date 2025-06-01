@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import Layout from "@/components/layout"
 import Terminal from "@/components/terminal"
-
 import styles from '../styles/home.module.css'
+import NeuralColumn from '@/components/neuralcolumn';
+
 
 export default function Page() {
     const [portfolioInitiated, setPortfolioInitiated] = useState(true);
@@ -31,9 +32,9 @@ export default function Page() {
             key="neural-hub"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1, transition: { duration: 1.5, ease: "easeInOut", delay: 0.5 } }}
-            className="neural-hub-container"
+            className={styles.neuralhub}
             >
-                <h1>NEURAL HUB</h1>
+                <NeuralColumn />
             </motion.div>
         )}
     </AnimatePresence>

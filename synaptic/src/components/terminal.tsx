@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
+import { motion, AnimatePresence } from 'framer-motion';
 
 import Typewriter from 'typewriter-effect';
 import { JetBrains_Mono } from 'next/font/google';
 import styles from '../styles/terminal.module.css'
+
 
 const jetBrainsMono = JetBrains_Mono({
      subsets: ['latin'] 
@@ -11,9 +13,19 @@ const jetBrainsMono = JetBrains_Mono({
 
 export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
     const [cueShown, setCueShown] = useState(false);
+    
+    useEffect(() => {
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                setCueShown(false);
+                onInitiate();
+            }
+        })
+    }, []);
 
     return (
         <div id='terminal' className={jetBrainsMono.className + ' ' + styles.terminal}>
+            <span className={styles.Typewriter}>
             <Typewriter
                 options={{
                     delay: 30,
@@ -31,20 +43,44 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
                     .deleteAll()
                     typewriter.typeString('<span style="color: #50fa7b;">Establishing</span> neural_link_to <span style="color: #8be9fd;"><b>Carlos Lorenzo-Zúñiga Marí</b></span>...')
                     .pauseFor(500)
-                    .deleteAll(0)
+                    .deleteAll()
                     typewriter.typeString('<span style="color: #ff5555;">System</span> Ready.')
                     .pauseFor(1000)
                     .deleteAll()
                     typewriter.pasteString('>> <span style="color: #8be9fd;">guest@carloslorenzo.dev</span> :~$ ')
                     .pauseFor(1000)
-                    typewriter.changeDelay(50)
+                    typewriter.changeDelay(100)
                     typewriter.typeString('<span style="color: #6272a4;">initiate_portfolio</span>')
-                    .pauseFor(1000)
-                    .callFunction(() => onInitiate())                 
+                    .pauseFor(3000)
+                    .callFunction(() => setCueShown(true))                 
                     .start();
                 }}
             />
-            <p id={styles.cue} style={{ display: cueShown ? 'block' : 'none' }}>(Press ENTER to continue)</p>
+            </span>
+            
+            <AnimatePresence>
+               
+            {cueShown && 
+                // <motion.button key="modal"  
+                
+                // onClick={() => onInitiate()} 
+                // id={styles.initiateButton}
+                // initial={{ opacity: 0 }}
+                // animate={{ x: 0, opacity: 1 }}
+                // transition={{ duration: 1 }}
+                // exit={{ opacity: 0 }} >
+                //     <h3>Initiate</h3>
+                // </motion.button>
+                <motion.p key="modal"  
+                id={styles.textCue}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 0.75 }}
+                transition={{ duration: 1 }}
+                exit={{ y: 0, opacity: 0 }} >
+                    (Press ENTER to initiate)
+                </motion.p>
+            }       
+            </AnimatePresence>
         </div>
     )
 }

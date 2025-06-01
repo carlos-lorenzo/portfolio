@@ -1,13 +1,29 @@
 .terminal {
     height: 100dvh;
     width: 80vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
     font-size: large;
 }
 
-#cue {
-    color: var(--selection);
+#initiateButton {
+    place-self: start center;
+    cursor: pointer;
+    background-color: var(--green);
+    color: var(--background);
+    border: none;
+    border-radius: 5px;
+    box-shadow: -5px 5px 5px -5px rgba(80,250,123,0.76);
+}
+
+.Typewriter {
+    place-self: end center;   
+}
+
+#textCue {
+    place-self: start center;
+    color: var(--orange);
+
 }
