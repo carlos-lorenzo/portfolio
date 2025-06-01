@@ -1,0 +1,13 @@
+.terminal {
+    height: 100dvh;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+}
+
+#cue {
+    color: var(--selection);
+}
