@@ -1,71 +1,127 @@
-import React, { useEffect, useState } from 'react';
-import { motion, number, scale, useAnimationControls } from 'framer-motion'; // Optional, for animations
+import React, { useEffect, useState, Fragment } from 'react';
+import { AnimatePresence, motion, number, scale, useAnimationControls, AnimationControls } from 'framer-motion'; // Optional, for animations
 import styles from '../styles/neuralcolumn.module.css';
+import { div, p } from 'framer-motion/client';
 
-const nodesData = [
-  { id: 'genesis', title: 'Genesis Node', description: 'About Me' },
-  { id: 'cognitive', title: 'Cognitive Circuits', description: 'Skills' },
-  { id: 'constructs', title: 'Constructs', description: 'Projects' },
-  { id: 'contact', title: 'Contact / Network', description: 'Reach Out' },
-];
+
+class SubNode {
+	id: string;
+	// component
+	controller: AnimationControls;
+
+	constructor(id: string, controller: AnimationControls) {
+		this.id = id;
+		this.controller = controller;
+	}
+
+}
+
+class Node {
+	id: string;
+	title: string;
+	description: string;
+	children: SubNode[];
+	controller: AnimationControls;
+
+	constructor(id: string, title: string, description: string, children: SubNode[], controller: AnimationControls) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.children = children;
+		this.controller = controller;
+	}
+}
+
+
+
 
 const NeuralColumn = () => {
-	const [selectedNode, setSelectedNode] = useState<number>(-1);
-	const controls = [useAnimationControls(), useAnimationControls(), useAnimationControls(), useAnimationControls()];
+	const nodesData = [
+	new Node('genesis', 'Genesis Node', 'About Me', [new SubNode('Core', useAnimationControls()), new SubNode('Problem-Solving', useAnimationControls()), new SubNode('System Status', useAnimationControls())], useAnimationControls()),
+	new Node('cognitive', 'Cognitive Circuits', 'Skills', [new SubNode('Skill A', useAnimationControls()), new SubNode('Skill B', useAnimationControls())], useAnimationControls()),
+	new Node('constructs', 'Constructs', 'Projects', [new SubNode('Project A', useAnimationControls()), new SubNode('Project B', useAnimationControls())], useAnimationControls()),
+	new Node('contact', 'Contact', 'Contact', [new SubNode('Github', useAnimationControls()), new SubNode('LinkedIn', useAnimationControls())], useAnimationControls()),
+];
 
-	const handleNodeClick = (index: number) => {
-		
+	const connectorControllers = [useAnimationControls(), useAnimationControls(), useAnimationControls()];
+
+	const [selectedNode, setSelectedNode] = useState<number>(-1);
+	const [selectedSubNode, setSelectedSubNode] = useState<number[]>([-1, -1]);
+
+	const handleNodeClick = (e: React.MouseEvent, index: number) => {
 		if (selectedNode === index) {
-			controls[index].start('unselected');
+			connectorControllers[index].start('contracted');
+			setSelectedNode(-1);
 			return;
 		}
-		controls[index].start('selected');
 		setSelectedNode(index);
+		connectorControllers[index].start('expanded');
 	}
+
+
+	function handleSubNodeClick(indices: number[]) {
+		if (selectedSubNode === indices) {
+			setSelectedSubNode([-1, -1]);
+			nodesData[indices[0]].children[indices[1]].controller.start('displayed');
+			return;
+		}
+		setSelectedSubNode(indices);
+		nodesData[indices[0]].children[indices[1]].controller.start('selected');
+
+
+	}
+
 	// useEffect(() => {
 	// 	controls.forEach((control) => {
 	// 		control.start('unselected');
 	// 	});
 	// })
 
-	return (
-		<div className={styles.neuralColumnContainer}>
-			{nodesData.map((node, index) => (
-			<React.Fragment key={node.id}>
-				{/* Render the vertical line connector */}
-				{index > 0 && (
+	 return (
+    <motion.div className={styles.neuralColumnContainer}>
+      {nodesData.map((node, index) => (
+        <Fragment key={node.id}>
+			{index > 0 && <motion.div 
+				className={styles.connectorLine} 
+				animate={connectorControllers[index - 1]}
+				variants={
+					{
+						contracted: {
+							height: "15dvh",
+						},
+						expanded: {
+							height: "50dvh",
+						}
+					}}
+				/>
+			}
+          <div className={styles.nodeWrapper}> {/* New wrapper */}
 				<motion.div
-					className={styles.connectorLine}
-					initial={{ scaleY: 0 }}
-					animate={{ scaleY: 1 }}
-					transition={{ duration: 0.5, delay: index * 0.2 }}
-				></motion.div>
-				)}
-				{/* Render the circle node */}
-				<motion.div
-				className={styles.neuralNode}
-				animate={controls[index]}
-				transition={{ duration: 0.1, }}
-				variants={{
-					unselected: {
-						borderRadius: '50%',
-						opacity: 1,
-						y: 0,
-					},
-					selected: {
-						borderRadius: '10px',				
-					},
-				}}
-				onClick={() => handleNodeClick(index)}
+					className={styles.neuralNode}
+					onClick={(e) => handleNodeClick(e, index)}
+					animate={node.controller}
 				>
-					<div className={styles.nodeIcon}>{/* Icon for the node */}</div>
-					<h3 className={styles.nodeTitle}>{node.title}</h3>
-					<p className={styles.nodeDescription}>{node.description}</p>
+				{/* Node content */}
 				</motion.div>
-			</React.Fragment>
-			))}
-		</div>
-	);
+				{selectedNode === index && (
+				<motion.div className={styles.neuralChildrenContainer}> {/* New container for children */}
+					{node.children.map((subNode, subIndex) => (
+					<motion.div
+						className={styles.neuralSubNode}
+						key={subNode.id}
+						onClick={() => handleSubNodeClick([index, subIndex])}
+					>
+						{/* Sub-node content */}
+					</motion.div>
+					))}
+				</motion.div>
+				)}
+			</div>
+		</Fragment>
+      ))}
+    </motion.div>
+  );
 };
+
 
 export default NeuralColumn;
