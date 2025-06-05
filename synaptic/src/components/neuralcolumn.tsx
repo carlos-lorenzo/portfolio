@@ -60,7 +60,6 @@ const NeuralColumn = () => {
 		node.nodeAnimate(node.nodeScope.current, 
 				{scale: 1}, 
 				{ duration: node.selectionDuration, ease: "easeInOut" },
-				
 			);
 		node.connectorAnimate(node.connectorScope.current, 
 			{ height: '25dvh', opacity: 0.5 }, 

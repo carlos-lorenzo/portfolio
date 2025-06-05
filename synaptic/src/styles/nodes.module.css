@@ -1,0 +1,18 @@
+.node {
+    position: relative;
+	width: 25dvh; /* Adjust size as needed */
+	height: 25dvh;
+	border-radius: 40%; /* Makes it a circle */
+	border-color: rgba(241, 250, 140, 1);
+	background-color: var(--background);
+	opacity: 1;
+	border-style: solid;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	cursor: pointer;
+	z-index: 1; /* Ensures nodes are above lines */
+}
+

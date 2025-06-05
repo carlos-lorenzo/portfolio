@@ -14,20 +14,19 @@
 	position: relative;
 	width: 25dvh; /* Adjust size as needed */
 	height: 25dvh;
-	border-radius: 50%; /* Makes it a circle */
-	background-color: var(--selection); /* Dracula dark background */
-	border: 2px solid var(--yellow); /* Dracula foreground/border */
+	border-radius: 40%; /* Makes it a circle */
+	border-color: rgba(241, 250, 140, 0.5);
+	background-color: var(--background);
+	opacity: 1;
+	border-style: solid;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
 	cursor: pointer;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	
-	
 	z-index: 99; /* Ensures nodes are above lines */
-	transition: all 0.3s ease; /* For non-Framer Motion hover */
+
 }
 
 .nodeWrapper {
@@ -39,32 +38,24 @@
 }
 
 
-.nodeTitle {
-	color: var(--foreground); /* Dracula light text */
-	font-size: 1.1em;
-	margin-bottom: 5px;
-	}
-
-.nodeDescription {
-	color: var(--yellow); /* Dracula purple accent */
-	font-size: 0.8em;
-}
-
 .connectorLine {
 	width: 4px; /* Thickness of the line */
 	height: 25dvh; /* Length of the line between nodes */
-	background-color: var(--yellow); /* Dracula cyan accent, or a subtle grey */
+	background-color: var(--yellow);
 	position: relative;
 	z-index: 1; /* Ensures lines are below nodes */
 	transform-origin: top; /* For vertical scaling animation */
+	box-shadow: "0 0 10px rgba(241, 250, 140, 1)";
 }
 
 .neuralSubNode {
 	width: 15dvh;
 	height: 15dvh;
 	border-radius: 50%; /* Makes it a circle */
-	background-color: var(--selection); /* Dracula dark background */
-	border: 2px solid var(--yellow); /* Dracula foreground/border */
+	background-color: var(--background);
+	border-color: rgba(241, 250, 140, 0.5);
+	
+	border-style: solid;
 	z-index: 3; /* Ensures nodes are above lines */
 	display: flex;
 	flex-direction: column;
@@ -87,4 +78,46 @@
 
 .neuralSubNodeContent{
 	z-index: 99; /* Ensure the content is above the parent node */
+}
+
+
+.hexagon {
+  width: 100px;
+  height: 55px;
+  position: relative;
+}
+
+.hexagon, 
+.hexagon:before, 
+.hexagon:after {
+  background: red;
+  box-shadow: 0 0 10px rgba(0,0,0,0.8);   
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  width: 57px;
+  height: 57px;
+  transform: rotate(145deg) skew(22.5deg);
+}
+
+.hexagon:before {
+  top: -29px;
+}
+
+.hexagon:after {
+  top: 27px;
+}
+
+.hexagon span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 55px;
+  background: red;
+  z-index: 1;
 }

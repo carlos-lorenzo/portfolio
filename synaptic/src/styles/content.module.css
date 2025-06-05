@@ -1,0 +1,77 @@
+.nodes-page-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* Centers the column horizontally */
+	justify-content: center; /* Centers the column vertically */
+	padding: 20px;
+	position: relative; /* For absolute positioning of background effects if needed */
+	z-index: 10; /* Ensure it's above background particles */
+	place-self: center;
+}
+
+
+
+#directory-info {
+	place-self: start !important;
+	width: 100%;
+	margin-bottom: 1rem;
+	text-align: left;
+}
+
+#content-wrapper {
+	width: 80vw;
+	height: 80dvh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.full-screen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  z-index: 11; /* Ensure it's on top */
+  overflow: hidden; /* Hide overflow during animation */
+  cursor: pointer; /* To close by clicking anywhere on the background */
+}
+
+.content-card {
+  background-color: var(--foreground); /* Content background */
+  color: var(--background);
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+  cursor: default; /* Reset cursor for content */
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+  color: #333;
+}
+
+.connectorLine {
+	width: 4px; /* Thickness of the line */
+	height: 25dvh; /* Length of the line between nodes */
+	background-color: var(--yellow);
+	position: relative;
+	z-index: 1; /* Ensures lines are below nodes */
+	transform-origin: top; /* For vertical scaling animation */
+}

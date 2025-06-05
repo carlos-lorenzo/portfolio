@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState, useCallback } from "react";
 import { Geist } from "next/font/google";
 
 type Props = {
@@ -10,9 +10,12 @@ const geist = Geist({
 })
  
 export default function RootLayout({ children }: Props) {
-  return (
-    <html lang="en" className={geist.className}>
-        <body>{children}</body>
-    </html>
-  )
+
+	
+
+	return (
+		<html lang="en" className={geist.className}>
+			<body>{children}</body>
+		</html>
+	)
 }
