@@ -20,7 +20,7 @@ const NodeC: React.FC<NodeProps> = ({ node, onClick }) => {
 			whileHover={{ boxShadow: "0 0 10px rgba(241, 250, 140, 1)" }}
 			whileTap={{ scale: 0.95 }}
         >
-        	<p>{node.id}</p>
+        	<p>{node.title}</p>
         </motion.div>
     );
 };

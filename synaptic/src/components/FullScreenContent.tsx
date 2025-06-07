@@ -4,18 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../styles/content.module.css';
 import { JetBrains_Mono } from 'next/font/google';
 import Typewriter from 'typewriter-effect';
+import { Node } from './PortfolioHome';
 
 interface FullScreenContentProps {
-  id: string; // The ID of the expanded node
-  onClose: () => void;
-  children: React.ReactNode;
+	node: Node;
+  	onClose: () => void;
+  	children: React.ReactNode;
 }
 
-const jetBrainsMono = JetBrains_Mono({
-	 subsets: ['latin'] 
-})
-
-const FullScreenContent: React.FC<FullScreenContentProps> = ({ id, onClose, children }) => {
+const FullScreenContent: React.FC<FullScreenContentProps> = ({ node, onClose, children }) => {
   return (
     <AnimatePresence>
 		<motion.div
@@ -38,7 +35,7 @@ const FullScreenContent: React.FC<FullScreenContentProps> = ({ id, onClose, chil
 						deleteSpeed: 0
 					}}
 					onInit={(typewriter) => {
-						typewriter.typeString(`>> <span style="color: #8be9fd;">guest@carloslorenzo.dev</span><b>:~</b><span style="color: #8be9fd;">/${id}</span>$ <span style="color: #50fa7b;">execute</span> profile_scan`)
+						typewriter.typeString(`>> <span style="color: #8be9fd;">guest@carloslorenzo.dev</span><b>:~</b><span style="color: #8be9fd;">/${node.id}</span>$ <span style="color: #50fa7b;">execute</span> ${node.command}`)
 						.start();
 					}}
 					/>

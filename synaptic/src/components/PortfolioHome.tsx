@@ -5,37 +5,22 @@ import styles from "../styles/content.module.css"
 import FullScreenContent from "./FullScreenContent";
 import NodeC from "./NodeC";
 
-
-export class SubNode {
-    id: string;
-    selected: boolean;
-    scope: React.RefObject<HTMLDivElement>;
-    subNodeAnimate: typeof animate
-    selectionDuration = 0.2;
-
-    constructor(id: string) {
-        this.id = id;
-        this.selected = false;
-        [this.scope, this.subNodeAnimate] = useAnimate();
-    }
-
-}
+import About from "./About";
+import Skills from "./Skills";
 
 export class Node {
     id: string;
+    command: string;
     title: string;
-    description: string;
-    
+    component: React.FC;
     selectionDuration = 0.2;
 
-    constructor(id: string, title: string, description: string) {
+    constructor(id: string, title: string, command: string, component: React.FC) {
         this.id = id;
         this.title = title;
-        this.description = description;
-        
-        
+        this.command = command;
+        this.component = component;
     }
-
 }
 
 
@@ -43,8 +28,8 @@ export class Node {
 export default function PortfolioHome() {
 
     const nodeData = [
-        new Node("genesis_node", "Node 1", "Description for Node 1"),
-        new Node("Skills", "Node 2", "Description for Node 2"),
+        new Node("genesis_node", "Genesis Node", "profile_scan", About),
+        new Node("Skills", "Cognitive Circuits", "competencies_analysis", Skills),
     ];
 
     const [expandedNode, setExpandedNode] = useState<Node | null>(null);
@@ -84,9 +69,9 @@ export default function PortfolioHome() {
             {
                 expandedNode !== null && (
                     <FullScreenContent 
-                        id={expandedNode.id} 
+                        node={expandedNode}
                         onClose={handleCloseFullScreen}>
-                        <p>{expandedNode.description}</p>
+                        <expandedNode.component />
                     </FullScreenContent>
                 )
             }
