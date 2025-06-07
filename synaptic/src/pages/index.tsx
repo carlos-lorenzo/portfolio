@@ -108,7 +108,7 @@ export default function Page() {
                                     direction: "none",
                                     enable: true,
                                     outModes: {
-                                        default: "split",
+                                        default: "bounce",
                                     },
                                     random: false,
                                     speed: 2,
