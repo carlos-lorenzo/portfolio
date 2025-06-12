@@ -2,7 +2,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from '../styles/content.module.css';
-import { JetBrains_Mono } from 'next/font/google';
 import Typewriter from 'typewriter-effect';
 import { Node } from './PortfolioHome';
 

@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import type { Container } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 
 import Layout from "@/components/layout"
@@ -15,13 +14,13 @@ import PortfolioHome from "@/components/PortfolioHome";
 
 export default function Page() {
     const [portfolioInitiated, setPortfolioInitiated] = useState(false);
-    const [ init, setInit ] = useState(false);
+    
 
     const handleInitiate = () => {
         setPortfolioInitiated(true);
     };
 
-     const particlesLoaded = (container?: Container): Promise<void> => {
+     const particlesLoaded = (): Promise<void> => {
         return new Promise<void>((resolve) => {
             setTimeout(() => {
                 resolve();
@@ -40,7 +39,7 @@ export default function Page() {
             await loadSlim(engine);
             //await loadBasic(engine);
         }).then(() => {
-            setInit(true);
+            console.log("tsparticles has been successfully loaded");
         });
     }, []);
 
@@ -81,7 +80,6 @@ export default function Page() {
                                         enable: true,
                                         mode: "repulse",
                                     },
-                                    resize: true,
                                 },
                                 modes: {
                                     push: {

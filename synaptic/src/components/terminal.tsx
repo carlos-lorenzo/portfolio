@@ -8,7 +8,7 @@ import styles from '../styles/terminal.module.css'
 
 
 const jetBrainsMono = JetBrains_Mono({
-     subsets: ['latin'] 
+    subsets: ['latin'] 
 })
 
 export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
@@ -22,7 +22,8 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
     useEffect(() => {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                startApp();
+                setCueShown(false);
+                onInitiate();
             }
         })
     }, []);
@@ -65,16 +66,6 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
             <AnimatePresence>
                
             {cueShown && 
-                // <motion.button key="modal"  
-                
-                // onClick={() => onInitiate()} 
-                // id={styles.initiateButton}
-                // initial={{ opacity: 0 }}
-                // animate={{ x: 0, opacity: 1 }}
-                // transition={{ duration: 1 }}
-                // exit={{ opacity: 0 }} >
-                //     <h3>Initiate</h3>
-                // </motion.button>
                 <motion.p key="modal"  
                 id={styles.textCue}
                 initial={{ y: 20, opacity: 0 }}
