@@ -1,5 +1,5 @@
 import { useState, Fragment } from "react";
-import { useAnimate, animate, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import styles from "../styles/content.module.css"
 
 import FullScreenContent from "./FullScreenContent";
@@ -7,6 +7,8 @@ import NodeC from "./NodeC";
 
 import About from "./About";
 import Skills from "./Skills";
+import Projects from "./Projects";
+import Connect from "./Connect";
 
 export class Node {
     id: string;
@@ -29,7 +31,9 @@ export default function PortfolioHome() {
 
     const nodeData = [
         new Node("genesis_node", "Genesis Node", "profile_scan", About),
-        new Node("Skills", "Cognitive Circuits", "competencies_analysis", Skills),
+        new Node("cognitive_circuits", "Cognitive Circuits", "competencies_analysis", Skills),
+        new Node("constructs", "Constructs", "project_extraction", Projects),
+        new Node("synaptic_link", "Synaptic Link", "direct_signal", Connect),
     ];
 
     const [expandedNode, setExpandedNode] = useState<Node | null>(null);

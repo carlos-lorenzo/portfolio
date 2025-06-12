@@ -14,17 +14,21 @@ const jetBrainsMono = JetBrains_Mono({
 export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
     const [cueShown, setCueShown] = useState(false);
     
+    function startApp() {
+        setCueShown(false);
+        onInitiate();
+    }
+
     useEffect(() => {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                setCueShown(false);
-                onInitiate();
+                startApp();
             }
         })
     }, []);
 
     return (
-        <div id='terminal' className={jetBrainsMono.className + ' ' + styles.terminal}>
+        <div id='terminal' className={jetBrainsMono.className + ' ' + styles.terminal} onClick={() => startApp()}>
             <span className={styles.Typewriter}>
             <Typewriter
                 options={{
@@ -47,7 +51,7 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
                     typewriter.typeString('<span style="color: #ff5555;">System</span> Ready.')
                     .pauseFor(1000)
                     .deleteAll()
-                    typewriter.pasteString('>> <span style="color: #8be9fd;">guest@carloslorenzo.dev</span> :~$ ')
+                    typewriter.pasteString('>> <span style="color: #8be9fd;">guest@carloslorenzo.dev</span> :~$ ', null)
                     .pauseFor(1000)
                     typewriter.changeDelay(100)
                     typewriter.typeString('<span style="color: #6272a4;">initiate_portfolio</span>')

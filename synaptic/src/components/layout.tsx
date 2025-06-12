@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState, useCallback } from "react";
+import { ReactNode } from "react";
 import { Geist } from "next/font/google";
 
 type Props = {

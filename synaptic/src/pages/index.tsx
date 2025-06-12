@@ -1,9 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
 
 
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import type { Container, Engine } from "@tsparticles/engine";
+import type { Container } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 
 import Layout from "@/components/layout"
@@ -14,7 +14,7 @@ import PortfolioHome from "@/components/PortfolioHome";
 
 
 export default function Page() {
-    const [portfolioInitiated, setPortfolioInitiated] = useState(true);
+    const [portfolioInitiated, setPortfolioInitiated] = useState(false);
     const [ init, setInit ] = useState(false);
 
     const handleInitiate = () => {
