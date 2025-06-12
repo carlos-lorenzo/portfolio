@@ -30,7 +30,7 @@ export class Node {
 export default function PortfolioHome() {
 
     const nodeData = [
-        new Node("genesis_node", "Genesis Node", "profile_scan", About),
+        new Node("genesis_node", "Genesis", "profile_scan", About),
         new Node("cognitive_circuits", "Cognitive Circuits", "competencies_analysis", Skills),
         new Node("constructs", "Constructs", "project_extraction", Projects),
         new Node("synaptic_link", "Synaptic Link", "direct_signal", Connect),

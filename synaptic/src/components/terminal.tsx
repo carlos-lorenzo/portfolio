@@ -72,7 +72,7 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
                 animate={{ y: 0, opacity: 0.75 }}
                 transition={{ duration: 1 }}
                 exit={{ y: 0, opacity: 0 }} >
-                    (Press ENTER to initiate)
+                    (Press ENTER or click to initiate)
                 </motion.p>
             }       
             </AnimatePresence>
