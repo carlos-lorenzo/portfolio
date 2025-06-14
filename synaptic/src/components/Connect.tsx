@@ -9,7 +9,7 @@ export default function Connect() {
                 <li><b>LinkedIn // Professional Network</b>: To connect and view my professional profile, career journey, and posts on technology and science. <a href="https://linkedin.com/in/carlos-lorenzo-zúñiga-marí-99a666256">Connect</a></li>
                 <li><b>GitHub // The Blueprints</b>: To explore the source code behind my projects, see my coding style, and track my latest work. <a href="https://github.com/carlos-lorenzo">Explore</a></li>
             </ul>
-            <p>I look forward to receiving your transmission.</p>
+            <p>I look forward to hearing from you.</p>
         </>
     )
 }
