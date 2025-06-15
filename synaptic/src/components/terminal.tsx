@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import { JetBrains_Mono } from 'next/font/google';
 import styles from '../styles/terminal.module.css'
+import { on } from 'events';
 
 
 const jetBrainsMono = JetBrains_Mono({
@@ -19,6 +20,8 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
         onInitiate();
     }
 
+    
+
     useEffect(() => {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -26,9 +29,14 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
                 onInitiate();
             }
         })
-    }, []);
+    }, [onInitiate]);
 
     return (
+        
+        <>
+        <p className={styles.skip} onClick={() => startApp()} style={{ display: !cueShown ? 'block' : 'none' }}>Skip ▶</p>
+        
+        
         <div id='terminal' className={jetBrainsMono.className + ' ' + styles.terminal} onClick={() => startApp()}>
             <span className={styles.Typewriter}>
             <Typewriter
@@ -77,5 +85,6 @@ export default function Terminal({ onInitiate }: { onInitiate: () => void }) {
             }       
             </AnimatePresence>
         </div>
+        </>
     )
 }

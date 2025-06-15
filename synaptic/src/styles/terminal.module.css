@@ -27,3 +27,12 @@
     color: var(--orange);
 
 }
+
+.skip {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    cursor: pointer;
+    color: var(--comment);
+    caret-color: transparent;
+}

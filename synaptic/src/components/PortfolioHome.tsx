@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from 'react';
 import {  motion } from "framer-motion";
 import styles from "../styles/content.module.css"
 
@@ -37,6 +37,7 @@ export default function PortfolioHome() {
     ];
 
     const [expandedNode, setExpandedNode] = useState<Node | null>(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleSubNodeClick = (node: Node) => {
         setExpandedNode(node);
@@ -49,6 +50,13 @@ export default function PortfolioHome() {
     };
 
 
+        useEffect(() => {
+            const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % nodeData.length);
+            }, 1500);
+
+            return () => clearInterval(interval);
+        }, [nodeData.length]);
 
    
 
@@ -63,11 +71,14 @@ export default function PortfolioHome() {
                 {index > 0 && (
                     <motion.div 
                         key={`connector-${index}`}
-                        className={styles.connectorLine}
+                        className={`${styles.connectorLine} ${currentIndex === index && styles.glowing}`} // Apply glowing classstyles.connectorLine}
 				    />
                 )
                 }
+                
                 <NodeC node={node} onClick={handleSubNodeClick} />
+                
+                
                 </Fragment>
             ))}
             {

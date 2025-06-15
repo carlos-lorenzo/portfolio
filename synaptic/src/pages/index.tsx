@@ -55,7 +55,7 @@ export default function Page() {
                         exit={{ opacity: 0, scale: 0.9, transition: { duration: 1.5, ease: "easeInOut" } }}
                         className="terminal-container"
                     >
-                        <Terminal onInitiate={handleInitiate} />
+                        <Terminal onInitiate={handleInitiate}/>
                     </motion.div>
                 ) : (
                     <motion.div
@@ -64,7 +64,7 @@ export default function Page() {
                     animate={{ opacity: 1, scale: 1, transition: { duration: 1.5, ease: "easeInOut", delay: 0.5 } }}
                     className={styles.neuralhub}
                     >
-                        <PortfolioHome />
+                        
                     <Particles
                         id="tsparticles"
                         particlesLoaded={particlesLoaded}
@@ -132,6 +132,7 @@ export default function Page() {
                             detectRetina: true,
                         }}
                     />
+                    <PortfolioHome />
                     </motion.div>
                 )}
             </AnimatePresence>
