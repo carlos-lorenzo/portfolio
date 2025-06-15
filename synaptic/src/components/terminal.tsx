@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Typewriter from 'typewriter-effect';
 import { JetBrains_Mono } from 'next/font/google';
 import styles from '../styles/terminal.module.css'
-import { on } from 'events';
 
 
 const jetBrainsMono = JetBrains_Mono({
