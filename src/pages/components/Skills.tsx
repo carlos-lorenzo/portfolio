@@ -87,7 +87,7 @@ export default function Skills() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
         >
-            <motion.h1 variants={headingVariant}>Technical Stack</motion.h1>
+            <motion.h2 variants={headingVariant}>Technical Stack</motion.h2>
 
             <motion.div className={styles.rows} variants={rowStagger}>
                 {categories.map((cat) => (

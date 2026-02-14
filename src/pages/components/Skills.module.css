@@ -10,7 +10,7 @@
 
 /* ── Heading ────────────────────────────────────────────── */
 
-.skillsContainer h1 {
+.skillsContainer h2 {
     font-size: clamp(1.75rem, 3vw, 2.5rem);
     color: var(--text);
     margin: 0;
@@ -19,7 +19,7 @@
     width: fit-content;
 }
 
-.skillsContainer h1::after {
+.skillsContainer h2::after {
     content: "";
     display: block;
     width: 40%;

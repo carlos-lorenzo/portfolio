@@ -242,7 +242,7 @@ export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
   }, [hasPointer])
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} role="img" aria-label="Animated waveform visualization">
       <Canvas
         dpr={[1, 1.5]}
         gl={{ alpha: true, antialias: true }}

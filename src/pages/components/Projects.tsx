@@ -49,7 +49,7 @@ export default function Projects() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
         >
-            <motion.h1 variants={headingVariant}>My Projects</motion.h1>
+            <motion.h2 variants={headingVariant}>My Projects</motion.h2>
             <motion.div className={styles.grid} variants={gridStagger}>
                 {projects.map((project, i) => (
                     <ProjectCard key={i} {...project} />

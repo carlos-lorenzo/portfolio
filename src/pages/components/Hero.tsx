@@ -8,7 +8,7 @@ import Social from './Social'
 
 const WaveformVisual = lazy(() => import('./WaveformVisual'))
 
-const adjectives = ['Robust', 'Scalable', 'Reliable', 'Elegant', 'Precise']
+const adjectives = ['Impactful', 'Low-Level', 'Biomimetic', 'High-Fidelity', 'Elegant']
 
 const stagger = {
   hidden: {},
@@ -55,11 +55,11 @@ export default function Hero() {
         animate="visible"
       >
         <motion.div className={styles.tag} variants={fadeUp}>
-          <h5>WELCOME TO MY TERMINAL</h5>
+          <span>WELCOME TO MY TERMINAL</span>
         </motion.div>
 
         <motion.h1 variants={fadeUp}>
-          Building{' '}
+            Engineering{' '}
           <AnimatePresence mode="wait">
             <motion.span
               key={adjectives[index]}
@@ -72,11 +72,11 @@ export default function Hero() {
               {adjectives[index]}
             </motion.span>
           </AnimatePresence>
-          <br />Systems
+          <br />Solutions
         </motion.h1>
-
         <motion.p variants={fadeUp}>
-          I'm <b>Carlos Lorenzo-Zúñiga Marí</b> — biomedical engineer, systems architect, and builder of things that bridge biology and code.
+            I'm <b>Carlos Lorenzo-Zúñiga Marí</b> — bridging the gap between 
+            <b> biological complexity</b> and <b>low-level machine logic</b> through physics, ML, and hardware.
         </motion.p>
 
         <motion.div className={styles.actions} variants={fadeUp}>

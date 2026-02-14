@@ -43,6 +43,8 @@ export default function ProjectCard({ title, description, repo_link, skills }: P
                     <motion.a
                 href={repo_link}
                 target='_blank'
+                rel='noopener noreferrer'
+                aria-label={`View ${title} on GitHub`}
                 whileHover={{ scale: 1.15, color: '#E6EDF3' }}
                 whileTap={{ scale: 0.95 }}
             >
