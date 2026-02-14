@@ -25,8 +25,8 @@ const iconVariant = {
 const sections = [
     { to: 'hero-section', icon: faHouseChimney, label: 'Home' },
     { to: 'about-section', icon: faUser, label: 'About' },
-    { to: 'projects-section', icon: faBriefcase, label: 'Projects' },
     { to: 'skills-section', icon: faBolt, label: 'Skills' },
+    { to: 'projects-section', icon: faBriefcase, label: 'Projects' },
 ]
 
 export default function Sections() {

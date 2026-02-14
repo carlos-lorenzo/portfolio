@@ -46,16 +46,9 @@
 }
 
 .section.active,
-.section[aria-current="true"] {
-    box-shadow: 0 8px 18px rgba(88,166,255,0.14);
-    background-color: rgba(88,166,255,0.08);
-    color: var(--primary);
-}
-
-/* react-scroll activeClass applied to the Link wrapper */
+.section[aria-current="true"],
 .active .section {
-    box-shadow: 0 8px 18px rgba(88,166,255,0.14);
-    background-color: rgba(88,166,255,0.08);
+    background-color: rgba(88,166,255,0.10);
     color: var(--primary);
 }
 

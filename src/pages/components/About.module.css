@@ -1,9 +1,10 @@
 .aboutContainer {
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: var(--space-6);
-    align-items: start;
-    padding: var(--space-4) 0;
+    align-items: center;
+    padding: var(--space-7) 0;
 }
 
 .card {

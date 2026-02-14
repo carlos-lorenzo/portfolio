@@ -4,7 +4,8 @@ import { Element } from 'react-scroll'
 
 import About from './About'
 import Projects from './Projects'
-
+import Skills from './Skills'
+import Footer from './Footer'
 import styles from "./Content.module.css"
 
 export default function Content() {
@@ -55,9 +56,14 @@ export default function Content() {
                 <Element name='about-section'>
                     <About />
                 </Element>
+                <Element name='skills-section'>
+                    <Skills />
+                </Element>
                 <Element name='projects-section'>
                     <Projects />
                 </Element>
+
+                <Footer />
             </div>
         </div>
     )

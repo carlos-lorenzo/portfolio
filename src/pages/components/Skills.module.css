@@ -1,0 +1,137 @@
+/* ── Skills section ─────────────────────────────────────── */
+
+.skillsContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-7) 0;
+}
+
+/* ── Heading ────────────────────────────────────────────── */
+
+.skillsContainer h1 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--text);
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+
+.skillsContainer h1::after {
+    content: "";
+    display: block;
+    width: 40%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+    margin-top: var(--space-2);
+}
+
+/* ── Category rows ──────────────────────────────────────── */
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.categoryRow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.categoryLabel {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cat-color, var(--primary));
+}
+
+/* ── Badge row ──────────────────────────────────────────── */
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+/* ── Individual badge ───────────────────────────────────── */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: 9999px;
+    background: rgba(22, 27, 34, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    color: var(--text);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    cursor: default;
+    white-space: nowrap;
+}
+
+
+
+/* ── Icon inside badge ──────────────────────────────────── */
+
+.badgeIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    color: var(--cat-color, var(--primary));
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.badgeIcon svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--cat-color, var(--primary));
+}
+
+.badgeName {
+    color: var(--text);
+    line-height: 1;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 880px) {
+    .categoryRow {
+        align-items: center;
+        text-align: center;
+    }
+
+    .badges {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .skillsContainer {
+        padding: var(--space-6) 0;
+    }
+
+    .badge {
+        padding: var(--space-1) var(--space-2);
+        font-size: 0.8rem;
+    }
+
+    .badgeIcon,
+    .badgeIcon svg {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+    }
+}

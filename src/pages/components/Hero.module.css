@@ -90,6 +90,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: visible;
 }
 
 /* Prevent the floating sections from overlapping important hero content by
@@ -113,14 +114,7 @@
     margin-bottom: var(--space-4);
 }
 
-/* Image placeholder styling */
-#hero img {
-    width: min(520px, 48vw);
-    max-width: 520px;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(2,6,23,0.6);
-    object-fit: cover;
-}
+/* Waveform visual — borderless, no img rules needed */
 
 @media (max-width: 880px) {
     /* Stack columns and remove the large right-safe padding so content centers */
@@ -146,4 +140,48 @@
 @media (min-width: 881px) {
     #description { align-items: center; text-align: center; padding-right: 0; }
     .left, #hero .left { justify-content: center; }
+}
+
+/* Actions row: launch button + socials side-by-side */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+/* Launch terminal button */
+.launch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: 10px;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: var(--background);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 150ms ease, box-shadow 150ms ease;
+}
+
+.launch:hover {
+    background: color-mix(in srgb, var(--primary) 85%, white);
+    box-shadow: 0 4px 18px rgba(88, 166, 255, 0.25);
+}
+
+.launchIcon {
+    font-size: 0.7rem;
+}
+
+.launch:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+@media (max-width: 880px) {
+    .actions { justify-content: center; }
 }

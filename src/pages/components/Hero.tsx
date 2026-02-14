@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { scroller } from 'react-scroll'
 import styles from './Hero.module.css'
+import waveStyles from './WaveformVisual.module.css'
 
 import Social from './Social'
+
+const WaveformVisual = lazy(() => import('./WaveformVisual'))
 
 const adjectives = ['Robust', 'Scalable', 'Reliable', 'Elegant', 'Precise']
 
@@ -17,6 +21,7 @@ const fadeUp = {
 }
 
 export default function Hero() {
+  const heroRef = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
 
   const cycle = useCallback(() => {
@@ -29,7 +34,7 @@ export default function Hero() {
   }, [cycle])
 
   return (
-  <div id={styles.hero}>
+  <div id={styles.hero} ref={heroRef}>
     {/* Animated blob background */}
     <motion.div
       className={styles.blob}
@@ -74,21 +79,38 @@ export default function Hero() {
           I'm <b>Carlos Lorenzo-Zúñiga Marí</b> — biomedical engineer, systems architect, and builder of things that bridge biology and code.
         </motion.p>
 
-        <motion.div variants={fadeUp}>
+        <motion.div className={styles.actions} variants={fadeUp}>
+          <motion.button
+            className={styles.launch}
+            onClick={() =>
+              scroller.scrollTo('about-section', {
+                smooth: true,
+                duration: 600,
+                offset: -20,
+              })
+            }
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            aria-label="Launch terminal and go to next section"
+          >
+            <span className={styles.launchIcon}>▶</span>
+            Launch Terminal
+          </motion.button>
           <Social />
         </motion.div>
       </motion.div>
     </div>
 
     <div className={styles.right}>
-      <motion.img
-        src="https://picsum.photos/500"
-        alt="Hero visual"
+      <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
-        whileHover={{ y: -6, scale: 1.01 }}
-      />
+      >
+        <Suspense fallback={<div className={waveStyles.placeholder} />}>
+          <WaveformVisual heroRef={heroRef} />
+        </Suspense>
+      </motion.div>
     </div>
   </div>
   )

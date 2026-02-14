@@ -34,12 +34,14 @@ export default function ProjectCard({ title, description, repo_link, skills }: P
         <motion.div
             className={styles.projectCard}
             variants={cardVariants}
-            whileHover={{ y: -4, boxShadow: '0 16px 48px rgba(2,6,23,0.5)', borderColor: 'rgba(88,166,255,0.2)' }}
+            
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         >
             <h3>{title}</h3>
             <p>{description}</p>
-            <motion.a
+            {
+                repo_link && (
+                    <motion.a
                 href={repo_link}
                 target='_blank'
                 whileHover={{ scale: 1.15, color: '#E6EDF3' }}
@@ -47,6 +49,9 @@ export default function ProjectCard({ title, description, repo_link, skills }: P
             >
                 <FontAwesomeIcon icon={faGithub} />
             </motion.a>
+                )
+            }
+            
             <motion.div
                 className={styles.skillsContainer}
                 variants={skillStagger}

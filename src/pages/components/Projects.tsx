@@ -7,23 +7,29 @@ import styles from "./Projects.module.css"
 
 const projects = [
     {
-        title: 'Portfolio',
-        description: 'Personal portfolio website built with a code-editor aesthetic, featuring dynamic line numbers and modern design.',
-        repo_link: 'https://github.com/carlos-lorenzo/portfolio',
-        skills: ['React', 'TypeScript', 'CSS'],
+        title: 'Vectra',
+        description: 'A bespoke 3D physics engine and OpenGL renderer built from scratch to demystify complex mechanical simulations. It features a custom multithreaded architecture and a dynamic BVH for efficient collision handling.',
+        skills: ['C++', 'OpenGL', 'Multithreading', 'Physics Systems'],
+        repo_link: 'https://github.com/carlos-lorenzo/vectra',
     },
     {
-        title: 'Project Alpha',
-        description: 'Some description about a very interesting project where cool things are done.',
-        repo_link: 'https://github.com/example/alpha',
-        skills: ['Python', 'FastAPI', 'Docker'],
+        title: 'DrivingML',
+        description: 'An exploration of evolutionary intelligence where autonomous agents learn to navigate circuits. I bypassed standard AI libraries to implement the neural network and genetic training algorithms from first principles.',
+        skills: ['C#', 'Neural Networks', 'Genetic Algorithms', ],
+        repo_link: 'https://github.com/carlos-lorenzo/DrivingML',
     },
     {
-        title: 'Project Beta',
-        description: 'Another compelling project showcasing innovative solutions to real-world problems.',
-        repo_link: 'https://github.com/example/beta',
-        skills: ['Node.js', 'PostgreSQL', 'AWS'],
+        title: 'FormuFlash',
+        description: 'A full-stack ecosystem built to help STEM students master complex notation. I engineered the entire pipeline from LaTeX rendering to a containerized cloud deployment on GCP.',
+        skills: ['Django', 'React', 'Docker', 'PostgreSQL'],
+        repo_link: 'https://github.com/carlos-lorenzo/formuflash',
     },
+    {
+        title: 'Daidalonic EMG Interface',
+        description: 'A multi-electrode acquisition system developed for a student-led arm prosthetic project. Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
+        skills: ['EasyEDA', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
+        repo_link: '', // Update with your actual link
+    }
 ]
 
 const gridStagger = {
