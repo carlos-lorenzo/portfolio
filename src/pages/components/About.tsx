@@ -1,10 +1,9 @@
-import React from 'react'
 import { motion } from 'motion/react'
 import styles from './About.module.css'
 
 const cardVariants = {
     hidden: { opacity: 0, x: -30 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 }
 
 const asideStagger = {
@@ -14,7 +13,7 @@ const asideStagger = {
 
 const asideItem = {
     hidden: { opacity: 0, x: 30 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
 }
 
 export default function About() {
@@ -44,7 +43,7 @@ export default function About() {
             <motion.aside className={styles.aside} variants={asideStagger}>
                 <motion.div className={styles.stat} variants={asideItem}>
                     <div className={styles.statValue}>6+</div>
-                    <div className={styles.statLabel}>Years of Building</div>
+                    <div className={styles.statLabel}>Years Creating</div>
                 </motion.div>
 
                 <motion.div className={styles.pillList} variants={asideItem}>

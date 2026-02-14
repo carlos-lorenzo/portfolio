@@ -1,8 +1,6 @@
-import React from 'react'
 import { Element } from 'react-scroll'
 import Hero from './components/Hero'
 import Content from './components/Content'
-import Skills from './components/Skills'
 import Sections from './components/Sections'
 
 export default function Home() {

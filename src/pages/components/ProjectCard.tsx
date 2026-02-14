@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'motion/react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,7 +15,7 @@ interface ProjectCardProps {
 
 const cardVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
 }
 
 const skillStagger = {

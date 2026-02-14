@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-scroll'
 
@@ -13,13 +12,13 @@ const containerVariants = {
     visible: {
         x: 0,
         opacity: 1,
-        transition: { duration: 0.5, delay: 0.8, ease: 'easeOut', staggerChildren: 0.07, delayChildren: 1.0 },
+        transition: { duration: 0.5, delay: 0.8, ease: 'easeOut' as const, staggerChildren: 0.07, delayChildren: 1.0 },
     },
 }
 
 const iconVariant = {
     hidden: { opacity: 0, scale: 0.6 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3, ease: 'easeOut' as const } },
 }
 
 const sections = [
