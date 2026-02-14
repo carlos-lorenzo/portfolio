@@ -1,0 +1,38 @@
+:root {
+  /* Colors */
+  --text: #E6EDF3;
+  --text-muted: #8B949E;
+  --background: #0D1117;
+  --surface: #161B22;
+  --primary: #58A6FF;
+  --secondary: #161B22;
+  --accent: #F78166;
+  --code-green: #7EE787;
+  --code-purple: #D2A8FF;
+  --border: #30363D;
+
+
+
+    /* Typography */
+    --font-sans: "Geist", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --font-size-base: 16px; /* browser default */
+    --line-height-base: 1.6;
+
+    /* Spacing scale (modular) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 48px;
+    --space-7: 64px;
+}
+
+/* Responsive spacing adjustments */
+@media (min-width: 768px) {
+  :root {
+    --space-4: 32px;
+    --space-5: 40px;
+  }
+}

@@ -1,0 +1,149 @@
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: calc(var(--space-1) + 4px) var(--space-3);
+    width: fit-content;
+    border-radius: 9999px; /* capsule */
+    border: 1px solid var(--text);
+    background: var(--secondary); /* subtle primary tint */
+    color: var(--text);
+    font-size: 0.8125rem; /* 13px */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Small layout spacing for hero container (used if you switch to className) */
+#hero {
+    padding: var(--space-6) 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    height: 100dvh;
+    place-items: center;
+}
+
+#description {
+    width: 100%;
+}
+
+#description {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 var(--space-6) 0 0;
+}
+
+.tag {
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-color: rgba(255,255,255,0.06);
+}
+
+/* Enhanced hero styling with dynamic blurred background */
+#hero {
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--space-6)) calc(var(--space-6) * 3);
+    align-items: center;
+}
+
+#hero::before {
+    display: none;
+}
+
+.blob {
+    position: absolute;
+    inset: -20% -30%;
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    opacity: 0.12;
+    filter: blur(60px);
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+/* Adjective gradient text */
+.adjective {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Content sits above the animated blurred backdrop */
+#hero > * { position: relative; z-index: 2; }
+
+/* Align hero columns (support both module-scoped and global selectors) */
+.left,
+#hero .left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.right,
+#hero .right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Prevent the floating sections from overlapping important hero content by
+   leaving a consistent right-safe area that matches the sections width */
+#hero {
+    --right-safe: calc(var(--space-6) * 3);
+    padding-right: var(--right-safe);
+}
+
+/* Hero text styles */
+#description h1 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.15;
+    margin: calc(var(--space-3)) 0 calc(var(--space-3) / 2);
+    color: var(--text);
+}
+
+#description p {
+    color: var(--text-muted);
+    max-width: 54ch;
+    margin-bottom: var(--space-4);
+}
+
+/* Image placeholder styling */
+#hero img {
+    width: min(520px, 48vw);
+    max-width: 520px;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+    object-fit: cover;
+}
+
+@media (max-width: 880px) {
+    /* Stack columns and remove the large right-safe padding so content centers */
+    #hero {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+        height: auto;
+        padding: var(--space-6) var(--space-4);
+    }
+
+    #hero img { width: min(420px, 80vw); }
+    #description { text-align: center; align-items: center; padding: 0; }
+    #hero .left { justify-content: center; }
+    #hero .right { order: -1; }
+}
+
+@media (max-width: 640px) {
+    /* Tighter horizontal padding on very small screens */
+    #hero { padding: var(--space-5) var(--space-3); }
+}
+
+/* On larger screens center the hero text horizontally for a balanced layout */
+@media (min-width: 881px) {
+    #description { align-items: center; text-align: center; padding-right: 0; }
+    .left, #hero .left { justify-content: center; }
+}

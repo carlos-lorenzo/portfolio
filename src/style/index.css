@@ -1,0 +1,11 @@
+/* Order matters: reset -> variables -> base -> layout -> components -> utils -> pages */
+@import './_reset.css';
+@import './_variables.css';
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+@import './utils.css';
+@import './pages.css';
+
+/* Example override to verify global styles are loaded */
+html, body { min-height: 100%; }

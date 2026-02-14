@@ -1,0 +1,22 @@
+/* Global component styles used across the app */
+.btn {
+  display: inline-block;
+  padding: calc(var(--spacer-2) + 2px) var(--spacer-3);
+  border-radius: 6px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid rgba(37,99,235,0.15);
+}
+
+.card {
+  background: var(--secondary);
+  border-radius: 8px;
+  padding: var(--spacer-3);
+}

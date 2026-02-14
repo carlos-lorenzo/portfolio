@@ -1,0 +1,19 @@
+/* Layout helpers: containers, grids, header/footer */
+.container {
+width: 100%;
+max-width: 1100px;
+margin-left: auto;
+margin-right: auto;
+padding-left: var(--spacer-3);
+padding-right: var(--spacer-3);
+}
+
+.site-header {
+  background: transparent;
+}
+
+.site-footer {
+  padding: var(--spacer-4) 0;
+  text-align: center;
+  color: var(--color-secondary);
+}

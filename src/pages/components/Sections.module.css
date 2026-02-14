@@ -1,0 +1,85 @@
+#container {
+    position: fixed;
+    /* vertical center without transform (so Framer Motion can own transform) */
+    top: 0;
+    bottom: 0;
+    right: var(--space-4);
+    height: fit-content;
+    margin-block: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+    padding: calc(var(--space-2));
+    background-color: rgba(22, 27, 34, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 12px;
+    border: 1px solid rgba(88,166,255,0.08);
+    box-shadow: 0 8px 22px rgba(2,6,23,0.55);
+    z-index: 1000;
+    box-sizing: border-box;
+    max-height: calc(100vh - (var(--space-4) * 2));
+    overflow: auto;
+}
+
+.section {
+    width: var(--space-6);
+    height: var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    background: transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.section svg {
+    width: calc(var(--space-4));
+    height: calc(var(--space-4));
+}
+
+.section:focus {
+    outline: none;
+}
+
+.section.active,
+.section[aria-current="true"] {
+    box-shadow: 0 8px 18px rgba(88,166,255,0.14);
+    background-color: rgba(88,166,255,0.08);
+    color: var(--primary);
+}
+
+/* react-scroll activeClass applied to the Link wrapper */
+.active .section {
+    box-shadow: 0 8px 18px rgba(88,166,255,0.14);
+    background-color: rgba(88,166,255,0.08);
+    color: var(--primary);
+}
+
+@media (max-width: 640px) {
+    /* Move the sections bar to the top and center it horizontally on small screens */
+    #container {
+        /* horizontal center without transform */
+        top: var(--space-3);
+        bottom: auto;
+        right: 0;
+        left: 0;
+        height: auto;
+        width: fit-content;
+        margin: 0 auto;
+        flex-direction: row;
+        gap: var(--space-2);
+        padding: calc(var(--space-1)) calc(var(--space-2));
+        border-radius: 12px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+
+    .section {
+        width: calc(var(--space-5));
+        height: calc(var(--space-5));
+    }
+}

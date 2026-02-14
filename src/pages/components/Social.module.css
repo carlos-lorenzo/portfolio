@@ -1,0 +1,31 @@
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--space-5));
+    height: calc(var(--space-5));
+    gap: var(--space-2);
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: calc(var(--space-1));
+    text-decoration: none;
+}
+
+.icon svg { width: calc(var(--space-3) + 6px); height: calc(var(--space-3) + 6px); }
+
+.icon:focus {
+    outline: none;
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-3);
+    align-items: center;
+}
+
+@media (max-width: 880px) {
+    .social { justify-content: center; }
+}
