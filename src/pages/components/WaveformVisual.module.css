@@ -9,6 +9,14 @@
     color: var(--text-muted);
 }
 
+.canvasWrap {
+    width: 100%;
+    height: 100%;
+    /* Radial mask to dissolve the waveform into the hero backdrop without hiding caption text */
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 38%, transparent 82%);
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 45%, #000 38%, transparent 82%);
+}
+
 /* Ensure the R3F canvas fills the container */
 .container canvas {
     display: block;

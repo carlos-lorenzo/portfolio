@@ -26,16 +26,33 @@ export default function Hero() {
   
     return (
     <div id={styles.hero} ref={heroRef}>
-    {/* Animated blob background */}
+    {/* Layered ambient glow orbs */}
     <motion.div
-        className={styles.blob}
+        className={`${styles.orb} ${styles.orbPrimary}`}
         animate={{
-        x: ['-6%', '6%', '-6%'],
-        y: ['-2%', '4%', '-2%'],
-        scale: [1.02, 1.06, 1.02],
-        rotate: [-2, 2, -2],
+          x: ['-3%', '4%', '-3%'],
+          y: ['-2%', '3%', '-2%'],
+          scale: [1.0, 1.04, 1.0],
         }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+    />
+    <motion.div
+        className={`${styles.orb} ${styles.orbAccent}`}
+        animate={{
+          x: ['5%', '-3%', '5%'],
+          y: ['2%', '-4%', '2%'],
+          scale: [1.02, 0.98, 1.02],
+        }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'easeInOut' }}
+    />
+    <motion.div
+        className={`${styles.orb} ${styles.orbMuted}`}
+        animate={{
+          x: ['-1%', '2%', '-1%'],
+          y: ['1%', '-2%', '1%'],
+          scale: [0.98, 1.02, 0.98],
+        }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
     />
 
     <div className={styles.left}>

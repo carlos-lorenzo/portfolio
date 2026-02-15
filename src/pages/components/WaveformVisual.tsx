@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
+import { Color, DoubleSide } from 'three'
+import type { Mesh } from 'three'
 import styles from './WaveformVisual.module.css'
 
 /* ─── GLSL helpers ──────────────────────────────────────────────────────────── */
@@ -126,16 +127,18 @@ void main() {
   float glow = smoothstep(0.15, 0.35, vHeight) * 0.4;
   color += glow * uColorB;
 
-  // Edge fade for the blended look
-  float edgeFade = 1.0;
-  edgeFade *= smoothstep(0.0, 0.08, vUv.x) * smoothstep(1.0, 0.92, vUv.x);
-  edgeFade *= smoothstep(0.0, 0.12, vUv.y) * smoothstep(1.0, 0.88, vUv.y);
+  // Radial fade — bias upward so the lower edge dissolves sooner
+  vec2 center = vUv - vec2(0.5, 0.42);
+  float radial = length(center * vec2(1.0, 0.60));
+  float edgeFade = 1.0 - smoothstep(0.10, 0.36, radial);
+  // Extra softness on the bottom edge
+  edgeFade *= smoothstep(0.06, 0.28, vUv.y);
 
   // Slight wireframe-like ridge highlight
-  float ridge = abs(sin(vUv.y * 80.0)) * 0.06;
+  float ridge = abs(sin(vUv.y * 80.0)) * 0.035;
   color += ridge * uColorA;
 
-  float alpha = (0.6 + t * 0.4) * edgeFade;
+  float alpha = (0.3 + t * 0.4) * edgeFade;
 
   gl_FragColor = vec4(color, alpha);
 }
@@ -148,15 +151,15 @@ interface WaveformMeshProps {
 }
 
 function WaveformMesh({ filterRef }: WaveformMeshProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
+  const meshRef = useRef<Mesh>(null)
 
   const uniforms = useMemo(
     () => ({
       uTime:      { value: 0 },
       uFilter:    { value: 0 },
       uAmplitude: { value: 0.28 },
-      uColorA:    { value: new THREE.Color('#58A6FF') }, // --primary
-      uColorB:    { value: new THREE.Color('#F78166') }, // --accent
+      uColorA:    { value: new Color('#58A6FF') }, // --primary
+      uColorB:    { value: new Color('#F78166') }, // --accent
     }),
     [],
   )
@@ -175,7 +178,7 @@ function WaveformMesh({ filterRef }: WaveformMeshProps) {
         fragmentShader={fragmentShader}
         uniforms={uniforms}
         transparent
-        side={THREE.DoubleSide}
+        side={DoubleSide}
         depthWrite={false}
       />
     </mesh>
@@ -243,14 +246,16 @@ export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
 
   return (
     <div className={styles.container} role="img" aria-label="Animated waveform visualization">
-      <Canvas
-        dpr={[1, 1.5]}
-        gl={{ alpha: true, antialias: true }}
-        camera={{ position: [0, 0, 3.2], fov: 45 }}
-        style={{ background: 'transparent' }}
-      >
-        <WaveformMesh filterRef={filterRef} />
-      </Canvas>
+      <div className={styles.canvasWrap}>
+        <Canvas
+          dpr={[1, 1.5]}
+          gl={{ alpha: true, antialias: true }}
+          camera={{ position: [0, 0, 3.2], fov: 45 }}
+          style={{ background: 'transparent' }}
+        >
+          <WaveformMesh filterRef={filterRef} />
+        </Canvas>
+      </div>
       <p><i>Inspired by Wavelet Transforms</i></p>
     </div>
   )

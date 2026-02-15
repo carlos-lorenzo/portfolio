@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react'
+import { lazy, Suspense, useRef, useState, useEffect, useCallback } from 'react'
 import { motion } from 'motion/react'
 import { Element } from 'react-scroll'
 
@@ -8,6 +8,8 @@ import Skills from './Skills'
 import Footer from './Footer'
 import styles from "./Content.module.css"
 import { NAV_OFFSET_PX } from './scrollConfig'
+
+const BackgroundVisual = lazy(() => import('./BackgroundVisual'))
 
 export default function Content() {
     const contentRef = useRef<HTMLDivElement>(null)
@@ -42,6 +44,9 @@ export default function Content() {
 
     return (
         <div id={styles.mainContentParent}>
+            <Suspense fallback={null}>
+                <BackgroundVisual />
+            </Suspense>
             <div id={styles.lineNumbers} aria-hidden="true">
                 {Array.from({ length: lineCount }, (_, i) => (
                     <motion.span
