@@ -40,6 +40,7 @@
 .tag {
     background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     border-color: rgba(255,255,255,0.06);
+    cursor: default;
 }
 
 /* Enhanced hero styling with dynamic blurred background */
