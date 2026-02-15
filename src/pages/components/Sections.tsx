@@ -50,13 +50,21 @@ export default function Sections() {
         const handleScroll = () => {
             cancelAnimationFrame(raf)
             raf = requestAnimationFrame(() => {
+                // If we're at the very bottom, highlight the last section
+                if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 2) {
+                    setActiveSection(sections[sections.length - 1].to)
+                    return
+                }
+
                 let current = sections[0].to
 
                 for (const { to } of sections) {
                     const el = document.getElementById(to)
                     if (!el) continue
-                    // Last section whose top has scrolled past the offset line wins
-                    if (el.getBoundingClientRect().top <= navOffset + 1) {
+                    // Using a slightly larger offset helps catch sections earlier
+                    // especially if the scroll doesn't align perfectly
+                    const buffer = 150 
+                    if (el.getBoundingClientRect().top <= navOffset + buffer) {
                         current = to
                     }
                 }

@@ -80,7 +80,7 @@
     filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.4));
 }
 
-@media (max-width: 640px) {
+@media (max-width: 880px) {
     #container {
         top: auto;
         bottom: calc(env(safe-area-inset-bottom, 0px) + var(--space-2));

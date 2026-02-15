@@ -175,7 +175,8 @@
     #hero img { width: min(420px, 80vw); }
     #description { text-align: center; align-items: center; padding: 0; }
     #hero .left { justify-content: center; }
-    #hero .right { order: -1; }
+    /* Ensure visual appears below text on small screens */
+    #hero .right { order: 0; }
 }
 
 @media (max-width: 640px) {
