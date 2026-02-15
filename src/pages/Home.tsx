@@ -5,7 +5,7 @@ import Sections from './components/Sections'
 
 export default function Home() {
     return (
-        <div id='home'>
+        <main id='home' role='main'>
             <Element
                 name='hero-section'
                 id='hero-section'
@@ -17,6 +17,6 @@ export default function Home() {
             
             <Sections />
 
-        </div>
+        </main>
     )
 }

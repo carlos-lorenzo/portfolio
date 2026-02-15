@@ -77,11 +77,12 @@ export default function Sections() {
     }, [navOffset])
 
     return (
-        <motion.div
+        <motion.nav
             id={styles.container}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
+            role='navigation'
         >
             {sections.map(({ to, icon, label }) => (
                 <Link
@@ -103,7 +104,7 @@ export default function Sections() {
                     </motion.div>
                 </Link>
             ))}
-        </motion.div>
+        </motion.nav>
 
     )
 }

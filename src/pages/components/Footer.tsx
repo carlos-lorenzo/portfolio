@@ -47,6 +47,7 @@ export default function Footer() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={containerVariants}
+            role='contentinfo'
         >
             <motion.div variants={itemVariants}>
                 <Social />
