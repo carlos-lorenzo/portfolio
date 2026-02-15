@@ -4,4 +4,12 @@ User-agent: *
 Allow: /
 Disallow: /cdn-cgi/
 
+# Explicitly allow LinkedIn's crawler to ensure high-fidelity Social Previews
+User-agent: LinkedInBot
+Allow: /
+
+# Block aggressive, non-standard scrapers if they cause high latency
+# User-agent: CCBot
+# Disallow: /
+
 Sitemap: https://carloslorenzo.dev/sitemap.xml
