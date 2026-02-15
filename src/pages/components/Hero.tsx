@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { useRef, lazy, Suspense } from 'react'
+import { motion } from 'motion/react'
 import { scroller } from 'react-scroll'
 import styles from './Hero.module.css'
 import waveStyles from './WaveformVisual.module.css'
