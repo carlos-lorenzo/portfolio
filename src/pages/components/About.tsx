@@ -26,9 +26,9 @@ export default function About() {
             viewport={{ once: true, amount: 0.3 }}
         >
             <motion.div className={styles.card} variants={cardVariants}>
-                <h2 id="about-heading">Hi — I’m Carlos</h2>
+                <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
-                    A Spanish <strong>Biomedical Engineering</strong> student at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That’s also why I’m a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
+                    A Spanish first year <strong>Biomedical Engineering</strong> student at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That's also why I'm a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
 
                 </p>
 
@@ -37,7 +37,7 @@ export default function About() {
                 </p>
 
                 <p>
-                    Currently I'm exploring the mathematical foundation behind Machine Learning - <strong>PAC</strong> - and developing multi electrode EMG bespoke <strong>PCBs</strong> for a modular arm prosthetic. My long term goal is the development of <strong>Brain-Computer Interfaces</strong> and advancements in <strong>Neurotechnology</strong>.             
+                    After working with state of the art <strong>Machine Learning</strong> models and technies I'm currently going back to explore the mathematical foundation behind it - <strong>PAC</strong> - which will empower future progess. I'm also working on bespoke, multi electrode EMG <strong>PCB</strong>s for a modular arm prosthetic. My long term goal is the development of <strong>Brain-Computer Interfaces</strong> to advance in <strong>Neurotechnology</strong>.             
                 </p>
             </motion.div>
 
