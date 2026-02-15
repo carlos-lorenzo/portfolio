@@ -16,9 +16,11 @@ export default function Content() {
     const updateLineCount = useCallback(() => {
         if (!contentRef.current) return
         const contentHeight = contentRef.current.scrollHeight
-        const lineHeight = parseFloat(getComputedStyle(contentRef.current).lineHeight) || 25.6
+        const lineHeight = 22.5 // Assuming a line height of 22.5px
         setLineCount(Math.max(1, Math.ceil(contentHeight / lineHeight)))
+        
     }, [])
+    
 
     useEffect(() => {
         const el = contentRef.current
