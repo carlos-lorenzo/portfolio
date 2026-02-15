@@ -24,8 +24,6 @@
     background-color: var(--background);
     user-select: none;
     line-height: var(--line-height-base);
-    top: 0;
-    align-self: start;
 }
 
 .lineNumber {

@@ -45,7 +45,7 @@
 /* Enhanced hero styling with dynamic blurred background */
 #hero {
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
     padding: calc(var(--space-6)) calc(var(--space-6) * 3);
     align-items: center;
 }
@@ -65,7 +65,6 @@
     background: linear-gradient(to bottom, transparent, var(--background));
     z-index: 1;
     pointer-events: none;
-    transform: translateY(50%);
 }
 
 /* Shared ambient orb base */
