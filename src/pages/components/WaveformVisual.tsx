@@ -251,6 +251,7 @@ export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
       >
         <WaveformMesh filterRef={filterRef} />
       </Canvas>
+      <p><i>Inspired by Wavelet Transforms</i></p>
     </div>
   )
 }

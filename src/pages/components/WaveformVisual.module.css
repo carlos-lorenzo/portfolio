@@ -6,6 +6,7 @@
     will-change: transform;
     /* Let the glow bleed slightly out of bounds */
     overflow: visible;
+    color: var(--text-muted);
 }
 
 /* Ensure the R3F canvas fills the container */

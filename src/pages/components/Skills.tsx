@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTypescript, faPython, faReact, faDocker, faUnity } from '@fortawesome/free-brands-svg-icons'
 import {
     SiCplusplus,
-    SiSharp,
     SiDjango,
     SiPostgresql,
     SiGooglecloud,
@@ -14,6 +13,8 @@ import {
     SiEasyeda,
 } from '@icons-pack/react-simple-icons'
 
+import CSharpIcon from './CSharpIcon'
+
 import styles from './Skills.module.css'
 
 const SI_SIZE = 18
@@ -22,9 +23,9 @@ const categories = [
     {
         title: 'Languages',
         colorVar: '--primary',
-        items: [
+            items: [
             { name: 'C++', icon: <SiCplusplus size={SI_SIZE} /> },
-            { name: 'C#', icon: <SiSharp size={SI_SIZE} /> },
+            { name: 'C#', icon: <CSharpIcon size={SI_SIZE} /> },
             { name: 'TypeScript', icon: <FontAwesomeIcon icon={faTypescript} /> },
             { name: 'Python', icon: <FontAwesomeIcon icon={faPython} /> },
         ],

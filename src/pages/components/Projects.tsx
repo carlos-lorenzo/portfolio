@@ -24,8 +24,8 @@ const projects = [
         repo_link: 'https://github.com/carlos-lorenzo/formuflash',
     },
     {
-        title: 'Daidalonic EMG Interface',
-        description: 'A multi-electrode acquisition system developed for a student-led arm prosthetic project. Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
+        title: 'EMG Interface PCB',
+        description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic project. Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
         skills: ['EasyEDA', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
         repo_link: '', // Update with your actual link
     }

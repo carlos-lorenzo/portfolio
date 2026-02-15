@@ -28,15 +28,16 @@ export default function About() {
             <motion.div className={styles.card} variants={cardVariants}>
                 <h2 id="about-heading">Hi — I’m Carlos</h2>
                 <p>
-                    I am a <strong>Biomedical Engineering</strong> student at <a href="https://upv.es/" target="_blank" rel="noopener noreferrer">UPV</a> and a developer who believes that the most complex systems are simply a collection of first principles waiting to be connected. For over <strong>6 years</strong>, I have navigated the space between low-level machine logic and the intricate dynamics of human biology.
+                    A Spanish <strong>Biomedical Engineering</strong> student at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That’s also why I’m a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
+
                 </p>
 
                 <p>
-                    I don’t just use tools; I seek to understand their architecture. This curiosity is what drives me to build 3D physics engines from scratch in <strong>C++</strong>, implement neural networks without high-level libraries, and design the analog circuitry required to capture the faint electrical whispers of the brain. To me, "too daunting" is just an invitation to dive deeper.
+                    As an upcoming biomedical engineer and developer my goal is to <strong>bridge the gap</strong> between cutting-edge technology and health. I build with the goal of solving <strong>real</strong> problems for <strong>real</strong> people in pursuit of the improvement of <strong>quality of life</strong>.
                 </p>
 
                 <p>
-                    My goal is to build the future of <strong>Neurotechnology</strong>. Whether I’m developing cloud-native platforms with Django and React or optimizing embedded signal processing for BCIs, I am focused on creating a seamless interface between engineering precision and biological complexity.
+                    Currently I'm exploring the mathematical foundation behind Machine Learning - <strong>PAC</strong> - and developing multi electrode EMG bespoke <strong>PCBs</strong> for a modular arm prosthetic. My long term goal is the development of <strong>Brain-Computer Interfaces</strong> and advancements in <strong>Neurotechnology</strong>.             
                 </p>
             </motion.div>
 

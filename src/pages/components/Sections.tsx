@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-scroll'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseChimney, faBolt, faBriefcase } from '@fortawesome/free-solid-svg-icons'
-import { faUser } from '@fortawesome/free-regular-svg-icons'
+import { faHouseChimney, faBolt, faBriefcase, faUser} from '@fortawesome/free-solid-svg-icons'
 
 import styles from "./Sections.module.css"
+import { NAV_OFFSET_PX } from './scrollConfig'
 
 const containerVariants = {
     hidden: { x: 60, opacity: 0 },
@@ -29,6 +30,36 @@ const sections = [
 ]
 
 export default function Sections() {
+    const [activeSection, setActiveSection] = useState(sections[0].to)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id)
+                    }
+                })
+            },
+            {
+                root: null,
+                rootMargin: `-${NAV_OFFSET_PX}px 0px -55% 0px`,
+                threshold: [0.25, 0.5],
+            }
+        )
+
+        const observed = sections
+            .map(({ to }) => document.getElementById(to))
+            .filter((el): el is HTMLElement => Boolean(el))
+
+        observed.forEach((el) => observer.observe(el))
+
+        return () => {
+            observed.forEach((el) => observer.unobserve(el))
+            observer.disconnect()
+        }
+    }, [])
+
     return (
         <motion.div
             id={styles.container}
@@ -40,17 +71,16 @@ export default function Sections() {
                 <Link
                     key={to}
                     to={to}
-                    spy={true}
                     smooth={true}
                     duration={600}
-                    offset={-20}
-                    activeClass={styles.active}
+                    offset={-NAV_OFFSET_PX}
+                    className={activeSection === to ? styles.active : undefined}
                     aria-label={label}
                 >
                     <motion.div
                         className={styles.section}
                         variants={iconVariant}
-                        whileHover={{ scale: 1.1, backgroundColor: 'rgba(88,166,255,0.08)' }}
+                        whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.92 }}
                     >
                         <FontAwesomeIcon icon={icon} />

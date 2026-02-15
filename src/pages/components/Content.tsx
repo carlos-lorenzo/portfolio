@@ -7,6 +7,7 @@ import Projects from './Projects'
 import Skills from './Skills'
 import Footer from './Footer'
 import styles from "./Content.module.css"
+import { NAV_OFFSET_PX } from './scrollConfig'
 
 export default function Content() {
     const contentRef = useRef<HTMLDivElement>(null)
@@ -53,13 +54,25 @@ export default function Content() {
                 ))}
             </div>
             <div id={styles.mainContent} ref={contentRef}>
-                <Element name='about-section'>
+                <Element
+                    name='about-section'
+                    id='about-section'
+                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                >
                     <About />
                 </Element>
-                <Element name='skills-section'>
+                <Element
+                    name='skills-section'
+                    id='skills-section'
+                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                >
                     <Skills />
                 </Element>
-                <Element name='projects-section'>
+                <Element
+                    name='projects-section'
+                    id='projects-section'
+                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                >
                     <Projects />
                 </Element>
 

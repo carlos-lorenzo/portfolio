@@ -1,78 +1,97 @@
 #container {
     position: fixed;
-    /* vertical center without transform (so Framer Motion can own transform) */
-    top: 0;
-    bottom: 0;
-    right: var(--space-4);
+    top: var(--space-3);
+    left: 0;
+    right: 0;
+    bottom: auto;
+    width: fit-content;
     height: fit-content;
-    margin-block: auto;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    flex-direction: row;
     align-items: center;
-    padding: calc(var(--space-2));
-    background-color: rgba(22, 27, 34, 0.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border-radius: 12px;
-    border: 1px solid rgba(88,166,255,0.08);
-    box-shadow: 0 8px 22px rgba(2,6,23,0.55);
+    gap: var(--space-1);
+    padding: var(--space-1);
+    background: rgba(13, 17, 23, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     z-index: 1000;
     box-sizing: border-box;
-    max-height: calc(100vh - (var(--space-4) * 2));
-    overflow: auto;
 }
 
 .section {
-    width: var(--space-6);
-    height: var(--space-6);
+    position: relative;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
     background: transparent;
-    border-radius: 999px;
+    border-radius: 9999px;
     cursor: pointer;
     padding: 0;
+    transition: color 0.25s ease;
 }
 
 .section svg {
-    width: calc(var(--space-4));
-    height: calc(var(--space-4));
+    width: 16px;
+    height: 16px;
+    transition: filter 0.25s ease;
+}
+
+/* Hover — subtle color lift + glow */
+.section:hover {
+    color: var(--text);
+}
+
+.section:hover svg {
+    filter: drop-shadow(0 0 4px rgba(88, 166, 255, 0.35));
 }
 
 .section:focus {
     outline: none;
 }
 
-.section.active,
-.section[aria-current="true"],
+/* Active — gradient dot indicator beneath the icon */
 .active .section {
-    background-color: rgba(88,166,255,0.10);
     color: var(--primary);
 }
 
+.active .section::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 0 6px rgba(88, 166, 255, 0.5);
+}
+
+.active .section svg {
+    filter: drop-shadow(0 0 6px rgba(88, 166, 255, 0.4));
+}
+
 @media (max-width: 640px) {
-    /* Move the sections bar to the top and center it horizontally on small screens */
     #container {
-        /* horizontal center without transform */
-        top: var(--space-3);
-        bottom: auto;
-        right: 0;
-        left: 0;
-        height: auto;
-        width: fit-content;
-        margin: 0 auto;
-        flex-direction: row;
-        gap: var(--space-2);
-        padding: calc(var(--space-1)) calc(var(--space-2));
-        border-radius: 12px;
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
+        top: var(--space-2);
+        gap: 2px;
+        padding: 3px;
     }
 
     .section {
-        width: calc(var(--space-5));
-        height: calc(var(--space-5));
+        width: 32px;
+        height: 32px;
+    }
+
+    .section svg {
+        width: 14px;
+        height: 14px;
     }
 }
