@@ -1,9 +1,9 @@
 .projectsContainer {
-    min-height: 100vh;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
-    padding: var(--space-7) 0;
+    padding: var(--space-6) 0;
 }
 
 .projectsContainer h2 {
@@ -45,6 +45,6 @@
     }
 
     .projectsContainer {
-        padding: var(--space-6) 0;
+        padding: var(--space-5) 0;
     }
 }

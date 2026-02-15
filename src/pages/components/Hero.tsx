@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { scroller } from 'react-scroll'
 import styles from './Hero.module.css'
 import waveStyles from './WaveformVisual.module.css'
-import { NAV_OFFSET_PX } from './scrollConfig'
+import { getNavOffset } from './scrollConfig'
 
 import Social from './Social'
 
@@ -85,7 +85,7 @@ export default function Hero() {
                     scroller.scrollTo('about-section', {
                     smooth: true,
                     duration: 600,
-                    offset: -NAV_OFFSET_PX,
+                    offset: -getNavOffset(),
                     })
                 }
                 whileHover={{ scale: 1.04 }}

@@ -27,6 +27,9 @@
     --space-5: 32px;
     --space-6: 48px;
     --space-7: 64px;
+
+    /* Nav scroll offset — responsive per breakpoint */
+    --nav-offset: 80px;
 }
 
 /* Responsive spacing adjustments */
@@ -34,5 +37,12 @@
   :root {
     --space-4: 32px;
     --space-5: 40px;
+  }
+}
+
+/* On mobile the nav moves to the bottom — minimal top offset needed */
+@media (max-width: 640px) {
+  :root {
+    --nav-offset: 20px;
   }
 }

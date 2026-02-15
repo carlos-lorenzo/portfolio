@@ -1,10 +1,10 @@
 .aboutContainer {
-    min-height: 100vh;
+    min-height: 50vh;
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: var(--space-6);
     align-items: center;
-    padding: var(--space-7) 0;
+    padding: var(--space-6) 0;
 }
 
 
@@ -72,6 +72,7 @@
     background: rgba(255,255,255,0.02);
     color: var(--text-muted);
     font-size: 0.85rem;
+    cursor: default;
 }
 
 .contact {
@@ -93,6 +94,12 @@ strong {
 @media (max-width: 880px) {
     .aboutContainer {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .aboutContainer {
+        padding: var(--space-5) 0;
     }
 
     .aside {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-scroll'
 
@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouseChimney, faBolt, faBriefcase, faUser} from '@fortawesome/free-solid-svg-icons'
 
 import styles from "./Sections.module.css"
-import { NAV_OFFSET_PX } from './scrollConfig'
+import { getNavOffset, NAV_MOBILE_BP } from './scrollConfig'
 
 const containerVariants = {
     hidden: { x: 60, opacity: 0 },
@@ -31,34 +31,50 @@ const sections = [
 
 export default function Sections() {
     const [activeSection, setActiveSection] = useState(sections[0].to)
+    const [navOffset, setNavOffset] = useState(() => getNavOffset())
+
+    /** Keep navOffset in sync when the viewport crosses the mobile breakpoint */
+    const syncOffset = useCallback(() => {
+        setNavOffset(getNavOffset())
+    }, [])
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id)
+        const mql = window.matchMedia(`(max-width: ${NAV_MOBILE_BP}px)`)
+        mql.addEventListener('change', syncOffset)
+        return () => mql.removeEventListener('change', syncOffset)
+    }, [syncOffset])
+
+    useEffect(() => {
+        let raf = 0
+
+        const handleScroll = () => {
+            cancelAnimationFrame(raf)
+            raf = requestAnimationFrame(() => {
+                let current = sections[0].to
+
+                for (const { to } of sections) {
+                    const el = document.getElementById(to)
+                    if (!el) continue
+                    // Last section whose top has scrolled past the offset line wins
+                    if (el.getBoundingClientRect().top <= navOffset + 1) {
+                        current = to
                     }
-                })
-            },
-            {
-                root: null,
-                rootMargin: `-${NAV_OFFSET_PX}px 0px -55% 0px`,
-                threshold: [0.25, 0.5],
-            }
-        )
+                }
 
-        const observed = sections
-            .map(({ to }) => document.getElementById(to))
-            .filter((el): el is HTMLElement => Boolean(el))
+                setActiveSection(current)
+            })
+        }
 
-        observed.forEach((el) => observer.observe(el))
+        // Set initial state
+        handleScroll()
+
+        window.addEventListener('scroll', handleScroll, { passive: true })
 
         return () => {
-            observed.forEach((el) => observer.unobserve(el))
-            observer.disconnect()
+            cancelAnimationFrame(raf)
+            window.removeEventListener('scroll', handleScroll)
         }
-    }, [])
+    }, [navOffset])
 
     return (
         <motion.div
@@ -73,7 +89,7 @@ export default function Sections() {
                     to={to}
                     smooth={true}
                     duration={600}
-                    offset={-NAV_OFFSET_PX}
+                    offset={-navOffset}
                     className={activeSection === to ? styles.active : undefined}
                     aria-label={label}
                 >

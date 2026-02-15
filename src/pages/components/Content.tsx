@@ -7,7 +7,6 @@ import Projects from './Projects'
 import Skills from './Skills'
 import Footer from './Footer'
 import styles from "./Content.module.css"
-import { NAV_OFFSET_PX } from './scrollConfig'
 
 const BackgroundVisual = lazy(() => import('./BackgroundVisual'))
 
@@ -64,21 +63,21 @@ export default function Content() {
                 <Element
                     name='about-section'
                     id='about-section'
-                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                    style={{ scrollMarginTop: 'var(--nav-offset)' }}
                 >
                     <About />
                 </Element>
                 <Element
                     name='skills-section'
                     id='skills-section'
-                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                    style={{ scrollMarginTop: 'var(--nav-offset)' }}
                 >
                     <Skills />
                 </Element>
                 <Element
                     name='projects-section'
                     id='projects-section'
-                    style={{ scrollMarginTop: NAV_OFFSET_PX }}
+                    style={{ scrollMarginTop: 'var(--nav-offset)' }}
                 >
                     <Projects />
                 </Element>

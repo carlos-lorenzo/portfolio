@@ -1,11 +1,11 @@
 /* ── Skills section ─────────────────────────────────────── */
 
 .skillsContainer {
-    min-height: 100vh;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
-    padding: var(--space-7) 0;
+    padding: var(--space-6) 0;
 }
 
 /* ── Heading ────────────────────────────────────────────── */
@@ -120,7 +120,7 @@
 
 @media (max-width: 640px) {
     .skillsContainer {
-        padding: var(--space-6) 0;
+        padding: var(--space-5) 0;
     }
 
     .badge {
