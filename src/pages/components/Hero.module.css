@@ -45,13 +45,27 @@
 /* Enhanced hero styling with dynamic blurred background */
 #hero {
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
     padding: calc(var(--space-6)) calc(var(--space-6) * 3);
     align-items: center;
 }
 
 #hero::before {
     display: none;
+}
+
+/* Gradient fade at the bottom edge — dissolves orb glow into the background */
+#hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 250px;
+    background: linear-gradient(to bottom, transparent, var(--background));
+    z-index: 1;
+    pointer-events: none;
+    transform: translateY(50%);
 }
 
 /* Shared ambient orb base */
