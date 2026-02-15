@@ -83,15 +83,8 @@ export default function Footer() {
             </AnimatePresence>
 
             <motion.p className={styles.copyright} variants={itemVariants}>
-                © {new Date().getFullYear()}{' '}
-                <a
-                    className={styles.copyrightLink}
-                    href="https://carloslorenzo.dev"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Carlos Lorenzo-Zúñiga Marí
-                </a>
+                © {new Date().getFullYear()} Carlos Lorenzo-Zúñiga Marí
+                
             </motion.p>
         </motion.footer>
     )

@@ -28,7 +28,7 @@ export default function About() {
             <motion.div className={styles.card} variants={cardVariants}>
                 <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
-                    A Spanish (based in Valencia, Spain), first year <strong>Biomedical Engineering</strong> student at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That's also why I'm a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
+                    A Spanish (based in Valencia, Spain), first year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That's also why I'm a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
 
                 </p>
 
