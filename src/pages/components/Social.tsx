@@ -4,6 +4,8 @@ import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'
 import styles from './Social.module.css'
 
 
+declare function gtag(...args: any[]): void;
+
 export default function Social() {
     return (
         <div className={styles.social}>
@@ -15,6 +17,7 @@ export default function Social() {
                 aria-label="LinkedIn"
                 whileHover={{ y: -3, scale: 1.1, boxShadow: '0 8px 20px rgba(2,6,23,0.35)' }}
                 whileTap={{ scale: 0.9 }}
+                onClick={() => gtag('event', 'social_media_click', { platform: 'LinkedIn', link_text: 'LinkedIn Profile' })}
             >
                 <FontAwesomeIcon icon={faLinkedin} />
             </motion.a>
@@ -26,6 +29,7 @@ export default function Social() {
                 aria-label="GitHub"
                 whileHover={{ y: -3, scale: 1.1, boxShadow: '0 8px 20px rgba(2,6,23,0.35)' }}
                 whileTap={{ scale: 0.9 }}
+                onClick={() => gtag('event', 'social_media_click', { platform: 'GitHub', link_text: 'GitHub Profile' })}
             >
                 <FontAwesomeIcon icon={faGithub} />
             </motion.a>

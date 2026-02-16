@@ -28,12 +28,13 @@ const skillItem = {
     visible: { opacity: 1, scale: 1, transition: { duration: 0.25 } },
 }
 
+declare function gtag(...args: any[]): void;
+
 export default function ProjectCard({ title, description, repo_link, skills }: ProjectCardProps) {
     return (
         <motion.div
             className={styles.projectCard}
             variants={cardVariants}
-            
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         >
             <h3>{title}</h3>
@@ -47,6 +48,8 @@ export default function ProjectCard({ title, description, repo_link, skills }: P
                 aria-label={`View ${title} on GitHub`}
                 whileHover={{ scale: 1.15, color: '#E6EDF3' }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => gtag('event', 'project_click', { project_name: title, link_text: `${title} Project` })}
+                
             >
                 <FontAwesomeIcon icon={faGithub} />
             </motion.a>
