@@ -62,25 +62,39 @@ export default function Footer() {
                     whileTap={{ scale: 0.97 }}
                 >
                     <FontAwesomeIcon icon={faEnvelope} className={styles.emailIcon} />
-                    {EMAIL}
+                    <span className={styles.emailTextWrapper}>
+                        {/* Invisible sizers keep the wrapper at the widest text's width */}
+                        <span className={styles.emailSizer} aria-hidden="true">{EMAIL}</span>
+                        <span className={styles.emailSizer} aria-hidden="true">Copied to clipboard!</span>
+                        <AnimatePresence mode="wait" initial={false}>
+                            {copied ? (
+                                <motion.span
+                                    key="copied"
+                                    className={styles.copiedFeedback}
+                                    initial={{ opacity: 0, y: 6 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -6 }}
+                                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                                    role="status"
+                                    aria-live="polite"
+                                >
+                                    Copied to clipboard!
+                                </motion.span>
+                            ) : (
+                                <motion.span
+                                    key="email"
+                                    initial={{ opacity: 0, y: 6 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -6 }}
+                                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                                >
+                                    {EMAIL}
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
+                    </span>
                 </motion.button>
             </motion.div>
-
-            <AnimatePresence>
-                {copied && (
-                    <motion.span
-                        className={styles.copiedFeedback}
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        transition={{ duration: 0.2 }}
-                        role="status"
-                        aria-live="polite"
-                    >
-                        Copied to clipboard!
-                    </motion.span>
-                )}
-            </AnimatePresence>
 
             <motion.p className={styles.copyright} variants={itemVariants}>
                 © {new Date().getFullYear()} Carlos Lorenzo-Zúñiga Marí

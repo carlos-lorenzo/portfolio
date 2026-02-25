@@ -28,16 +28,17 @@ export default function About() {
             <motion.div className={styles.card} variants={cardVariants}>
                 <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
-                    A Spanish (based in Valencia, Spain), first year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. Whenever I build something I seek to first understand the underlying principles upon which one can create impact. That's also why I'm a member of <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, a student lead group, developing biomedical devices.
-
+                    Based in Valencia, I am a 1st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. I build from first principles, decomposing complex systems to their fundamentals before optimizing for impact. This approach drives my work at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, where we develop modular biomedical hardware.
                 </p>
 
                 <p>
-                    As an upcoming biomedical engineer and developer my goal is to <strong>bridge the gap</strong> between cutting-edge technology and health. I build with the goal of solving <strong>real</strong> problems for <strong>real</strong> people in pursuit of the improvement of <strong>quality of life</strong>.
+                    My focus is the <strong>Signal-to-Action</strong> pipeline: translating noisy biological data into actionable control. I am currently bridging the layer between physical sensing and digital processing by designing <strong>multi-electrode EMG PCBs</strong> for modular prosthetics.
                 </p>
 
                 <p>
-                    After working with state of the art <strong>Machine Learning</strong> models and technies I'm currently going back to explore the mathematical foundation behind it - <strong>PAC</strong> - which will empower future progess. I'm also working on bespoke, multi electrode <strong>EMG PCBs</strong> for a modular arm prosthetic. My long term goal is the development of <strong>Brain-Computer Interfaces</strong> to advance in <strong>Neurotechnology</strong>.             
+                    Beyond the hardware, I am exploring <strong>Computational Learning Theory (PAC)</strong> to improve my mathematical foundation behind the <strong>ML</strong> models I deploy. 
+                    I've always been fascinated by the complexity of the brain and the challenges it presents. 
+                    This is why I strive to push the frontier of <strong>Neurotechnology</strong>.
                 </p>
             </motion.div>
 

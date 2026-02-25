@@ -40,12 +40,28 @@
     font-size: 1rem;
 }
 
+/* Email text wrapper — fixed size to prevent layout shift */
+.emailTextWrapper {
+    position: relative;
+    display: inline-grid;
+    justify-items: center;
+}
+
+.emailTextWrapper > * {
+    grid-area: 1 / 1;
+}
+
+/* Invisible sizers that hold the width of each possible text */
+.emailSizer {
+    visibility: hidden;
+    pointer-events: none;
+    height: 0;
+    overflow: hidden;
+}
+
 /* Copied feedback */
 .copiedFeedback {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
     color: var(--code-green);
-    min-height: 1.2em;
 }
 
 /* Copyright */
