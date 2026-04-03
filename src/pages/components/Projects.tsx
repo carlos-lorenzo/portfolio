@@ -36,7 +36,7 @@ const projects: {
     },
     {
         title: 'EMG Interface PCB',
-        description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic project. Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
+        description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic (CUPPER). Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
         skills: ['EasyEDA', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
         repo_link: '',
     },
