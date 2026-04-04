@@ -40,8 +40,8 @@ export default function About() {
 
                 <p>
                     Beyond hardware, I love diving into novel techniques in <strong>Machine Learning</strong>. 
-                    Thats why I'm exploring <strong>Computational Learning Theory (PAC)</strong> to improve my mathematical foundation behind the <strong>ML</strong> models I deploy. 
-                    Currently I'm also delving deep into <strong>Spiking Neural Networks (SNNs)</strong> as a promising avenue for energy-efficient, real-time processing in embedded systems.
+                    Thats why I'm exploring <strong>Computational Learning Theory (PAC)</strong> to move beyond heuristic-based <strong>ML</strong>, ensuring my models provide statistical guarantees on generalization. 
+                    Currently I'm also delving deep into <strong>Spiking Neural Networks (SNNs)</strong> as a promising avenue for energy-efficient, real-time processing in neuromorphic systems.
                     Combining these interests, my education as a biomedical engineer has equipped me with a unique perspective on the challenges and opportunities in <strong>Neurotechnology</strong>, where the intersection of hardware and intelligent algorithms can unlock new possibilities for human-machine interaction.
                 </p>
             </motion.div>

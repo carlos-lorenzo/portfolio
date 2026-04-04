@@ -97,7 +97,7 @@ export default function Footer() {
             </motion.div>
 
             <motion.p className={styles.copyright} variants={itemVariants}>
-                © {new Date().getFullYear()} Carlos Lorenzo-Zúñiga Marí
+                © {new Date().getFullYear()} Carlos Lorenzo-Zúñiga Marí. Engineered to help with your inference.
                 
             </motion.p>
         </motion.footer>
