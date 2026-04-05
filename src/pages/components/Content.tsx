@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { Element } from 'react-scroll'
 
 import About from './About'
+import Experience from './Experience'
 import Projects from './Projects'
 import Skills from './Skills'
 import Footer from './Footer'
@@ -66,6 +67,13 @@ export default function Content() {
                     style={{ scrollMarginTop: 'var(--nav-offset)' }}
                 >
                     <About />
+                </Element>
+                <Element
+                    name='experience-section'
+                    id='experience-section'
+                    style={{ scrollMarginTop: 'var(--nav-offset)' }}
+                >
+                    <Experience />
                 </Element>
                 <Element
                     name='skills-section'

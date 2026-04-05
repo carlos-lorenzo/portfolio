@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import { Link } from 'react-scroll'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouseChimney, faBolt, faBriefcase, faUser} from '@fortawesome/free-solid-svg-icons'
+import { faHouseChimney, faBolt, faBriefcase, faUser, faCode } from '@fortawesome/free-solid-svg-icons'
 
 import styles from "./Sections.module.css"
 import { getNavOffset, NAV_MOBILE_BP } from './scrollConfig'
@@ -25,8 +25,9 @@ const iconVariant = {
 const sections = [
     { to: 'hero-section', icon: faHouseChimney, label: 'Home' },
     { to: 'about-section', icon: faUser, label: 'About' },
+    { to: 'experience-section', icon: faBriefcase, label: 'Experience' },
     { to: 'skills-section', icon: faBolt, label: 'Skills' },
-    { to: 'projects-section', icon: faBriefcase, label: 'Projects' },
+    { to: 'projects-section', icon: faCode, label: 'Projects' },
 ]
 
 export default function Sections() {
