@@ -36,10 +36,6 @@
     display: block;
 }
 
-.lineNumber:hover {
-    opacity: 1;
-    color: var(--text);
-}
 
 @media (max-width: 640px) {
     #mainContentParent {

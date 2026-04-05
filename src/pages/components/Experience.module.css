@@ -38,11 +38,6 @@
     position: relative;
 }
 
-.timelineItem:hover .timelineDot {
-    background-color: var(--accent);
-    transform: scale(1.2);
-}
-
 .timelineDot {
     position: absolute;
     left: calc(-2rem - 7px); /* exactly aligns the 16px dot center with the 2px border center */
@@ -50,8 +45,8 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: var(--text-muted);
     border: 2px solid var(--background);
+    background-color: var(--accent);
     transition: all 0.3s ease;
 }
 
