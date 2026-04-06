@@ -30,7 +30,6 @@
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--text-muted);
-    opacity: 0.5;
     transition: opacity 0.15s ease;
     line-height: var(--line-height-base);
     display: block;

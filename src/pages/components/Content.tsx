@@ -53,7 +53,7 @@ export default function Content() {
                         key={i + 1}
                         className={styles.lineNumber}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 0.5 }}
+                        animate={{ opacity: 0.6 }}
                         transition={{ duration: 0.2, delay: Math.min(i * 0.005, 0.5) }}
                     >
                         {i + 1}

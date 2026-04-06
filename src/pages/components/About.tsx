@@ -34,7 +34,7 @@ export default function About() {
 
                 <p>
                 I focus on the Signal-to-Action pipeline: translating noisy biological data into <strong>real-time</strong> control. 
-                Whether it's designing multi-electrode EMG PCBs or deploying <strong>machine learning</strong> models on microcontrollers.
+                Whether it's designing multi-electrode EMG PCBs or deploying <strong>Machine Learning</strong> models on microcontrollers.
                 My goal is moving towards the frontier in <strong>Neurotechnology</strong>, where the human body meets cutting-edge silicon.
                 </p>
 
