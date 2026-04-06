@@ -97,6 +97,7 @@ export default function Sections() {
                 <Link
                     key={to}
                     to={to}
+                    href={`#${to}`}
                     smooth={true}
                     duration={600}
                     offset={-navOffset}

@@ -28,22 +28,17 @@ export default function About() {
             <motion.div className={styles.card} variants={cardVariants}>
                 <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
-                    Based in Valencia, I'm a 1st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a> and a self-taught developer. 
-                    I love learning and building from first principles, decomposing complex systems to their fundamentals before optimizing for impact. This approach drives my work at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>, where we develop modular biomedical hardware.
+                    I build at the intersection of biology and silicon. Based in Valencia, I'm a 1st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a>, 
+                    self-taught developer and an electronic designer for <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>. 
                 </p>
 
                 <p>
-                    My focus is the <strong>Signal-to-Action</strong> pipeline: translating noisy biological data into actionable control. 
-                    Right now I'm bridging the layer between physical sensing and digital processing by designing <strong>multi-electrode EMG PCBs</strong> for modular prosthetics. 
-                    And portable inference devices for on-device <strong>EMG-based Gesture Recognition</strong>, enabling real-time control without cloud dependency.
+                I focus on the Signal-to-Action pipeline: translating noisy biological data into <strong>real-time</strong> control. 
+                Whether it's designing multi-electrode EMG PCBs or deploying <strong>machine learning</strong> models on microcontrollers.
+                My goal is moving towards the frontier in <strong>Neurotechnology</strong>, where the human body meets cutting-edge silicon.
                 </p>
 
-                <p>
-                    Beyond hardware, I love diving into novel techniques in <strong>Machine Learning</strong>. 
-                    Thats why I'm exploring <strong>Computational Learning Theory (PAC)</strong> to move beyond heuristic-based <strong>ML</strong>, ensuring my models provide statistical guarantees on generalization. 
-                    Currently I'm also delving deep into <strong>Spiking Neural Networks (SNNs)</strong> as a promising avenue for energy-efficient, real-time processing in neuromorphic systems.
-                    Combining these interests, my education as a biomedical engineer has equipped me with a unique perspective on the challenges and opportunities in <strong>Neurotechnology</strong>, where the intersection of hardware and intelligent algorithms can unlock new possibilities for human-machine interaction.
-                </p>
+                
             </motion.div>
 
             <motion.aside className={styles.aside} variants={asideStagger}>
@@ -55,8 +50,8 @@ export default function About() {
                 <motion.div className={styles.pillList} variants={asideItem}>
                     <span className={styles.pill}>Systems Engineering</span>
                     <span className={styles.pill}>Machine Learning</span>
-                    <span className={styles.pill}>Signal Processing</span>
-                    <span className={styles.pill}>Full-Stack</span>
+                    <span className={styles.pill}>Biosignal Processing</span>
+                    <span className={styles.pill}>Embedded Systems</span>
                 </motion.div>
             </motion.aside>
         </motion.section>

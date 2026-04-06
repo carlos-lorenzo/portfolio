@@ -1,7 +1,7 @@
 :root {
   /* Colors */
   --text: hsl(208, 35%, 93%);
-  --text-muted: #8B949E;
+  --text-muted: hsl(204, 9%, 79%);
   --background: #0D1117;
   --surface: #161B22;
   --primary: #58A6FF;

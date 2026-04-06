@@ -58,7 +58,7 @@ export default function Footer() {
                     className={styles.emailButton}
                     onClick={handleCopyEmail}
                     aria-label={`Copy email address ${EMAIL} to clipboard`}
-                    whileHover={{ scale: 1.03 }}
+                    whileHover={{ y: -1, scale: 1.05, boxShadow: '0 4px 18px rgba(88, 166, 255, 0.25)' }}
                     whileTap={{ scale: 0.97 }}
                 >
                     <FontAwesomeIcon icon={faEnvelope} className={styles.emailIcon} />

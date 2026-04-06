@@ -16,8 +16,14 @@ const projects: {
     {
         title: 'Vectra',
         description: 'A bespoke 3D physics engine and OpenGL renderer built from scratch to demystify complex mechanical simulations. It features a custom multithreaded architecture and a dynamic BVH for efficient collision handling.',
-        skills: ['C++', 'OpenGL', 'Multithreading', 'Physics Systems'],
+        skills: ['C++', 'OpenGL', 'Data Structures', 'Physics Systems'],
         repo_link: 'https://github.com/carlos-lorenzo/vectra',
+    },
+    {
+        title: 'EMG Interface PCB',
+        description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic (CUPPER). Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
+        skills: ['PCB Design', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
+        repo_link: '',
     },
     {
         title: 'DrivingML',
@@ -33,13 +39,7 @@ const projects: {
         extraLinks: [
             { label: 'Live Site', url: 'https://formuflash.com', icon: faArrowUpRightFromSquare },
         ],
-    },
-    {
-        title: 'EMG Interface PCB',
-        description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic (CUPPER). Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
-        skills: ['EasyEDA', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
-        repo_link: '',
-    },
+    }
 ]
 
 const gridStagger = {

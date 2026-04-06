@@ -15,7 +15,7 @@ export default function Social() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                whileHover={{ y: -3, scale: 1.1, boxShadow: '0 8px 20px rgba(2,6,23,0.35)' }}
+                whileHover={{ y: -1, scale: 1.05, boxShadow: '0 4px 18px rgba(255, 255, 255, 0.25)' }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => gtag('event', 'social_media_click', { platform: 'LinkedIn', link_text: 'LinkedIn Profile' })}
             >
@@ -27,7 +27,7 @@ export default function Social() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                whileHover={{ y: -3, scale: 1.1, boxShadow: '0 8px 20px rgba(2,6,23,0.35)' }}
+                whileHover={{ y: -1, scale: 1.05, boxShadow: '0 4px 18px rgba(255, 255, 255, 0.25)' }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => gtag('event', 'social_media_click', { platform: 'GitHub', link_text: 'GitHub Profile' })}
             >

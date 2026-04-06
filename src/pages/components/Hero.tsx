@@ -55,6 +55,7 @@ export default function Hero() {
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
     />
 
+
     <div className={styles.left}>
         <motion.div
         id={styles.description}
@@ -63,19 +64,17 @@ export default function Hero() {
         animate="visible"
         >
             <motion.div className={styles.tag} variants={fadeUp}>
-                <span>WELCOME TO MY TERMINAL</span>
+                <span>WELCOME TO MY PORTFOLIO</span>
             </motion.div>
 
             <motion.h1 variants={fadeUp}>
-                Engineering{' '}
-                <span className={styles.adjective}>
-                    Impactful
-                </span>
-                <br />Solutions
+            <span className={styles.adjective}>
+                Carlos Lorenzo-Zúñiga Marí
+            </span>
+               
             </motion.h1>
             <motion.p variants={fadeUp}>
-                I'm <b>Carlos Lorenzo-Zúñiga Marí</b> — bridging the gap between
-                <b> health</b> and <b>techonlogy</b> through physics, ML, and hardware.
+                Bridging the gap between <b>health</b> and <b>techonlogy</b> through physics, ML, and hardware.
             </motion.p>
 
             <motion.div className={styles.actions} variants={fadeUp}>
@@ -90,10 +89,9 @@ export default function Hero() {
                 }
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
-                aria-label="Launch terminal and go to next section"
+                aria-label="Learn more about me"
                 >
-                <span className={styles.launchIcon}>▶</span>
-                Launch Terminal
+                START EXPLORING
                 </motion.button>
                 <Social />
             </motion.div>
