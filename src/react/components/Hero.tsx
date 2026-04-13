@@ -77,7 +77,7 @@ export default function Hero() {
                 Bridging the gap between <b>health</b> and <b>techonlogy</b> through physics, ML, and hardware.
             </motion.p>
 
-            <motion.div className={styles.actions} variants={fadeUp}>
+            <motion.div className={styles.actions} variants={fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                 <motion.button
                 className={styles.launch}
                 onClick={() =>
@@ -93,6 +93,14 @@ export default function Hero() {
                 >
                 START EXPLORING
                 </motion.button>
+                <motion.a
+                  href="/blog"
+                  className={`${styles.launch} ${styles.launchOutline}`}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                >
+                  VISIT BLOG
+                </motion.a>
                 <Social />
             </motion.div>
         </motion.div>

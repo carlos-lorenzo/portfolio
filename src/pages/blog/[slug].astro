@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import 'katex/dist/katex.min.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const finalTitle = `${post.data.title} | Carlos Lorenzo`;
+---
+
+<Layout 
+  title={finalTitle}
+  description={post.data.description}
+  canonicalURL={post.data.canonicalURL}
+  image={post.data.ogImage}
+>
+  <main style="padding: 120px 5%; max-width: 800px; margin: 0 auto; min-height: 100vh;">
+    <a href="/blog" style="color: var(--color-accent); text-decoration: none; margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      <span>Back to Blog</span>
+    </a>
+    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; color: var(--color-text);">
+      {post.data.title}
+    </h1>
+    <div style="opacity: 0.6; margin-bottom: 3rem; font-size: 0.9rem; color: var(--color-text);">
+      {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})}
+    </div>
+    
+    <article style="color: var(--color-text); line-height: 1.8; font-size: 1.1rem; overflow-wrap: break-word;" class="blog-content">
+      <Content />
+    </article>
+  </main>
+</Layout>
+
+<style is:global>
+  .blog-content h2, .blog-content h3 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-highlight);
+  }
+  .blog-content p {
+    margin-bottom: 1.5rem;
+  }
+  .blog-content a {
+    color: var(--color-accent);
+  }
+  .blog-content pre {
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  .blog-content code {
+    font-family: monospace;
+  }
+</style>

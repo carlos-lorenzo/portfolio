@@ -1,4 +1,4 @@
-import Home from './pages/Home'
+import Home from './react/Home'
 
 function App() {
     return (

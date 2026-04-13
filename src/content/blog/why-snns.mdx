@@ -1,0 +1,49 @@
+---
+title: "Beyond the Rate Code: Why SNNs are the Physical Layer of Future BCIs"
+description: "Diving deep on spiking neural networks (SNNs): what they are, how they work and why they are so promising"
+date: 2026-04-13
+tags: ["ML", "BIOML", "SNN"]
+---
+
+import SNNVisualization from '../../react/components/SNNVisualization';
+
+## The current panorama
+
+Spiking Neural Networks (SNNs) represent the third generation of artificial neural networks. Unlike traditional ANNs that use continuous activation values propagated sequentially through dense layers, SNNs communicate through discrete electrical impulses called "spikes."
+
+This inherently addresses one of the fundamental bottlenecks of modern artificial intelligence: energy efficiency.
+
+## Biological inspiration
+
+The human brain operates on around 20 Watts of power. By contrast, a data center running a large model demands megawatts. One primary reason for this drastic discrepancy is **sparcity and asynchrony**. 
+
+A biological neuron doesn't output continuous real numbers at every timestep; it remains silent to conserve energy, only firing off a discrete voltage spike when its internal potential crosses a certain threshold.
+
+### The Leaky Integrate-and-Fire Model
+
+The foundation of many SNN architectures is the Leaky Integrate-and-Fire (LIF) model. It elegantly mimics a biological neuron's membrane potential $V(t)$ charging over time. The dynamics are governed by a first-order differential equation:
+
+$$
+\tau_m \frac{dV}{dt} = -[V(t) - E_L] + R_m I(t)
+$$
+
+Where:
+- $\tau_m$ is the membrane time constant.
+- $E_L$ is the resting potential of the neuron.
+- $R_m$ represents the membrane resistance.
+- $I(t)$ is the incoming current from pre-synaptic neurons.
+
+## Interactive Spike Propagation
+
+Below is a simplified, demonstration of how this asynchronous communication looks across a simulated neural axon.
+
+<SNNVisualization client:only="react" />
+
+Notice how discrete events traverse the medium. In Neuromorphic hardware (like Intel's Loihi), operations are explicitly event-driven. If there isn't a spike, the circuitry sits idle.
+
+## Backpropagation Challenges
+
+Training an SNN using traditional gradient algorithms is mathematically problematic. Spikes represent a continuous signal defined by Dirac delta functions ($\delta$), meaning their derivative is zero almost everywhere and mathematically undefined at the exact moment of the spike. 
+
+In the industry, we sidestep this limitation mostly by implementing **Surrogate Gradient Functions** — smooth, continuous approximations of the step function that fool the backward pass into thinking the function was continuous.
+

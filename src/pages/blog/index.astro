@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Blog | Carlos Lorenzo-Zúñiga Marí" description="Research and technical deep-dives on neurotechnology, ML, and systems.">
+  <div style="min-height: 100vh; padding: 120px 5%; max-width: 900px; margin: 0 auto; color: var(--color-text);">
+    <a href="/" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--color-accent); text-decoration: none; font-weight: 500;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      <span>Back to Portfolio</span>
+    </a>
+    
+    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">Technical Weblog</h1>
+    <p style="opacity: 0.8; margin-bottom: 4rem; font-size: 1.2rem;">Thoughts, research, and deep-dives.</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      {posts.length > 0 ? posts.map((post) => (
+        <article style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
+          <a href={`/blog/${post.id}`} style="text-decoration: none; color: inherit;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-accent);">{post.data.title}</h2>
+            <small style="opacity: 0.6; display: block; margin-bottom: 1rem;">
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})}
+            </small>
+            <p style="opacity: 0.9; line-height: 1.6;">{post.data.description}</p>
+          </a>
+        </article>
+      )) : (
+        <p style="opacity: 0.6;">No posts yet. Check back soon!</p>
+      )}
+    </div>
+  </div>
+</Layout>
