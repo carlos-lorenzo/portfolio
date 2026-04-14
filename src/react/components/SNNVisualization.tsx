@@ -27,7 +27,7 @@ export default function SNNVisualization() {
             border: '1px solid rgba(255,255,255,0.1)' 
         }}>
             <h3 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.1rem', opacity: 0.9 }}>
-                Interactive Axon Spike Activity
+                Sparse Spiking Visualisation
             </h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', minHeight: '60px' }}>
                 <motion.div
@@ -64,7 +64,7 @@ export default function SNNVisualization() {
                 </div>
             </div>
             <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.85rem', opacity: 0.6, fontFamily: 'var(--font-mono, monospace)', margin: 0 }}>
-                Simulated Stochastic Spike Train (Action Potentials)
+                The neuron isn't firing constantly.
             </p>
         </div>
     );

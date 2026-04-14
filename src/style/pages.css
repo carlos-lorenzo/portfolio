@@ -1,1 +1,24 @@
 /* Page-specific overrides */
+
+/* Blog Content Styles */
+.blog-content a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-bottom 0.2s ease, opacity 0.2s ease;
+  font-weight: 500;
+}
+
+.blog-content a:hover {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+  opacity: 0.9;
+}
+
+.blog-content img {
+  display: block;
+  margin: 2rem auto;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

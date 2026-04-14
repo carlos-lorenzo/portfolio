@@ -7,6 +7,7 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    githubRepo: z.string().url().optional(),
     canonicalURL: z.string().url().optional(),
     ogImage: z.string().optional(),
     tags: z.array(z.string()).default([]),

@@ -1,7 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import BlogFooter from '../../components/BlogFooter.astro';
 import 'katex/dist/katex.min.css';
+import '../../style/pages.css';
+import fs from 'node:fs';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -14,6 +17,16 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+const getReadingTime = (postData) => {
+  let content = postData.body || '';
+  if (!content && postData.filePath) {
+    try { content = fs.readFileSync(postData.filePath, 'utf-8'); } catch(e){}
+  }
+  const words = content.split(/\s+/).length;
+  const mins = Math.max(1, Math.ceil(words / 200));
+  return `${mins} min read`;
+};
+
 const finalTitle = `${post.data.title} | Carlos Lorenzo`;
 ---
 
@@ -22,36 +35,62 @@ const finalTitle = `${post.data.title} | Carlos Lorenzo`;
   description={post.data.description}
   canonicalURL={post.data.canonicalURL}
   image={post.data.ogImage}
+  ogType="article"
+  publishedTime={post.data.date}
 >
   <main style="padding: 120px 5%; max-width: 800px; margin: 0 auto; min-height: 100vh;">
-    <a href="/blog" style="color: var(--color-accent); text-decoration: none; margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+    <a href="/blog" class="back-link" style="margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.5rem;">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       <span>Back to Blog</span>
     </a>
-    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; color: var(--color-text);">
+    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; color: var(--text);">
       {post.data.title}
     </h1>
-    <div style="opacity: 0.6; margin-bottom: 3rem; font-size: 0.9rem; color: var(--color-text);">
-      {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})}
+    <div style="display: flex; gap: 1rem; align-items: center; opacity: 0.7; margin-bottom: 3rem; font-size: 0.95rem; color: var(--text); flex-wrap: wrap;">
+      <span>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</span>
+      <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+      <span>{getReadingTime(post)}</span>
+      
+      {post.data.tags && post.data.tags.length > 0 && (
+        <>
+          <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+          <div style="display: flex; gap: 0.5rem;">
+            {post.data.tags.map(tag => (
+              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.3); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono, monospace);">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
     </div>
     
-    <article style="color: var(--color-text); line-height: 1.8; font-size: 1.1rem; overflow-wrap: break-word;" class="blog-content">
+    <article style="color: var(--text); line-height: 1.8; font-size: 1.1rem; overflow-wrap: break-word;" class="blog-content">
       <Content />
     </article>
+    
+    <BlogFooter currentSlug={post.id} githubRepo={post.data.githubRepo} />
   </main>
 </Layout>
 
 <style is:global>
+  .back-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .back-link:hover {
+    color: var(--accent);
+    opacity: 0.9;
+  }
+
   .blog-content h2, .blog-content h3 {
     margin-top: 3rem;
     margin-bottom: 1rem;
-    color: var(--color-text-highlight);
+    color: var(--text);
   }
   .blog-content p {
     margin-bottom: 1.5rem;
-  }
-  .blog-content a {
-    color: var(--color-accent);
   }
   .blog-content pre {
     padding: 1rem;

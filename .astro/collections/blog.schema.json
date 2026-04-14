@@ -12,6 +12,10 @@
       "type": "string",
       "format": "date-time"
     },
+    "githubRepo": {
+      "type": "string",
+      "format": "uri"
+    },
     "canonicalURL": {
       "type": "string",
       "format": "uri"

@@ -1,28 +1,52 @@
 ---
-title: "Beyond the Rate Code: Why SNNs are the Physical Layer of Future BCIs"
-description: "Diving deep on spiking neural networks (SNNs): what they are, how they work and why they are so promising"
+title: "The Architectural Wall: Why Spatial AI Fails at Temporal Tasks."
+description: "Understaning the shortcommings of traditional artificial neural networks and how spiking neural networks (SNNs) solve them"
 date: 2026-04-13
 tags: ["ML", "BIOML", "SNN"]
 ---
 
 import SNNVisualization from '../../react/components/SNNVisualization';
+import LIFVisualization from '../../react/components/LIFVisualization';
 
-## The current panorama
+## The Current Panorama
 
-Spiking Neural Networks (SNNs) represent the third generation of artificial neural networks. Unlike traditional ANNs that use continuous activation values propagated sequentially through dense layers, SNNs communicate through discrete electrical impulses called "spikes."
+We've all been there, reading an LLM's response wondering how it could utter such nonsense. New releases promise PhD-like reasoning; they dont. 
+Moreover they require **massive amounts of energy**, water and custom-built datacenters to run. How is it that you perform better than them whilst running on just a coffee and a granola bar?
 
-This inherently addresses one of the fundamental bottlenecks of modern artificial intelligence: energy efficiency.
 
-## Biological inspiration
+## The Biggest Misconception in AI: Neural Networks
 
-The human brain operates on around 20 Watts of power. By contrast, a data center running a large model demands megawatts. One primary reason for this drastic discrepancy is **sparcity and asynchrony**. 
+The human brain operates on around **20 Watts** of power. By contrast, a data center running an LLM like ChatGPT 5.4 demands **Megawatts**. There must be must something going on if the so called **"neural" networks** which 
+are *supposed* to replicate the brain's architecture need **orders of magnitude** more energy to run. 
 
-A biological neuron doesn't output continuous real numbers at every timestep; it remains silent to conserve energy, only firing off a discrete voltage spike when its internal potential crosses a certain threshold.
+As you might have already guessed, these neural networks don't really replicate the brain's structure in the way your thought.
+
+If we make the analogy between the LLM's "neurons" with your biological neurons, the articial neurons are constantly processing information whilst your smart neurons process information sparsely, only when its needed. 
+This is know as a neuron "spiking" or "firing".
+
+<SNNVisualization client:only="react" />
+
+Lets now see how this behaviour can be achieved.
 
 ### The Leaky Integrate-and-Fire Model
 
-The foundation of many SNN architectures is the Leaky Integrate-and-Fire (LIF) model. It elegantly mimics a biological neuron's membrane potential $V(t)$ charging over time. The dynamics are governed by a first-order differential equation:
 
+We've already mentioned how biological neurons spike sparsely. They spike (roughly) based on weather or not the neurons its synapticly connected to also spike. 
+Turns out that a neuron can decide how much importance to give to the firing of each of its synaptic neurons. This is known as **synaptic weights**. This is exactly what neural networks have copied!
+Not the neurons themselves as we will now see but rather the idea of having a bunch of entities related to eachother by a numeric weight determining its importance.
+
+Achieving brain-like behaviour (and efficiency) is as "simple" as replacing traditional neurons with their weight tensor, bias and activation function with a tensor of (synaptic) weights and a simulation of biological neuron.
+A spiking neural network (SNN) is simply a traditional neural network where the articial neurons have been replaced by neurons that replicate real neuronal spiking, hence "spiking".
+
+Luckily, this model has been figured out for decades thanks to the work done by Hodgkin and Huxley. Through a collection of 4 linear ordinary differential equations (ODEs), the effect that input currents (other neurons outputs) have
+on the spiking of a neuron is perfectly captured. Without going into too much detail the neuron has an internal "counter" called the **membrane potential**, once this potential reaches a certain threshold (depolarisation) the neuron spikes and resets (repolarisation). 
+If you want to learn more about the Hodgkin-Huxley model you can read about it [here](/blog/hh-model). 
+
+Turns out however that simulating the HH model is extremely expensive and completly unusable in practice. However we only truly care about the spiking resembling a real neuron, we don't care about the exact vaues of the potential. This is where 
+the Leaky Integrate-and-Fire (LIF) model comes into play. It's the foundation of many SNN architectures as it elegantly mimics the membrane potential $V(t)$ charging over time of a biological neuron. The dynamics are governed instead by a **single** first-order differential equation:
+
+
+---
 $$
 \tau_m \frac{dV}{dt} = -[V(t) - E_L] + R_m I(t)
 $$
@@ -33,17 +57,35 @@ Where:
 - $R_m$ represents the membrane resistance.
 - $I(t)$ is the incoming current from pre-synaptic neurons.
 
-## Interactive Spike Propagation
+---
 
-Below is a simplified, demonstration of how this asynchronous communication looks across a simulated neural axon.
 
-<SNNVisualization client:only="react" />
+Below is a live visualization of the LIF ODE. You can play with the constant current $I(t)$ and see how it reacts.
 
-Notice how discrete events traverse the medium. In Neuromorphic hardware (like Intel's Loihi), operations are explicitly event-driven. If there isn't a spike, the circuitry sits idle.
+Notice how if the current is sub-threshold ($I < 1.0$), the passive membrane decay outpaces the accumulation. The neuron remains in a resting state. Once the input current drives the potential to the voltage threshold, 
+the neuron fires an action potential (spike), followed by a hyperpolarization reset and a brief refractory period. In fact, the $-[V(t) - E_L]$
 
-## Backpropagation Challenges
+<LIFVisualization client:only="react" />
 
-Training an SNN using traditional gradient algorithms is mathematically problematic. Spikes represent a continuous signal defined by Dirac delta functions ($\delta$), meaning their derivative is zero almost everywhere and mathematically undefined at the exact moment of the spike. 
 
-In the industry, we sidestep this limitation mostly by implementing **Surrogate Gradient Functions** — smooth, continuous approximations of the step function that fool the backward pass into thinking the function was continuous.
 
+## Discrepancies
+
+Consider a prosthetic hand. A traditional ANN processes every pixel or EMG channel at a fixed frequency (e.g., 60Hz), wasting cycles on 'silence.' 
+An SNN-based controller only 'wakes up' when a sensor detects a change in pressure or a motor spike. 
+This is the difference between a system that is Always-On and a system that is **Event Driven**. The difference between your brain and ANNs.
+
+
+## Reality Check
+
+If this is so fantastic why isn't it being implemented everywhere? Turns out that simulating even the single ODE is expensive over a whole network. Artificial neural networks have evolved to squeeze the maximum performance out of our computer architectures 
+through the extensive use of the GPU's incredibly fast tensor operation capabilities. And are in fact great at certain tasks like numeric computations or image processing.
+
+Standard GPU architectures suffer from the **Von Neumann bottleneck**: energy expensive transfer of data between memory and the processor. 
+We're missing hardware capable of efficiently replicating these neuronal dynamics: when a current is ran through it, it will spike and behave exactly the simulation. 
+This hardware known as **Neuromorphic** and implements **In-Memory** computing, where the 'synapse' (weight) and the 'neuron' (processor) are physically co-located which enables massively parallel, event-driven computation.
+Neuromorphic hardware like Intel’s **Loihi** or IBM’s **NorthPole** is starting to be released but its still far from being usable at scale. This area is in fact at the very forefront of research.
+
+
+With this post I hope you have learned what **SNNs** are and are able to appreciate how **revolutionary** these in event driven environments. Which is why I'm so excited about them as they are the key to **low-latency**, 
+**low-power medical implants** like **BCIs**.

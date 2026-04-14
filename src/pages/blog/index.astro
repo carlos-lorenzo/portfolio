@@ -1,29 +1,64 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import fs from 'node:fs';
 
 const posts = await getCollection('blog');
 posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const getReadingTime = (post) => {
+  let content = post.body || '';
+  if (!content && post.filePath) {
+    try { content = fs.readFileSync(post.filePath, 'utf-8'); } catch(e){}
+  }
+  const words = content.split(/\s+/).length;
+  const mins = Math.max(1, Math.ceil(words / 200));
+  return `${mins} min read`;
+};
 ---
 
 <Layout title="Blog | Carlos Lorenzo-Zúñiga Marí" description="Research and technical deep-dives on neurotechnology, ML, and systems.">
-  <div style="min-height: 100vh; padding: 120px 5%; max-width: 900px; margin: 0 auto; color: var(--color-text);">
-    <a href="/" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--color-accent); text-decoration: none; font-weight: 500;">
+  <div style="min-height: 100vh; padding: 120px 5%; max-width: 900px; margin: 0 auto; color: var(--text);">
+    <a href="/" class="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-weight: 500;">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       <span>Back to Portfolio</span>
     </a>
     
-    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">Technical Weblog</h1>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+      <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 0;">Technical Weblog</h1>
+      <a href="/rss.xml" style="color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 4px; transition: background 0.2s, color 0.2s;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+        <span>RSS</span>
+      </a>
+    </div>
+
     <p style="opacity: 0.8; margin-bottom: 4rem; font-size: 1.2rem;">Thoughts, research, and deep-dives.</p>
     
     <div style="display: flex; flex-direction: column; gap: 2rem;">
       {posts.length > 0 ? posts.map((post) => (
         <article style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
-          <a href={`/blog/${post.id}`} style="text-decoration: none; color: inherit;">
-            <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-accent);">{post.data.title}</h2>
-            <small style="opacity: 0.6; display: block; margin-bottom: 1rem;">
-              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric'})}
-            </small>
+          <a href={`/blog/${post.id}`} class="post-preview-link" style="text-decoration: none; color: inherit; display: block;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; transition: color 0.2s ease, transform 0.2s ease; font-weight: 600;">{post.data.title}</h2>
+            
+            <div style="display: flex; gap: 0.75rem; align-items: center; opacity: 0.6; margin-bottom: 1rem; font-size: 0.85rem; flex-wrap: wrap;">
+              <span>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</span>
+              <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+              <span>{getReadingTime(post)}</span>
+              
+              {post.data.tags && post.data.tags.length > 0 && (
+                <>
+                  <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+                  <div style="display: flex; gap: 0.5rem;">
+                    {post.data.tags.map(tag => (
+                      <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.3); padding: 1px 6px; border-radius: 4px; font-family: var(--font-mono, monospace);">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
             <p style="opacity: 0.9; line-height: 1.6;">{post.data.description}</p>
           </a>
         </article>
@@ -33,3 +68,28 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     </div>
   </div>
 </Layout>
+
+<style>
+  .back-link {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .back-link:hover {
+    color: var(--accent);
+    opacity: 0.9;
+  }
+  
+  .post-preview-link h2 {
+    color: var(--primary);
+  }
+  .post-preview-link:hover h2 {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+  
+  a[href="/rss.xml"]:hover {
+    background: var(--accent);
+    color: var(--background) !important;
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+title: "Hodgkin–Huxley: From Ions to Action Potentials"
+description: "A compact, intuitive walkthrough of the Hodgkin–Huxley conductance model and why it matters."
+date: 2026-04-14
+githubRepo: "https://github.com/carlos-lorenzo/biosims/blob/main/single_neuron.ipynb"
+tags: ["NEUROSCIENCE", "BIOML", "HODGKIN-HUXLEY"]
+ogImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Giant_Axon_of_Squid_%2814356033761%29.jpg/250px-Giant_Axon_of_Squid_%2814356033761%29.jpg"
+---
+
+import LIFVisualization from '../../react/components/LIFVisualization';
+import SNNVisualization from '../../react/components/SNNVisualization';
+
+## The Current Panorama
+
+> We've all seen the clean spike trace — that sharp rise and fall that anyone who has performed electrophysiological recordings or in-silico modeling will recognise. But what makes that spike look the way it does? Why is it fast in one direction, slow in another, and impossible to half-build?
+
+The Hodgkin–Huxley (HH) model is the answer that came from careful experiments on the squid giant axon in the 1940s and 50s. Hodgkin and Huxley didn't just measure spikes; they *dissected* the ionic machinery behind them and wrote it down as a set of coupled differential equations. The result is the canonical, conductance-based neuron model used across neuroscience.
+
+
+<SNNVisualization client:only="react" />
+
+### A short history
+
+Alan Hodgkin and Andrew Huxley used voltage clamps to isolate ionic currents and fit functions that described how ion channels open and close with voltage. The final product — a handful of ODEs with physiologically meaningful parameters — explained excitability, thresholds, and the refractory period in a single unified framework.
+
+![Squid Axon](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Giant_Axon_of_Squid_%2814356033761%29.jpg/250px-Giant_Axon_of_Squid_%2814356033761%29.jpg)
+*The squid axon during one of the experiments*
+
+## From membrane physics to math
+
+At its heart the HH model treats the cell membrane as a capacitor with voltage-dependent conductances for sodium and potassium plus a small leak conductance. The membrane equation is:
+
+---
+$$
+C_m \frac{dV}{dt} = -\bar{g}_{\mathrm{Na}} m^3 h (V - E_{\mathrm{Na}}) - \bar{g}_{\mathrm{K}} n^4 (V - E_{\mathrm{K}}) - g_L (V - E_L) + I_{\mathrm{ext}}(t)
+$$
+
+
+Where:
+- $C_m$ is membrane capacitance.
+- $\bar{g}_{\mathrm{Na}}$, $\bar{g}_{\mathrm{K}}$ are the maximal conductances for sodium and potassium.
+- $E_{\mathrm{Na}}$, $E_{\mathrm{K}}$, $E_L$ are the reversal (Nernst) potentials.
+- $m$, $h$, $n$ are gating variables that control channel availability.
+- $I_{\mathrm{ext}}(t)$ is any externally injected current.
+---
+
+The unusual exponents ($m^3 h$, $n^4$) encode the *cooperative* opening of gates inside an ion channel: for the sodium channel, three activation gates (modeled by $m$) and one inactivation gate ($h$) must be in the permissive state for the channel to conduct.
+
+## Gating dynamics — the other three equations
+
+Each gating variable follows first-order kinetics driven by voltage-dependent rates:
+
+$$
+\frac{dx}{dt} = \alpha_x(V) (1 - x) - \beta_x(V) x, \qquad x \in \{m,n,h\}
+$$
+
+The $\alpha$ and $\beta$ functions were empirically fit by Hodgkin & Huxley. A commonly-used formulation (squid-axon parameters, $V$ in mV) is:
+
+$$
+\begin{aligned}
+\alpha_n(V) &= 0.01\frac{V + 55}{1 - e^{-(V + 55)/10}}, &\beta_n(V) &= 0.125 e^{-(V + 65)/80},\\
+\alpha_m(V) &= 0.1\frac{V + 40}{1 - e^{-(V + 40)/10}}, &\beta_m(V) &= 4 e^{-(V + 65)/18},\\
+\alpha_h(V) &= 0.07 e^{-(V + 65)/20}, &\beta_h(V) &= \frac{1}{1 + e^{-(V + 35)/10}}.
+\end{aligned}
+$$
+
+These expressions capture the fast voltage-dependent opening of sodium activation ($m$), the slower inactivation ($h$), and the delayed potassium activation ($n$). The interplay of fast activation and slower opposing currents is what sculpts the action potential.
+
+If you wish to simulate this yourself, the code is available in the GitHub Repo linked in the footer below.
+
+## Intuition: the spike as a dynamic balance
+
+Think of $m$ as an accelerator for sodium current: when $V$ becomes slightly depolarised, $m$ races up and briefly opens the sodium gates, producing a runaway inward current that causes the upstroke. Meanwhile, $h$ (the sodium inactivation) and $n$ (the potassium activation) move on slower clocks and ultimately shut the sodium current down while opening potassium to pull the membrane back down.
+
+This cascade explains familiar features:
+- Threshold: small perturbations decay, but once $m$ crosses a tipping point the positive feedback wins.
+- Refractory period: primarily governed by the slow time constant of the $h$-gate (sodium inactivation); $h$'s slow recovery sets the absolute/relative refractory timing that prevents immediate re-excitation.
+- Spike shape and amplitude: set by reversal potentials and maximal conductances.
+
+## Example: how this compares to LIF
+
+The Leaky Integrate-and-Fire (LIF) model reduces all of the above to a single linear ODE with a threshold. It's cheap to simulate and useful for large networks, but it cannot reproduce many HH behaviors (spike adaptation, subthreshold resonance, complex excitability classes) without additional mechanisms.
+
+Below is the simpler LIF simulation for intuition; imagine replacing the single threshold here with the HH machinery to reveal the full biophysical waveform.
+
+<LIFVisualization client:only="react" />
+
+## Why HH matters (and why it's expensive)
+
+The HH model is valuable because its parameters have direct physiological meaning: you can measure $\bar{g}_{\mathrm{Na}}$ or $E_{\mathrm{K}}$ experimentally. That makes it a canonical bridge between experiment and computation.
+
+The price we pay is complexity. Each HH neuron carries continuous state (four variables) and nonlinear functions (exponentials, divisions) that demand careful numerical integration. Simple explicit integrators like Forward Euler require very small timesteps for stability and can be inaccurate; higher-order explicit methods such as Runge–Kutta (RK4) improve accuracy at the cost of extra work per step. Implicit and semi-implicit schemes (for example Crank–Nicolson or backward-Euler variants) — and variable-step integrators available in simulators such as NEURON — are often used to trade per-step cost for larger stable timesteps. These trade-offs in timestep, accuracy, and compute cost are a practical constraint for large-scale HH simulations.
+
+## Reduced models and practical trade-offs
+
+If you need spikes cheaply, LIF or Izhikevich-style models are excellent engineering compromises. If you need detailed ionic currents or drug-channel interactions, HH (or derivatives) are essential. The trick — as always — is matching model fidelity to the biological question and the computational budget.
+
+## Final note — realism vs pragmatism
+
+Hodgkin and Huxley's work is a masterclass in how to extract a mechanistic model from data: start from physics, measure carefully, fit parsimonious functions, and let the equations explain the phenomena. Today we inherit that legacy: biophysical models teach us what mechanisms *could* be doing the computation, while reduced models show how to build scalable systems that capture the behaviour we actually care about.
+
+
+
+
