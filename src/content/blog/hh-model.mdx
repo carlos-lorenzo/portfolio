@@ -11,7 +11,7 @@ import SNNVisualization from '../../react/components/SNNVisualization';
 
 ## The Current Panorama
 
-> We've all seen the clean spike trace — that sharp rise and fall that anyone who has performed electrophysiological recordings or in-silico modeling will recognise. But what makes that spike look the way it does? Why is it fast in one direction, slow in another, and impossible to half-build?
+> We've all seen the clean spike trace, that sharp rise and fall that anyone who has performed electrophysiological recordings or in-silico modeling will recognise. But what makes that spike look the way it does? Why is it fast in one direction, slow in another, and impossible to half-build?
 
 The Hodgkin–Huxley (HH) model is the answer that came from careful experiments on the squid giant axon in the 1940s and 50s. Hodgkin and Huxley didn't just measure spikes; they *dissected* the ionic machinery behind them and wrote it down as a set of coupled differential equations. The result is the canonical, conductance-based neuron model used across neuroscience.
 
@@ -20,14 +20,14 @@ The Hodgkin–Huxley (HH) model is the answer that came from careful experiments
 
 ### A short history
 
-Alan Hodgkin and Andrew Huxley used voltage clamps to isolate ionic currents and fit functions that described how ion channels open and close with voltage. The final product — a handful of ODEs with physiologically meaningful parameters — explained excitability, thresholds, and the refractory period in a single unified framework.
+Alan Hodgkin and Andrew Huxley used voltage clamps to isolate ionic currents and fit functions that described how ion channels open and close with voltage. The final product was a handful of ODEs with physiologically meaningful parameters. It explained excitability, thresholds, and the refractory period in a single unified framework.
 
 ![Squid Axon](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Giant_Axon_of_Squid_%2814356033761%29.jpg/250px-Giant_Axon_of_Squid_%2814356033761%29.jpg)
 *The squid axon during one of the experiments*
 
 ## From membrane physics to math
 
-At its heart the HH model treats the cell membrane as a capacitor with voltage-dependent conductances for sodium and potassium plus a small leak conductance. The membrane equation is:
+At its heart the HH model treats the cell membrane as a capacitor with voltage dependent conductances for sodium and potassium plus a small leak conductance. The membrane equation is:
 
 ---
 $$
@@ -45,9 +45,9 @@ Where:
 
 The unusual exponents ($m^3 h$, $n^4$) encode the *cooperative* opening of gates inside an ion channel: for the sodium channel, three activation gates (modeled by $m$) and one inactivation gate ($h$) must be in the permissive state for the channel to conduct.
 
-## Gating dynamics — the other three equations
+## Gating dynamics: the other three equations
 
-Each gating variable follows first-order kinetics driven by voltage-dependent rates:
+Each gating variable follows first order kinetics driven by voltage dependent rates:
 
 $$
 \frac{dx}{dt} = \alpha_x(V) (1 - x) - \beta_x(V) x, \qquad x \in \{m,n,h\}
@@ -63,7 +63,7 @@ $$
 \end{aligned}
 $$
 
-These expressions capture the fast voltage-dependent opening of sodium activation ($m$), the slower inactivation ($h$), and the delayed potassium activation ($n$). The interplay of fast activation and slower opposing currents is what sculpts the action potential.
+These expressions capture the fast voltage dependent opening of sodium activation ($m$), the slower inactivation ($h$), and the delayed potassium activation ($n$). The interplay of fast activation and slower opposing currents is what sculpts the action potential.
 
 If you wish to simulate this yourself, the code is available in the GitHub Repo linked in the footer below.
 
@@ -92,11 +92,11 @@ The price we pay is complexity. Each HH neuron carries continuous state (four va
 
 ## Reduced models and practical trade-offs
 
-If you need spikes cheaply, LIF or Izhikevich-style models are excellent engineering compromises. If you need detailed ionic currents or drug-channel interactions, HH (or derivatives) are essential. The trick — as always — is matching model fidelity to the biological question and the computational budget.
+If you need spikes cheaply, LIF or Izhikevich-style (another simple neuronal model) models are excellent engineering compromises. If you need detailed ionic currents or drug-channel interactions, HH (or derivatives) are essential. The trick (as always) is matching model fidelity to the biological question and the computational budget.
 
 ## Final note — realism vs pragmatism
 
-Hodgkin and Huxley's work is a masterclass in how to extract a mechanistic model from data: start from physics, measure carefully, fit parsimonious functions, and let the equations explain the phenomena. Today we inherit that legacy: biophysical models teach us what mechanisms *could* be doing the computation, while reduced models show how to build scalable systems that capture the behaviour we actually care about.
+Hodgkin and Huxley's work is a masterclass in how to extract a mechanistic model from data: start from physics, measure carefully, fit functions, and let the equations explain the phenomena. Today we inherit that legacy: biophysical models teach us what mechanisms *could* be doing the computation, while reduced models show how to build scalable systems that capture the behaviour we actually care about.
 
 
 
