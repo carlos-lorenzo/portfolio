@@ -63,7 +63,7 @@ Where:
 Below is a live visualization of the LIF ODE. You can play with the constant current $I(t)$ and see how it reacts.
 
 Notice how if the current is sub-threshold ($I < 1.0$), the passive membrane decay outpaces the accumulation. The neuron remains in a resting state. Once the input current drives the potential to the voltage threshold, 
-the neuron fires an action potential (spike), followed by a hyperpolarization reset and a brief refractory period. In fact, the $-[V(t) - E_L]$
+the neuron fires an action potential (spike), followed by a hyperpolarization reset and a brief refractory period. In fact, the $-[V(t) - E_L]$ acts as a low pass filter, crucial in DSP.
 
 <LIFVisualization client:only="react" />
 
