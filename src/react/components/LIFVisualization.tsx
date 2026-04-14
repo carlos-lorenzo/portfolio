@@ -114,17 +114,19 @@ export default function LIFVisualization() {
             />
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                <label style={{ fontSize: '0.9rem', fontFamily: 'monospace', color: 'var(--accent)' }}>
+                <label htmlFor="lif-input-current" style={{ fontSize: '0.9rem', fontFamily: 'monospace', color: 'var(--accent)' }}>
                     Input Current I(t): {currentAmount.toFixed(2)}
                 </label>
                 <input 
+                    id="lif-input-current"
                     type="range" 
                     min="0.5" 
                     max="3.0" 
                     step="0.05" 
-                    value={currentAmount} 
-                    onChange={(e) => setCurrentAmount(parseFloat(e.target.value))} 
-                    style={{ width: '80%', maxWidth: '300px', cursor: 'pointer', accentColor: 'var(--accent)' }}
+                    value={currentAmount}
+                    onChange={(e) => setCurrentAmount(parseFloat(e.target.value))}
+                    style={{ width: '200px' }}
+                    aria-label="Input Current I(t)"
                 />
             </div>
         </div>
