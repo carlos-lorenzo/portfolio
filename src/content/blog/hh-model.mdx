@@ -2,18 +2,19 @@
 title: "Hodgkin–Huxley: From Ions to Action Potentials"
 description: "A compact, intuitive walkthrough of the Hodgkin–Huxley conductance model and why it matters."
 date: 2026-04-14
-githubRepo: "https://github.com/carlos-lorenzo/biosims/blob/main/single_neuron.ipynb"
+githubRepo: "https://github.com/carlos-lorenzo/biosims"
 tags: ["NEUROSCIENCE", "BIOML", "HODGKIN-HUXLEY"]
 ---
 
 import LIFVisualization from '../../react/components/LIFVisualization';
 import SNNVisualization from '../../react/components/SNNVisualization';
+import HHVisualization from '../../react/components/HHVisualization';
 
 ## The Current Panorama
 
 > We've all seen the clean spike trace, that sharp rise and fall that anyone who has performed electrophysiological recordings or in-silico modeling will recognise. But what makes that spike look the way it does? Why is it fast in one direction, slow in another, and impossible to half-build?
 
-The Hodgkin–Huxley (HH) model is the answer that came from careful experiments on the squid giant axon in the 1940s and 50s. Hodgkin and Huxley didn't just measure spikes; they *dissected* the ionic machinery behind them and wrote it down as a set of coupled differential equations. The result is the canonical, conductance-based neuron model used across neuroscience.
+The Hodgkin–Huxley (HH) model is the answer that came from careful experiments on the squid giant axon in the 1940s and 50s. Hodgkin and Huxley didn't just measure spikes; they *dissected* the ionic machinery behind them and wrote it down as a set of coupled differential equations. The result is the canonical, conductance based neuron model used across neuroscience.
 
 
 <SNNVisualization client:only="react" />
@@ -72,9 +73,13 @@ If you wish to simulate this yourself, the code is available in the GitHub Repo 
 Think of $m$ as an accelerator for sodium current: when $V$ becomes slightly depolarised, $m$ races up and briefly opens the sodium gates, producing a runaway inward current that causes the upstroke. Meanwhile, $h$ (the sodium inactivation) and $n$ (the potassium activation) move on slower clocks and ultimately shut the sodium current down while opening potassium to pull the membrane back down.
 
 This cascade explains familiar features:
-- Threshold: small perturbations decay, but once $m$ crosses a tipping point the positive feedback wins.
-- Refractory period: primarily governed by the slow time constant of the $h$-gate (sodium inactivation); $h$'s slow recovery sets the absolute/relative refractory timing that prevents immediate re-excitation.
-- Spike shape and amplitude: set by reversal potentials and maximal conductances.
+- **Threshold**: small perturbations decay, but once $m$ crosses a tipping point the positive feedback wins.
+- **Refractory period**: primarily governed by the slow time constant of the $h$-gate (sodium inactivation); $h$'s slow recovery sets the absolute/relative refractory timing that prevents immediate re-excitation.
+- **Spike shape and amplitude**: set by reversal potentials and maximal conductances.
+
+To see these dynamics in action, below is a visualization. Notice how the membrane potential "escapes" into a full spike only when the input current pushes it past the critical excitation threshold.
+
+<HHVisualization client:only="react" />
 
 ## Example: how this compares to LIF
 
@@ -88,13 +93,13 @@ Below is the simpler LIF simulation for intuition; imagine replacing the single 
 
 The HH model is valuable because its parameters have direct physiological meaning: you can measure $\bar{g}_{\mathrm{Na}}$ or $E_{\mathrm{K}}$ experimentally. That makes it a canonical bridge between experiment and computation.
 
-The price we pay is complexity. Each HH neuron carries continuous state (four variables) and nonlinear functions (exponentials, divisions) that demand careful numerical integration. Simple explicit integrators like Forward Euler require very small timesteps for stability and can be inaccurate; higher-order explicit methods such as Runge–Kutta (RK4) improve accuracy at the cost of extra work per step. Implicit and semi-implicit schemes (for example Crank–Nicolson or backward-Euler variants) — and variable-step integrators available in simulators such as NEURON — are often used to trade per-step cost for larger stable timesteps. These trade-offs in timestep, accuracy, and compute cost are a practical constraint for large-scale HH simulations.
+The price we pay is complexity. Each HH neuron carries continuous state (four variables) and nonlinear functions (exponentials, divisions) that demand careful numerical integration. Simple explicit integrators like Forward Euler require very small timesteps for stability and can be inaccurate; higher-order explicit methods such as Runge–Kutta (RK4) improve accuracy at the cost of extra work per step. Implicit and semi-implicit schemes (for example Crank–Nicolson or backward-Euler variants) are often used to trade per-step cost for larger stable timesteps. These trade-offs in timestep, accuracy, and compute cost are a practical constraint for large-scale HH simulations.
 
 ## Reduced models and practical trade-offs
 
 If you need spikes cheaply, LIF or Izhikevich-style (another simple neuronal model) models are excellent engineering compromises. If you need detailed ionic currents or drug-channel interactions, HH (or derivatives) are essential. The trick (as always) is matching model fidelity to the biological question and the computational budget.
 
-## Final note — realism vs pragmatism
+## Final note, realism vs pragmatism
 
 Hodgkin and Huxley's work is a masterclass in how to extract a mechanistic model from data: start from physics, measure carefully, fit functions, and let the equations explain the phenomena. Today we inherit that legacy: biophysical models teach us what mechanisms *could* be doing the computation, while reduced models show how to build scalable systems that capture the behaviour we actually care about.
 

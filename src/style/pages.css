@@ -22,3 +22,24 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+/* Restore list markers inside blog content (reset.css removes them globally) */
+.blog-content ul,
+.blog-content ol {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+}
+
+.blog-content ul {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.blog-content ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+
+.blog-content li {
+  margin-bottom: 0.5rem;
+}
