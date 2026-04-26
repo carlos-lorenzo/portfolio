@@ -17,7 +17,29 @@ const getReadingTime = (post) => {
 };
 ---
 
-<Layout title="Blog | Carlos Lorenzo-Zúñiga Marí" description="Research and technical deep-dives on neurotechnology, ML, and systems.">
+<Layout 
+  title="Blog | Carlos Lorenzo-Zúñiga Marí" 
+  description="Research and technical deep-dives on neurotechnology, ML, and systems by Carlos Lorenzo-Zúñiga Marí."
+  keywords={["Blog", "Neurotechnology", "Machine Learning", "System Engineering"]}
+>
+  <script type="application/ld+json" slot="head">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://carloslorenzo.dev"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://carloslorenzo.dev/blog"
+      }]
+    }
+  </script>
+
   <main style="min-height: 100vh; padding: 120px 5%; max-width: 900px; margin: 0 auto; color: var(--text);">
     <a href="/" class="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-weight: 500;">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
@@ -38,16 +60,17 @@ const getReadingTime = (post) => {
       {posts.length > 0 ? posts.map((post) => (
         <article style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
           <a href={`/blog/${post.id}`} class="post-preview-link" aria-label={`Read post: ${post.data.title}`} style="text-decoration: none; color: inherit; display: block;">
-            <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; transition: color 0.2s ease, transform 0.2s ease; font-weight: 600;">{post.data.title}</h2>
-            
-            <div style="display: flex; gap: 0.75rem; align-items: center; opacity: 0.6; margin-bottom: 1rem; font-size: 0.85rem; flex-wrap: wrap;">
-              <span>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</span>
-              <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
-              <span>{getReadingTime(post)}</span>
+            <header>
+              <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; transition: color 0.2s ease, transform 0.2s ease; font-weight: 600;">{post.data.title}</h2>
               
-              {post.data.tags && post.data.tags.length > 0 && (
-                <>
-                  <span style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+              <div style="display: flex; gap: 0.75rem; align-items: center; opacity: 0.6; margin-bottom: 1rem; font-size: 0.85rem; flex-wrap: wrap;">
+                <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</time>
+                <span aria-hidden="true" style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
+                <span>{getReadingTime(post)}</span>
+                
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <>
+                    <span aria-hidden="true" style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
                   <div style="display: flex; gap: 0.5rem;">
                     {post.data.tags.map(tag => (
                       <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.3); padding: 1px 6px; border-radius: 4px; font-family: var(--font-mono, monospace);">
@@ -58,6 +81,7 @@ const getReadingTime = (post) => {
                 </>
               )}
             </div>
+            </header>
 
             <p style="opacity: 0.9; line-height: 1.6;">{post.data.description}</p>
           </a>

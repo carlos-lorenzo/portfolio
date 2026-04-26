@@ -7,10 +7,13 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
+    updatedDate: z.date().optional(),
+    author: z.string().default('Carlos Lorenzo-Zúñiga Marí'),
     githubRepo: z.string().url().optional(),
     canonicalURL: z.string().url().optional(),
     ogImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    keywords: z.array(z.string()).optional(),
   }),
 });
 

@@ -6,12 +6,16 @@ export interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
-        canonicalURL?: string | URL;
-        ogType?: 'website' | 'article';
-        publishedTime?: Date;
+	canonicalURL?: string | URL;
+	ogType?: 'website' | 'article';
+	publishedTime?: Date;
+	modifiedTime?: Date;
+	author?: string;
+	tags?: string[];
+	keywords?: string[];
 }
 
-const { title, description, image, canonicalURL, ogType, publishedTime } = Astro.props;
+const { title, description, image, canonicalURL, ogType, publishedTime, modifiedTime, author, tags, keywords } = Astro.props;
 ---
 
 <!doctype html>
@@ -34,7 +38,7 @@ const { title, description, image, canonicalURL, ogType, publishedTime } = Astro
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 
-		<SEO title={title} description={description} image={image} canonicalURL={canonicalURL} ogType={ogType} publishedTime={publishedTime} />
+		<SEO title={title} description={description} image={image} canonicalURL={canonicalURL} ogType={ogType} publishedTime={publishedTime} modifiedTime={modifiedTime} author={author} tags={tags} keywords={keywords} />
 		<!-- Include structured data here -->
 		<script type="application/ld+json">
 		{

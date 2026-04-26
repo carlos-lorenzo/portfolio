@@ -6,6 +6,10 @@ export interface Props {
 	image?: string;
 	ogType?: 'website' | 'article';
 	publishedTime?: Date;
+	modifiedTime?: Date;
+	author?: string;
+	tags?: string[];
+	keywords?: string[];
 }
 
 const {
@@ -15,13 +19,19 @@ const {
 	image = '/og-image.png',
 	ogType = 'website',
 	publishedTime,
+	modifiedTime,
+	author = 'Carlos Lorenzo-Zúñiga Marí',
+	tags = [],
+	keywords = [],
 } = Astro.props;
 ---
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="description" content={description} />
-<meta name="author" content="Carlos Lorenzo-Zúñiga Marí" />
+<meta name="author" content={author} />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+<meta name="robots" content="index, follow" />
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph / Facebook -->
@@ -29,12 +39,20 @@ const {
 {ogType === 'article' && publishedTime && (
 	<meta property="article:published_time" content={publishedTime.toISOString()} />
 )}
+{ogType === 'article' && modifiedTime && (
+	<meta property="article:modified_time" content={modifiedTime.toISOString()} />
+)}
+{ogType === 'article' && (
+	<meta property="article:author" content={author} />
+)}
+{ogType === 'article' && tags.map((tag) => (
+	<meta property="article:tag" content={tag} />
+))}
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
-<meta property="og:image:width" content="816" />
-<meta property="og:image:height" content="408" />
+<meta property="og:image:alt" content={title} />
 <meta property="og:site_name" content="Carlos Lorenzo-Zúñiga Marí" />
 <meta property="og:locale" content="en_US" />
 
