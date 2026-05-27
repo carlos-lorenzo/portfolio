@@ -1,0 +1,90 @@
+---
+title: "Understanding EEG: Reading the mind"
+description: "An overview on how EEG works, the challenges of extracting meaningful signals, and the design choices that go into building a robust EEG system."
+date: 2026-04-28
+tags: ["HARDWARE", "PCB", "DAQ", "EEG", "BCI", "NEUROTECH"]
+---
+
+import HHVisualization from '../../react/components/HHVisualization';
+import EMGSignalVisualizer from '../../react/components/EMGSignalVisualizer';
+import WaveformVisual from '../../react/components/WaveformVisual';
+
+
+
+
+## 1. Introduction: The Voltmeter on the Scalp
+
+Biopotentials are tiny. For scale: wall outlets are ~230 V, a AA battery is 1.5 V, and EEG signals typically sit between $10\mu\text{V}$ and $100\mu\text{V}$. Getting clean access to that range is what separates consumer toys from research-grade systems.
+Building from the ground up forces you to understand the physics before you design the electronics or write the firmware.
+
+## 2. The Biophysics of the Signal (The Ingestion Funnel)
+
+### Generation
+Single neurons generate extracellular potentials through ionic currents during synaptic activity and action potentials. A single neuron's activity is negligible and impossible to capture with scalp electrodes. The summed activity of thousands to millions of neurons creates the macroscopic signals we measure at the scalp.
+Therefore surface EEG arises when large populations of aligned pyramidal neurons produce synchronous post-synaptic potentials. These aligned currents form effective dipoles whose summed field can extend to the scalp. 
+
+For the single-cell biophysics behind action potentials and gating dynamics, see my Hodgkin–Huxley explainer and visualization.
+
+Read more on the neuronal origin: [Hodgkin–Huxley: From Ions to Action Potentials](/blog/hh-model)
+
+### Volume Conduction
+Each region of the brain cortex has its own function. 
+Being able to tell where signals are coming from is crucial to understand its meaning. However, the brain is a conductive medium, and the skull is a high-resistance barrier. As currents pass through these layers, they spread out and blur spatially. This means that electrodes on the scalp pick up a mixture of signals from multiple sources, making it difficult to localize activity precisely.
+
+
+### The Electrode–Skin Interface
+Surface EEG is great as its non invase yet this non-invasiveness comes with a cost: the electrode–skin interface is a complex, non-linear system that can introduce noise and distortions. The skin's outer layer (stratum corneum) has high impedance, and its properties can change with sweat, movement, and time. This leads to challenges in maintaining good contact and stable recordings.
+
+
+High impedance is problematic as it essentially acts as a voltage divider with the input impedance of the amplifier, attenuating the signal and making it more susceptible to noise - a challenge on its own. Surface EEG suffers this problem but with its impedance constantly changing, making the signal quality umpredictable. In contrast, invasive methods like ECoG or intracortical recordings have much lower and more stable impedance, allowing for cleaner signals but at the cost of invasiveness.
+## 3. Spatial Mapping: The International 10-20 System
+
+To make sense of the signals, we need a standardized way to describe where on the scalp they are coming from. The International 10-20 system is the most widely used convention for electrode placement in EEG. It divides the scalp into proportional distances and assigns labels based on anatomical landmarks.
+
+- **Frontal (F):** cognition, executive control, motor planning.
+- **Central (C):** motor strip; mu rhythms often localize here.
+- **Temporal (T):** auditory processing and language-related fields.
+- **Parietal (P):** somatosensory processing, spatial attention.
+- **Occipital (O):** visual cortex; alpha rhythms strongest here with eyes closed.
+
+
+![10-20 System](https://framerusercontent.com/images/dPsyWA6ifxuqbT0JPMj2VIVyk.png?width=919&height=772)
+
+## 4. The Core Frequency Bands (The "Features")
+
+| Band | Frequency Range | Mental State / Location |
+| :--- | :--- | :--- |
+| **Delta ($\delta$)** | $0.5 - 4\text{ Hz}$ | Deep sleep, infant brain development |
+| **Theta ($\theta$)** | $4 - 8\text{ Hz}$ | Drowsiness, working memory tasks |
+| **Alpha ($\alpha$)** | $8 - 12\text{ Hz}$ | Relaxed wakefulness (Occipital alpha with eyes closed) |
+| **Beta ($\beta$)** | $12 - 30\text{ Hz}$ | Active thinking, motor execution/suppression |
+| **Gamma ($\gamma$)** | $30 - 100\text{ Hz}$ | High-level cognitive processing, cross-modal integration |
+
+## 5. From Neurons to ADC: The Analog Front-End
+
+The electronics must do three things well: amplify, reject common-mode interference (high CMRR), and anti-alias with appropriate filtering. There are two common approaches:
+
+- **Custom discrete AFE  (hardware-first)**: Exactly like my CUPPER DAQ: this is the traditional approach where you design a front-end with low-noise amplifiers, active filters, and then feed into a general-purpose ADC. 
+However, analog filters aren't perfect: the frequency response is not ideal, and component tolerances can introduce variability. You also have to manage gain staging carefully to avoid saturating the amplifier or losing resolution in the ADC.
+
+- **Integrated multi-channel ADC/AFE (e.g., TI ADS1299)**: this is a specialized ADC with on-chip programmable gain, good CMRR, and multiplexed channels tailored to biopotential acquisition. 
+It gives you a compact, research-grade acquisition path but does not replace careful design. It simply shifts the complexity from discrete components to firmware and PCB layout. You still need to ensure good grounding, stable power, and handle the raw data properly.
+
+
+Understanding the traditional approach is important to appreciate the design choices and trade-offs in integrated solutions. I see it as programming in assembly vs using a high-level language: the latter is more efficient for development but you need to understand the underlying machine to use it effectively.
+
+For a hardware-first perspective and lessons learned on gain staging and skin impedance, see: [The CUPPER DAQ: Engineering the Microvolt](/blog/cupper-daq)
+
+<EMGSignalVisualizer client:only="react" />
+
+## 6. Practical Considerations
+
+- **Impedance & Motion:** electrode contact impedance and motion artifacts dominate many failures. Wet electrodes and careful skin prep reduce impedance; mechanical strain relief reduces motion noise. My board also implements an IMU and QVAR to detect and reject motion-corrupted epochs in real time.
+- **Shielding & Reference Choice:** driven-right-leg (DRL) and low-impedance references help tame mains hum. Ground loops and common-mode must be addressed at the PCB level.
+- **Sampling Strategy:** you can sample raw waveforms at kilohertz rates and do everything in software, or offload stability-critical operations to analog hardware (e.g., RMS envelopes) and sample slowly. I chose the latter for competition reliability in the CUPPER project but have chosen the fast sampling approach for this EEG system to allow maximum flexibility in post-processing and feature extraction.
+
+## 7. Conclusion & Forward Look
+
+Understanding the biophysics drives hardware choices. In the next post, I will discuss the trade-offs I considered and why I built a stackable ADS1299-based acquisition system for 8–32 channels instead of buying a black-box commercial solution.
+
+
