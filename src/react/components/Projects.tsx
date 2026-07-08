@@ -14,6 +14,19 @@ const projects: {
     extraLinks?: ExtraLink[]
 }[] = [
     {
+        title: '8-Channel EEG Headset (Bespoke BCI)',
+        description: 'A custom, low-cost 4-layer neurotech platform built around the TI ADS1299 and ESP32-S3. Features an analog front-end with active Driven Right Leg (DRL) common-mode noise cancellation, hardware-level analog filtering, and optimized power isolation circuits for sub-microvolt biosignal integrity.',
+        skills: ['PCB Design (KiCad)', 'Analog Circuit Design', 'Signal Integrity', 'Neurotechnology'],
+        repo_link: '',
+        extraLinks: [],
+    },
+    {
+        title: 'ADS1299 ESP-IDF Driver',
+        description: 'An ultra-efficient, production-grade C driver for the TI ADS1299 24-bit ADC. Built on the ESP-IDF framework, it utilizes SPI with DMA transfers, hardware interrupts, and ISR-safe FreeRTOS ring buffers to achieve zero-copy, real-time biosignal data acquisition.',
+        skills: ['C', 'ESP-IDF', 'SPI DMA', 'FreeRTOS', 'Interrupt Handling'],
+        repo_link: 'https://github.com/carlos-lorenzo/ads1299-esp.git',
+    },
+    {
         title: 'Vectra',
         description: 'A bespoke 3D physics engine and OpenGL renderer built from scratch to demystify complex mechanical simulations. It features a custom multithreaded architecture and a dynamic BVH for efficient collision handling.',
         skills: ['C++', 'OpenGL', 'Data Structures', 'Physics Systems'],
