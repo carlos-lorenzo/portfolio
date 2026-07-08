@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'
+import { faFile } from '@fortawesome/free-solid-svg-icons'
 import styles from './Social.module.css'
 
 
@@ -32,6 +33,19 @@ export default function Social() {
                 onClick={() => gtag('event', 'social_media_click', { platform: 'GitHub', link_text: 'GitHub Profile' })}
             >
                 <FontAwesomeIcon icon={faGithub} />
+            </motion.a>
+
+            <motion.a
+                className={styles.icon}
+                href="/CV_CarlosLorenzoZunigaMari.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="CV"
+                whileHover={{ y: -1, scale: 1.05, boxShadow: '0 4px 18px rgba(255, 255, 255, 0.25)' }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => gtag('event', 'social_media_click', { platform: 'Portfolio', link_text: 'Portfolio View' })}
+            >
+                <FontAwesomeIcon icon={faFile} />
             </motion.a>
         </div>
     )
