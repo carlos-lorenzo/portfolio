@@ -43,7 +43,7 @@ export default function About() {
 
             <motion.aside className={styles.aside} variants={asideStagger}>
                 <motion.div className={styles.stat} variants={asideItem}>
-                    <div className={styles.statValue}>6+</div>
+                    <div className={styles.statValue}>7+</div>
                     <div className={styles.statLabel}>Years Creating</div>
                 </motion.div>
 
