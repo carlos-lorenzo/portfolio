@@ -74,7 +74,7 @@ export default function Hero() {
                
             </motion.h1>
             <motion.p variants={fadeUp}>
-                Bridging the gap between <b>health</b> and <b>techonlogy</b> through physics, ML, and hardware.
+                Building things where healthcare meets physics, hardware, and software.
             </motion.p>
 
             <motion.div className={styles.actions} variants={fadeUp} style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>

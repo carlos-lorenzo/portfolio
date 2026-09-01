@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTypescript, faPython, faReact, faDocker, faUnity } from '@fortawesome/free-brands-svg-icons'
 import {
     SiCplusplus,
+    SiC,
     SiDjango,
     SiPostgresql,
     SiGooglecloud,
     SiNginx,
     SiPytorch,
     SiOpengl,
+    SiEspressif,
     SiEasyeda,
 } from '@icons-pack/react-simple-icons'
 
@@ -25,18 +27,18 @@ const categories = [
         colorVar: '--primary',
             items: [
             { name: 'C++', icon: <SiCplusplus size={SI_SIZE} /> },
-            { name: 'C#', icon: <CSharpIcon size={SI_SIZE} /> },
-            { name: 'TypeScript', icon: <FontAwesomeIcon icon={faTypescript} /> },
+            { name: 'C', icon: <SiC size={SI_SIZE} /> },
             { name: 'Python', icon: <FontAwesomeIcon icon={faPython} /> },
+            { name: 'TypeScript', icon: <FontAwesomeIcon icon={faTypescript} /> },
         ],
     },
     {
-        title: 'Web',
-        colorVar: '--accent',
+        title: 'ML & Systems',
+        colorVar: '--code-purple',
         items: [
-            { name: 'React', icon: <FontAwesomeIcon icon={faReact} /> },
-            { name: 'Django', icon: <SiDjango size={SI_SIZE} /> },
-            { name: 'PostgreSQL', icon: <SiPostgresql size={SI_SIZE} /> },
+            { name: 'PyTorch', icon: <SiPytorch size={SI_SIZE} /> },
+            { name: 'ESP-IDF', icon: <SiEspressif size={SI_SIZE} /> },
+            { name: 'EasyEDA', icon: <SiEasyeda size={SI_SIZE} /> },
         ],
     },
     {
@@ -49,15 +51,14 @@ const categories = [
         ],
     },
     {
-        title: 'ML & Systems',
-        colorVar: '--code-purple',
+        title: 'Web',
+        colorVar: '--accent',
         items: [
-            { name: 'PyTorch', icon: <SiPytorch size={SI_SIZE} /> },
-            { name: 'Unity', icon: <FontAwesomeIcon icon={faUnity} /> },
-            { name: 'OpenGL', icon: <SiOpengl size={SI_SIZE} /> },
-            { name: 'EasyEDA', icon: <SiEasyeda size={SI_SIZE} /> },
+            { name: 'React', icon: <FontAwesomeIcon icon={faReact} /> },
+            { name: 'Django', icon: <SiDjango size={SI_SIZE} /> },
+            { name: 'PostgreSQL', icon: <SiPostgresql size={SI_SIZE} /> },
         ],
-    },
+    },   
 ]
 
 const headingVariant = {

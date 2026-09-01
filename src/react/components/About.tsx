@@ -28,14 +28,22 @@ export default function About() {
             <motion.div className={styles.card} variants={cardVariants}>
                 <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
-                    I build at the intersection of biology and silicon. Based in Valencia, I'm a 1st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a>, 
-                    self-taught developer and an electronic designer for <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>. 
+                I like building things. More specifically, things that sit somewhere between biology, electronics, and software. 
+                I'm based in Valencia, where I'm a 2st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a>,
+                a self-taught developer, and an electronic designer at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>. 
                 </p>
 
                 <p>
-                I focus on the Signal-to-Action pipeline: translating noisy biological data into <strong>real-time</strong> control. 
-                Whether it's designing multi-electrode EMG PCBs or deploying <strong>Machine Learning</strong> models on microcontrollers.
-                My goal is moving towards the frontier in <strong>Neurotechnology</strong>, where the human body meets cutting-edge silicon.
+                A lot of what I do starts with a biological signal — an <strong>EEG</strong>, an <strong>EMG</strong>, or something else — 
+                and ends with software doing something useful with it. I enjoy working across the whole process, 
+                from designing the hardware that captures the signal to writing the code that processes it. 
+                I'm particularly drawn to problems where making something <strong>faster, smaller, 
+                or more efficient</strong> actually matters.
+                </p>
+
+                <p>
+                Long term, I want to bring that same focus on performance and efficiency into <strong>neurotechnology</strong> — 
+                building systems that can turn signals from the human body into something useful, in real time.
                 </p>
 
                 
@@ -49,9 +57,9 @@ export default function About() {
 
                 <motion.div className={styles.pillList} variants={asideItem}>
                     <span className={styles.pill}>Systems Engineering</span>
-                    <span className={styles.pill}>Machine Learning</span>
-                    <span className={styles.pill}>Biosignal Processing</span>
                     <span className={styles.pill}>Embedded Systems</span>
+                    <span className={styles.pill}>Biosignal Processing</span>
+                    <span className={styles.pill}>Machine Learning</span>
                 </motion.div>
             </motion.aside>
         </motion.section>

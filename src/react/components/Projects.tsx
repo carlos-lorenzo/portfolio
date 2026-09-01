@@ -14,10 +14,10 @@ const projects: {
     extraLinks?: ExtraLink[]
 }[] = [
     {
-        title: '8-Channel EEG Headset (Bespoke BCI)',
-        description: 'A custom, low-cost 4-layer neurotech platform built around the TI ADS1299 and ESP32-S3. Features an analog front-end with active Driven Right Leg (DRL) common-mode noise cancellation, hardware-level analog filtering, and optimized power isolation circuits for sub-microvolt biosignal integrity.',
-        skills: ['PCB Design (KiCad)', 'Analog Circuit Design', 'Signal Integrity', 'Neurotechnology'],
-        repo_link: '',
+        title: 'Neurodaq',
+        description: 'An open, 8-channel, 24-bit wearable EEG system built end-to-end across hardware, firmware, and software. Features a custom ADS1299 analog front-end achieving ~0.3 µV baseline noise, ESP32-S3 acquisition with Wi-Fi streaming, and a Python/PyQt host with live waveform and spectral visualization, 10–20 brain mapping, and electrode-impedance diagnostics. The complete system — including PCBs, firmware, host software, and wearable enclosure — is open and reproducible.',
+        skills: ['PCB Design', 'Mixed Signal', 'Embedded Systems', 'Biomedical Signal Processing', 'EEG'],
+        repo_link: 'https://github.com/carlos-lorenzo/neurodaq',
         extraLinks: [],
     },
     {
@@ -37,6 +37,9 @@ const projects: {
         description: 'A multi-electrode acquisition system developed for DAIDALONIC\'s arm prosthetic (CUPPER). Designed using EasyEDA, the board features a custom analog front-end to isolate, filter and amplify muscular signals for real-time prosthetic control.',
         skills: ['PCB Design', 'Analog Circuitry', 'Prosthetics', 'Bio-Signal Processing'],
         repo_link: '',
+        extraLinks: [
+            { label: 'Blog Post', url: 'https://carloslorenzo.dev/blog/cupper-daq', icon: faArrowUpRightFromSquare },
+        ],
     },
     {
         title: 'DrivingML',
