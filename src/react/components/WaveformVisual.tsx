@@ -127,12 +127,17 @@ void main() {
   float glow = smoothstep(0.15, 0.35, vHeight) * 0.4;
   color += glow * uColorB;
 
-  // Radial fade — bias upward so the lower edge dissolves sooner
-  vec2 center = vUv - vec2(0.5, 0.42);
-  float radial = length(center * vec2(1.0, 0.60));
-  float edgeFade = 1.0 - smoothstep(0.10, 0.36, radial);
-  // Extra softness on the bottom edge
-  edgeFade *= smoothstep(0.06, 0.28, vUv.y);
+  // Elliptical dissolve.
+  //
+  // This used to be a wide, Y-squashed radial fade multiplied by
+  // smoothstep(0.06, 0.28, vUv.y). That second term is a horizontal band in UV
+  // space, so it drew a straight line clean across the mesh — the flat, cut-off
+  // bottom edge. One symmetric falloff instead, which dissolves the surface in
+  // every direction and reaches zero well inside the plane, so no geometry edge
+  // is ever visible.
+  vec2 center = vUv - vec2(0.5, 0.47);
+  float radial = length(center * vec2(0.95, 1.0));
+  float edgeFade = 1.0 - smoothstep(0.10, 0.34, radial);
 
   // Slight wireframe-like ridge highlight
   float ridge = abs(sin(vUv.y * 80.0)) * 0.035;
@@ -158,8 +163,8 @@ function WaveformMesh({ filterRef }: WaveformMeshProps) {
       uTime:      { value: 0 },
       uFilter:    { value: 0 },
       uAmplitude: { value: 0.28 },
-      uColorA:    { value: new Color('#58A6FF') }, // --primary
-      uColorB:    { value: new Color('#F78166') }, // --accent
+      uColorA:    { value: new Color('#79dcef') }, // --cyan
+      uColorB:    { value: new Color('#f26fbb') }, // --pink
     }),
     [],
   )
@@ -171,7 +176,7 @@ function WaveformMesh({ filterRef }: WaveformMeshProps) {
   })
 
   return (
-    <mesh ref={meshRef} rotation={[-0.55, 0.0, 0.0]} position={[0, -0.1, 0]}>
+    <mesh ref={meshRef} rotation={[-0.55, 0.0, 0.0]} position={[0, 0, 0]}>
       <planeGeometry args={[4.5, 3.0, 256, 128]} />
       <shaderMaterial
         vertexShader={vertexShader}
@@ -194,6 +199,15 @@ interface WaveformVisualProps {
 export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
   const filterRef = useRef(0)
   const [hasPointer, setHasPointer] = useState(true)
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   useEffect(() => {
     // Detect touch-only devices
@@ -234,7 +248,7 @@ export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
 
   // Auto-oscillation for touch devices
   useEffect(() => {
-    if (hasPointer) return
+    if (hasPointer || reduced) return
     let raf: number
     const tick = () => {
       filterRef.current = 0.5 + 0.5 * Math.sin(Date.now() * 0.0008)
@@ -242,21 +256,26 @@ export default function WaveformVisual({ heroRef }: WaveformVisualProps) {
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [hasPointer])
+  }, [hasPointer, reduced])
 
   return (
     <div className={styles.container} role="img" aria-label="Animated waveform visualization">
       <div className={styles.canvasWrap}>
         <Canvas
+          frameloop={reduced ? 'demand' : 'always'}
           dpr={[1, 1.5]}
           gl={{ alpha: true, antialias: true }}
-          camera={{ position: [0, 0, 3.2], fov: 45 }}
+          // The plane is 4.5 x 3.0 tilted -0.55rad, so its near (bottom) edge
+          // sits around world y -1.43 at depth z 1.02. At the old z of 3.2 the
+          // frustum was only ~0.9 half-height there, which cropped the bottom
+          // of the mesh against the canvas. 5.4 clears the full plane on all
+          // four sides, including peak vertex displacement.
+          camera={{ position: [0, 0, 3.0], fov: 45 }}
           style={{ background: 'transparent' }}
         >
           <WaveformMesh filterRef={filterRef} />
         </Canvas>
       </div>
-      <p className={styles.caption}><i>Inspired by Wavelet Transforms</i></p>
     </div>
   )
 }

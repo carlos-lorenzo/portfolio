@@ -50,7 +50,7 @@ export default function LIFVisualization() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const threshY = canvas.height - (vThresh / maxDisplayV) * canvas.height;
-            ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)'; 
+            ctx.strokeStyle = 'rgba(242, 111, 187, 0.55)'; 
             ctx.setLineDash([5, 5]);
             ctx.lineWidth = 1.5;
             ctx.beginPath();
@@ -58,12 +58,12 @@ export default function LIFVisualization() {
             ctx.lineTo(canvas.width, threshY);
             ctx.stroke();
             
-            ctx.fillStyle = 'rgba(244, 63, 94, 0.8)';
+            ctx.fillStyle = 'rgba(242, 111, 187, 0.8)';
             ctx.font = '12px monospace';
             ctx.fillText('Threshold', 10, threshY - 5);
 
             ctx.setLineDash([]);
-            ctx.strokeStyle = '#38bdf8'; 
+            ctx.strokeStyle = '#79dcef'; 
             ctx.lineWidth = 2.5;
             ctx.beginPath();
             
@@ -85,36 +85,14 @@ export default function LIFVisualization() {
     }, []);
 
     return (
-        <div style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            padding: '2rem',
-            borderRadius: '12px',
-            margin: '2rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-        }}>
-            <div style={{ textAlign: 'center' }}>
-                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: 'var(--text)' }}>Membrane Potential vs. Time</h3>
-                <p style={{ margin: 0, opacity: 0.7, fontSize: '0.9rem' }}>
-                    Simulating the LIF equation under a constant input current I(t).
-                </p>
-            </div>
+        <figure className="win win--titled viz">
+            <span className="win__t">lif_neuron</span>
+            <p className="viz__lede">Simulating the LIF equation under a constant input current I(t).</p>
             
-            <canvas 
-                ref={canvasRef} 
-                style={{ 
-                    width: '100%', 
-                    height: '200px', 
-                    background: 'rgba(0,0,0,0.3)', 
-                    borderRadius: '8px',
-                    display: 'block' 
-                }} 
-            />
+            <canvas ref={canvasRef} className="viz__canvas" />
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                <label htmlFor="lif-input-current" style={{ fontSize: '0.9rem', fontFamily: 'monospace', color: 'var(--accent)' }}>
+            <div className="viz__controls">
+                <label htmlFor="lif-input-current" className="viz__label">
                     Input Current I(t): {currentAmount.toFixed(2)}
                 </label>
                 <input 
@@ -125,10 +103,10 @@ export default function LIFVisualization() {
                     step="0.05" 
                     value={currentAmount}
                     onChange={(e) => setCurrentAmount(parseFloat(e.target.value))}
-                    style={{ width: '200px' }}
+                    className="viz__slider"
                     aria-label="Input Current I(t)"
                 />
             </div>
-        </div>
+        </figure>
     );
 }

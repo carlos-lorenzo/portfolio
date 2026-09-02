@@ -114,7 +114,7 @@ export default function HHVisualization() {
             const maxV = 60;
             const vThresh = -40;
             const threshY = canvas.height - ((vThresh - minV) / (maxV - minV)) * canvas.height;
-            ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+            ctx.strokeStyle = 'rgba(242, 111, 187, 0.55)';
             ctx.setLineDash([5, 5]);
             ctx.lineWidth = 1.2;
             ctx.beginPath();
@@ -122,12 +122,12 @@ export default function HHVisualization() {
             ctx.lineTo(canvas.width, threshY);
             ctx.stroke();
             ctx.setLineDash([]);
-            ctx.fillStyle = 'rgba(244, 63, 94, 0.8)';
+            ctx.fillStyle = 'rgba(242, 111, 187, 0.8)';
             ctx.font = '12px monospace';
             ctx.fillText('Approx. excitation threshold', 10, threshY - 6);
 
             // draw V trace
-            ctx.strokeStyle = '#38bdf8';
+            ctx.strokeStyle = '#79dcef';
             ctx.lineWidth = 2.2;
             ctx.beginPath();
             const hist = historyRef.current;
@@ -142,12 +142,12 @@ export default function HHVisualization() {
             ctx.stroke();
 
             // label
-            ctx.fillStyle = 'rgba(255,255,255,0.9)';
+            ctx.fillStyle = 'rgba(226, 232, 240, 0.9)';
             ctx.font = '12px monospace';
             ctx.fillText(`I = ${inputRef.current.toFixed(2)} μA/cm²`, 10, 16);
 
             // small axis markers
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.fillStyle = 'rgba(154, 165, 184, 0.9)';
             ctx.font = '11px monospace';
             ctx.fillText(`${maxV} mV`, canvas.width - 60, 16);
             ctx.fillText(`${minV} mV`, canvas.width - 60, canvas.height - 6);
@@ -160,37 +160,15 @@ export default function HHVisualization() {
     }, []);
 
     return (
-        <div style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            padding: '2rem',
-            borderRadius: '12px',
-            margin: '2rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-        }}>
-            <div style={{ textAlign: 'center' }}>
-                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: 'var(--text)' }}>Hodgkin–Huxley (RK4)</h3>
-                <p style={{ margin: 0, opacity: 0.7, fontSize: '0.9rem' }}>
-                    A standard Hodgkin-Huxley single-neuron solver (RK4). Slider controls injected current (μA/cm²).
-                </p>
-            </div>
+        <figure className="win win--titled viz">
+            <span className="win__t">hodgkin_huxley.rk4</span>
+            <p className="viz__lede">A standard Hodgkin-Huxley single-neuron solver (RK4). Slider controls injected current (μA/cm²).</p>
 
-            <canvas
-                ref={canvasRef}
-                style={{
-                    width: '100%',
-                    height: '220px',
-                    background: 'rgba(0,0,0,0.3)',
-                    borderRadius: '8px',
-                    display: 'block'
-                }}
-            />
+            <canvas ref={canvasRef} className="viz__canvas" />
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
-                <label htmlFor="hh-input-current" style={{ fontSize: '0.9rem', fontFamily: 'monospace', color: 'var(--accent)' }}>
-                    Injected Current I: {inputCurrent.toFixed(2)} μA/cm²
+            <div className="viz__controls">
+                <label htmlFor="hh-input-current" className="viz__label">
+                    Injected current I &nbsp;<b>{inputCurrent.toFixed(2)}</b> μA/cm²
                 </label>
                 <input
                     id="hh-input-current"
@@ -200,10 +178,10 @@ export default function HHVisualization() {
                     step={0.1}
                     value={inputCurrent}
                     onChange={(e) => setInputCurrent(parseFloat(e.target.value))}
-                    style={{ width: 320 }}
+                    className="viz__slider"
                     aria-label="Hodgkin-Huxley injected current"
                 />
             </div>
-        </div>
+        </figure>
     );
 }

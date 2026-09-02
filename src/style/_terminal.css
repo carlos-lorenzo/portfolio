@@ -1,0 +1,299 @@
+/* ============================================================================
+   Terminal-adjacent primitives.
+
+   Global classes rather than CSS modules, so .astro pages and .tsx components
+   share one recipe. (The previous codebase had the glass-card recipe copied
+   verbatim into four separate modules.)
+   ========================================================================== */
+
+/* ── .win ─ a bordered box ─────────────────────────────────────────────────
+   1px hairline, no shadow. Elevation on a near-black page comes from a
+   background step, not from a blur that just reads as mud.
+   ------------------------------------------------------------------------ */
+.win {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+
+/* Non-interactive boxes get no hover state whatsoever. */
+
+/* ── .win--titled ─ the signature: the title sits ON the top border ────────
+     ┌── biosignal_stream.py ──────────────────┐
+     │                                          │
+   Depends on an opaque page background, which we now have.
+   ------------------------------------------------------------------------ */
+.win--titled { position: relative; }
+.win--titled > .win__t {
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.5rem;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: var(--track);
+  line-height: 1;
+  color: var(--accent);
+  white-space: nowrap;
+  max-width: calc(100% - var(--space-6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A right-hand status stub on the same border line. */
+.win--titled > .win__s {
+  position: absolute;
+  top: 0;
+  right: var(--space-4);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.5rem;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  line-height: 1;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.win--titled > .win__s .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--green);
+  flex: 0 0 auto;
+}
+
+/* When a titled box sits on a raised parent, the title notch must match it. */
+.win .win--titled > .win__t,
+.win .win--titled > .win__s { background: var(--bg-raised); }
+
+/* ── .tree ─ nested structure ──────────────────────────────────────────────
+   The ├─ └─ │ shapes are drawn with CSS boxes, not box-drawing characters.
+   That keeps them out of the accessibility tree, out of text selection, and
+   independent of whether the reader's font has the glyphs at all.
+   ------------------------------------------------------------------------ */
+.tree { list-style: none; margin: 0; padding: 0; }
+
+.tree > li {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-bottom: var(--space-3);
+}
+.tree > li:last-child { padding-bottom: 0; }
+
+/* the vertical spine */
+.tree > li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.55;
+}
+/* the last item turns the spine into a corner */
+.tree > li:last-child::after { bottom: auto; height: 0.72em; }
+
+/* the horizontal tick */
+.tree > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 0.9rem;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+/* Tighter variant for dense lists. */
+.tree--tight > li { padding-bottom: var(--space-2); }
+
+/* ── .kv ─ fastfetch-style key/value rows ─────────────────────────────────
+     OS:      Arch Linux x86_64
+     Focus:   EEG/EMG, ADCs, ESP-IDF
+   ------------------------------------------------------------------------ */
+.kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+}
+.kv dt {
+  font-weight: 700;
+  font-style: italic;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.kv dd { margin: 0; color: var(--fg); min-width: 0; }
+
+/* Values flushed right, for spec panels. */
+.kv--split dd { text-align: right; }
+.kv--split { gap: var(--space-2) var(--space-3); }
+
+/* ── .tag ─ square badges. Deliberately not pills. ────────────────────────
+   border-radius: 9999px on everything is the tell.
+   ------------------------------------------------------------------------ */
+.tag {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid;
+  border-color: color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  line-height: 1.6;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.tag--hw   { color: var(--cyan); }    /* hardware, signals */
+.tag--sys  { color: var(--green); }   /* low-level, systems */
+.tag--ml   { color: var(--purple); }  /* ML, research */
+.tag--web  { color: var(--pink); }    /* web, fullstack */
+.tag--misc { color: var(--yellow); }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── .rail ─ the line-number gutter ───────────────────────────────────────
+   Extended from the gutter that was already here. It is an indicator, never
+   a nav bar — navigation stays with scroll.
+   ------------------------------------------------------------------------ */
+.rail {
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: var(--rail-w);
+  padding-top: var(--space-5);
+  padding-right: var(--space-3);
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  overflow: hidden;
+}
+.rail__n {
+  display: block;
+  flex: 0 0 var(--rail-line-h);
+  height: var(--rail-line-h);
+  line-height: var(--rail-line-h);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-faint);
+  opacity: 0.5;
+}
+
+/* The spine. One continuous 2px line formed by the contiguous left borders of
+   the section wrappers, so the active segment can be coloured without any
+   pixel-range maths and without shifting layout. */
+.spine {
+  border-left: var(--spine-w) solid var(--border);
+  padding: var(--space-6) 0 var(--space-6) var(--space-5);
+  transition: border-color 0.3s ease;
+}
+.spine[data-active="true"] { border-left-color: var(--accent); }
+
+@media (max-width: 880px) {
+  .rail { display: none; }
+  .spine { padding: var(--space-6) 0 var(--space-6) var(--space-4); }
+}
+
+/* ── .actions ─ the mobile bottom bar ─────────────────────────────────────
+   Below 880px every primary action moves into the thumb zone.
+   ------------------------------------------------------------------------ */
+.actions {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 900;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--space-2);
+  height: calc(var(--actions-h) + env(safe-area-inset-bottom, 0px));
+  padding: 0 var(--space-3) env(safe-area-inset-bottom, 0px);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+}
+.actions a,
+.actions button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  color: var(--fg-dim);
+  cursor: pointer;
+}
+.actions a:hover,
+.actions button:hover { color: var(--pink); background: var(--bg-hover); }
+.actions svg { width: 16px; height: 16px; }
+
+@media (max-width: 880px) {
+  .actions { display: flex; }
+  /* keep the last of the page clear of the bar */
+  body { padding-bottom: calc(var(--actions-h) + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ── misc ─────────────────────────────────────────────────────────────── */
+
+/* An inline "live" pip. */
+.pip {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--green);
+  vertical-align: middle;
+}
+
+/* Small ASCII art block — hero only, never a full-page watermark. */
+.ascii {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  line-height: 1.05;
+  color: var(--fg-faint);
+  white-space: pre;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+}

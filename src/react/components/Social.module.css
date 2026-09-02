@@ -1,31 +1,65 @@
+.social {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
 .icon {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: calc(var(--space-5));
-    height: calc(var(--space-5));
-    gap: var(--space-2);
-    color: var(--text);
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 10px;
-    padding: calc(var(--space-1));
-    text-decoration: none;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    color: var(--fg-faint);
+}
+.icon:hover { color: var(--pink); background: var(--bg-hover); }
+.icon svg { width: 16px; height: 16px; }
+
+/* ── label on hover / focus ────────────────────────────────────────────────
+   These are bare glyphs, and the document icon in particular tells you
+   nothing about where it goes. The label is drawn from data-tip so it stays
+   in sync with the link that owns it.
+   ------------------------------------------------------------------------ */
+.icon::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    padding: 3px 7px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: var(--fg);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.12s ease;
 }
 
-.icon svg { width: calc(var(--space-3) + 6px); height: calc(var(--space-3) + 6px); }
-
-.icon:focus {
-    outline: none;
+/* The CV link is the rightmost icon, and a centred label overhangs it by about
+   half its own width. An absolutely positioned box still contributes to
+   scrollable overflow even at opacity 0, so on a 390px screen that produced a
+   3px horizontal scroll for something never shown. Anchor the last one to the
+   row's right edge instead. (Left overhang is harmless — in LTR, overflow past
+   the left edge is not scrollable.) */
+.icon:last-child::after {
+    left: auto;
+    right: 0;
+    transform: none;
 }
 
-.social {
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-3);
-    align-items: center;
+/* Only where there is a real pointer. On touch the tooltip would either never
+   fire or stick after the tap, and the aria-label already names the link. */
+@media (hover: hover) {
+    .icon:hover::after { opacity: 1; }
 }
-
-@media (max-width: 880px) {
-    .social { justify-content: center; }
-}
+.icon:focus-visible::after { opacity: 1; }

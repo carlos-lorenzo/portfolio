@@ -1,0 +1,129 @@
+/* ============================================================================
+   The header system.
+
+   Headings are differentiated by rule, colour, emphasis and glyph — NOT by
+   size. h2, h3, h4 and body text all sit at the same font-size. Only h1 is
+   allowed to be large, and there is one per page.
+   ========================================================================== */
+
+/* ── h1 ─ a quiet path badge above a plain title. No gradient text. ──────── */
+.t-h1 {
+  font-family: var(--font-mono);
+  font-size: var(--t-h1);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* ── h2 ─ the signature: a rule with the title set into it. ───────────────
+   ── About ───────────────────────────────────────────────
+   Left-lead, not centred: a column of centred headings is harder to scan
+   than a column of flush-left ones, whatever fastfetch does.
+   ------------------------------------------------------------------------ */
+.t-rule {
+  display: grid;
+  grid-template-columns: 1.5rem auto 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--t-h2);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: var(--track);
+  color: var(--accent);
+  line-height: 1;
+}
+.t-rule::before,
+.t-rule::after {
+  content: "";
+  height: 1px;
+  background: var(--line);
+}
+.t-rule > span { display: block; }
+
+/* Wide lead-in, for page-level section titles that want more air. */
+.t-rule--wide { grid-template-columns: 3rem auto 1fr; }
+
+/* ── h3 ─ a solid accent bar. Same size as body, bold italic. ───────────── */
+.t-bar {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--fg);
+  line-height: 1.4;
+}
+.t-bar::before {
+  content: "";
+  border-radius: 1px;
+  background: var(--accent);
+}
+
+/* ── h4 ─ a tree glyph. Accent text, faint glyph. ───────────────────────── */
+.t-tree {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--accent);
+  line-height: 1.4;
+}
+/* The empty CSS alt text keeps box-drawing glyphs out of the accessibility
+   tree, so screen readers do not read "└─" aloud. */
+.t-tree::before {
+  content: "\2514\2500";
+  color: var(--fg-faint);
+  font-style: normal;
+  flex: 0 0 auto;
+}
+.t-tree::before { content: "\2514\2500" / ""; }
+
+/* ── the path badge ─ used above h1 and on cards ────────────────────────── */
+.path {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  color: var(--purple);
+  letter-spacing: 0.01em;
+}
+.path::before { content: "~"; color: var(--fg-faint); }
+.path::before { content: "~" / ""; }
+
+/* ── meta line ─ small, dim, tracked ────────────────────────────────────── */
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  color: var(--fg-dim);
+}
+
+/* ── micro label ─ uppercase, tracked, tiny ─────────────────────────────── */
+.micro {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  color: var(--fg-dim);
+}
+
+/* ── prose ─ the only place the proportional face is used ───────────────── */
+.prose {
+  font-family: var(--font-prose);
+  font-size: var(--t-lead);
+  line-height: 1.75;
+  color: var(--fg);
+  max-width: var(--measure);
+}
+.prose strong { color: var(--fg); font-weight: 700; }
+.prose em { font-style: italic; }

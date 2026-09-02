@@ -1,96 +1,109 @@
-import { motion } from 'motion/react'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
-import styles from "./ProjectCard.module.css"
+import styles from './ProjectCard.module.css'
 
-// Extra link type — each entry carries its own label, URL, and icon
 export interface ExtraLink {
     label: string
     url: string
     icon: IconDefinition
 }
 
-// Props for ProjectCard
 interface ProjectCardProps {
     title: string
+    slug: string
     description: string
     repo_link: string
     extraLinks?: ExtraLink[]
     skills: string[]
+    tone?: string
 }
 
-const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
-}
+declare function gtag(...args: any[]): void
 
-const skillStagger = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.05, delayChildren: 0.15 } },
-}
-
-const skillItem = {
-    hidden: { opacity: 0, scale: 0.85 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.25 } },
-}
-
-declare function gtag(...args: any[]): void;
-
-export default function ProjectCard({ title, description, repo_link, extraLinks, skills }: ProjectCardProps) {
-    const hasLinks = !!repo_link || (extraLinks && extraLinks.length > 0)
+export default function ProjectCard({
+    title,
+    slug,
+    description,
+    repo_link,
+    extraLinks,
+    skills,
+    tone,
+}: ProjectCardProps) {
+    // The card's primary destination — the repo if there is one, otherwise the
+    // first extra link. It backs the stretched link that makes the whole card
+    // clickable, which is what earns the card a hover state at all.
+    const primary = repo_link || extraLinks?.[0]?.url || ''
+    const secondary = extraLinks?.filter((l) => l.url !== primary) ?? []
 
     return (
-        <motion.div
-            className={styles.projectCard}
-            variants={cardVariants}
-            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        <article
+            className={`win ${styles.card}`}
+            style={tone ? ({ '--accent': tone } as React.CSSProperties) : undefined}
         >
-            <h3>{title}</h3>
-            <p>{description}</p>
+            <span className={`path ${styles.path}`}>/projects/{slug}</span>
 
-            {hasLinks && (
-                <div className={styles.linksRow}>
-                    {repo_link && (
-                        <motion.a
-                            href={repo_link}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            aria-label={`View ${title} on GitHub`}
-                            whileHover={{ scale: 1.15, color: '#E6EDF3' }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => gtag('event', 'project_click', { project_name: title, link_text: `${title} GitHub` })}
-                        >
-                            <FontAwesomeIcon icon={faGithub} />
-                        </motion.a>
-                    )}
-                    {extraLinks?.map((link, i) => (
-                        <motion.a
-                            key={i}
-                            href={link.url}
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            aria-label={`${link.label} — ${title}`}
-                            whileHover={{ scale: 1.15, color: '#E6EDF3' }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => gtag('event', 'project_click', { project_name: title, link_text: link.label })}
-                        >
-                            <FontAwesomeIcon icon={link.icon} />
-                        </motion.a>
-                    ))}
-                </div>
-            )}
+            <h3 className={styles.title}>
+                {primary ? (
+                    <a
+                        href={primary}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.stretch}
+                        onClick={() =>
+                            gtag('event', 'project_click', {
+                                project_name: title,
+                                link_text: title,
+                            })
+                        }
+                    >
+                        {title}
+                    </a>
+                ) : (
+                    title
+                )}
+            </h3>
 
-            <motion.div
-                className={styles.skillsContainer}
-                variants={skillStagger}
-            >
-            {skills.map((skill, index) => (
-                <motion.div key={index} className={styles.skill} variants={skillItem}>{skill}</motion.div>
-            ))}
-            </motion.div>
-        </motion.div>
+            <p className={styles.desc}>{description}</p>
+
+            <ul className={`tags ${styles.tags}`}>
+                {skills.map((skill) => (
+                    <li key={skill}>
+                        <span className="tag">{skill}</span>
+                    </li>
+                ))}
+            </ul>
+
+            <div className={styles.links}>
+                {repo_link && (
+                    <a
+                        href={repo_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${title} on GitHub`}
+                    >
+                        <FontAwesomeIcon icon={faGithub} />
+                    </a>
+                )}
+                {secondary.map((link) => (
+                    <a
+                        key={link.url}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${link.label} — ${title}`}
+                        onClick={() =>
+                            gtag('event', 'project_click', {
+                                project_name: title,
+                                link_text: link.label,
+                            })
+                        }
+                    >
+                        <FontAwesomeIcon icon={link.icon} />
+                    </a>
+                ))}
+            </div>
+        </article>
     )
 }

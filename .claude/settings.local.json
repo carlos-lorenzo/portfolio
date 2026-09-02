@@ -1,0 +1,25 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:20128/v1",
+    "ANTHROPIC_AUTH_TOKEN": "sk-d73f82b5163eb00b-68b370-ae6775bd",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "auto/coding",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "cc/claude-sonnet-5",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "cc/claude-opus-5"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(echo *)",
+      "Bash(python3 -)",
+      "WebSearch",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(CD *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(python3 -c \"import tomllib; tomllib.load\\(open\\('pyproject.toml','rb'\\)\\); print\\('pyproject valid'\\)\")",
+      "Bash(command -v idf.py)",
+      "Bash(git diff *)",
+      "Bash(grep -vE '^[+-]\\\\s*$')"
+    ]
+  }
+}

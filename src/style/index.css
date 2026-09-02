@@ -1,11 +1,18 @@
-/* Order matters: reset -> variables -> base -> layout -> components -> utils -> pages */
+/* Self-hosted. Latin subset only, 400/700 plus italics — the heading system
+   depends on real italics, not synthesised obliques. */
+@import '@fontsource/iosevka/latin-400.css';
+@import '@fontsource/iosevka/latin-400-italic.css';
+@import '@fontsource/iosevka/latin-700.css';
+@import '@fontsource/iosevka/latin-700-italic.css';
+@import '@fontsource/iosevka-aile/latin-400.css';
+@import '@fontsource/iosevka-aile/latin-400-italic.css';
+@import '@fontsource/iosevka-aile/latin-700.css';
+
+/* Order matters: reset -> tokens -> base -> typography -> primitives -> pages */
 @import './_reset.css';
 @import './_variables.css';
 @import './base.css';
-@import './layout.css';
-@import './components.css';
-@import './utils.css';
+@import './_typography.css';
+@import './_terminal.css';
+@import './_viz.css';
 @import './pages.css';
-
-/* Example override to verify global styles are loaded */
-html, body { min-height: 100%; }

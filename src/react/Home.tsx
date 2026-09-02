@@ -5,18 +5,25 @@ import Sections from './components/Sections'
 
 export default function Home() {
     return (
-        <main id='home' role='main'>
-            <Element
-                name='hero-section'
-                id='hero-section'
-                style={{ scrollMarginTop: 'var(--nav-offset)' }}
-            >
-                <Hero />
-            </Element>
-            <Content />
-            
-            <Sections />
+        <>
+            <a className="skip-link" href="#about-section">
+                Skip to content
+            </a>
 
-        </main>
+            <main id="home" role="main">
+                <Element
+                    name="hero-section"
+                    id="hero-section"
+                    style={{ scrollMarginTop: 'var(--nav-offset)' }}
+                >
+                    <Hero />
+                </Element>
+
+                <Content />
+            </main>
+
+            {/* Mobile-only; hidden above 880px. */}
+            <Sections />
+        </>
     )
 }

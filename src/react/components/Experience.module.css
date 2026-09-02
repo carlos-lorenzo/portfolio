@@ -1,103 +1,61 @@
-.experienceContainer {
-    min-height: 50vh;
+.log {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
-    padding: var(--space-6) 0;
+    gap: var(--space-6);
 }
 
-.experienceContainer h2 {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    color: var(--text);
-    margin: 0;
-    position: relative;
-    display: inline-block;
-    width: fit-content;
-}
+.entry { min-width: 0; }
 
-.experienceContainer h2::after {
-    content: "";
-    display: block;
-    width: 40%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    border-radius: 2px;
-    margin-top: var(--space-2);
-}
-
-.timeline {
-    position: relative;
-    padding-left: 2rem;
-    border-left: 2px solid var(--border);
+.head {
     display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-3);
+    margin-bottom: var(--space-1);
 }
 
-.timelineItem {
-    position: relative;
-}
-
-.timelineDot {
-    position: absolute;
-    left: calc(-2rem - 7px); /* exactly aligns the 16px dot center with the 2px border center */
-    top: 0.25rem;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid var(--background);
-    background-color: var(--accent);
-    transition: all 0.3s ease;
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.75rem;
+.ref {
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    color: var(--accent);
+    white-space: nowrap;
 }
 
 .role {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.2;
     margin: 0;
-}
-
-.company {
-    font-size: 1.1rem;
-    color: var(--accent);
-    font-weight: 500;
-    margin-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-body);
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1.4;
 }
 
 .date {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-top: 0.25rem;
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--track);
+    color: var(--fg-dim);
+    white-space: nowrap;
 }
 
-.description {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+.company {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-style: italic;
+    color: var(--fg-faint);
 }
 
-.description li {
-    position: relative;
-    padding-left: 1.25rem;
-    color: var(--text);
-    line-height: 1.6;
+.entry ul {
+    max-width: var(--measure);
+    font-family: var(--font-prose);
+    font-size: var(--t-body);
+    line-height: 1.7;
+    color: var(--fg-dim);
 }
 
-.description li::before {
-    content: "▹";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
+@media (max-width: 640px) {
+    .date { margin-left: 0; flex-basis: 100%; }
 }

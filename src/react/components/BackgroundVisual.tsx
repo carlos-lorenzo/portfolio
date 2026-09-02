@@ -7,10 +7,10 @@ import styles from './BackgroundVisual.module.css'
 /* ─── Constants ─────────────────────────────────────────────────────────────── */
 
 const COLORS = {
-  primary: '#58A6FF',
-  accent: '#F78166',
-  purple: '#D2A8FF',
-  green: '#7EE787',
+  primary: '#79dcef',
+  accent: '#f26fbb',
+  purple: '#b088f0',
+  green: '#5fd97f',
 }
 
 const NODE_PALETTE = [

@@ -1,0 +1,235 @@
+---
+import Layout from './Layout.astro';
+import BlogFooter from '../components/BlogFooter.astro';
+import { readingTime } from '../lib/readingTime';
+import 'katex/dist/katex.min.css';
+
+export interface Props {
+  post: any;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { post, headings = [] } = Astro.props;
+const d = post.data;
+
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+// Only h2/h3 make a useful contents list; deeper levels are noise in a sidebar.
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  image: d.ogImage
+    ? new URL(d.ogImage, Astro.site).toString()
+    : new URL('/og-image.png', Astro.site).toString(),
+  datePublished: d.date.toISOString(),
+  ...(d.updatedDate && { dateModified: d.updatedDate.toISOString() }),
+  author: {
+    '@type': 'Person',
+    name: d.author || 'Carlos Lorenzo-Zúñiga Marí',
+    url: 'https://carloslorenzo.dev',
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://carloslorenzo.dev' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://carloslorenzo.dev/blog' },
+    { '@type': 'ListItem', position: 3, name: d.title, item: Astro.url.href },
+  ],
+};
+---
+
+<Layout
+  title={`${d.title} | Carlos Lorenzo`}
+  description={d.description}
+  canonicalURL={d.canonicalURL}
+  image={d.ogImage}
+  ogType="article"
+  publishedTime={d.date}
+  modifiedTime={d.updatedDate}
+  author={d.author}
+  tags={d.tags}
+  keywords={d.keywords}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
+
+  <a class="skip-link" href="#post">Skip to content</a>
+
+  <div class="shell" id="top">
+    <article class="article" id="post">
+      <header class="head">
+        <a href="/blog" class="back">
+          <span aria-hidden="true">←</span> blog
+        </a>
+
+        <span class="path">/blog/{post.id}</span>
+        <h1 class="t-h1">{d.title}</h1>
+        <p class="lede">{d.description}</p>
+
+        <dl class="kv meta">
+          <div class="row">
+            <dt>published</dt>
+            <dd><time datetime={d.date.toISOString()}>{fmt(d.date)}</time></dd>
+          </div>
+          {d.updatedDate && (
+            <div class="row">
+              <dt>updated</dt>
+              <dd><time datetime={d.updatedDate.toISOString()}>{fmt(d.updatedDate)}</time></dd>
+            </div>
+          )}
+          <div class="row">
+            <dt>read</dt>
+            <dd>{readingTime(post)}</dd>
+          </div>
+          {d.tags?.length > 0 && (
+            <div class="row">
+              <dt>tags</dt>
+              <dd>
+                <ul class="tags">
+                  {d.tags.map((tag: string) => (
+                    <li><span class="tag">{tag}</span></li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          )}
+        </dl>
+      </header>
+
+      <div class="blog-content">
+        <slot />
+      </div>
+
+      <BlogFooter currentSlug={post.id} githubRepo={d.githubRepo} />
+    </article>
+
+    {toc.length > 1 && (
+      <aside class="toc" aria-label="Table of contents">
+        <div class="toc-inner">
+          <p class="micro toc-title">contents</p>
+          <ul class="tree tree--tight">
+            {toc.map((h) => (
+              <li class={h.depth === 3 ? 'sub' : undefined}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    )}
+  </div>
+
+  <nav class="actions" aria-label="Primary actions">
+    <a href="/blog"><span aria-hidden="true">←</span> Blog</a>
+    <a href="#top"><span aria-hidden="true">↑</span> Top</a>
+    <a href="/rss.xml"><span aria-hidden="true">◉</span> RSS</a>
+  </nav>
+</Layout>
+
+<script>
+  // Copy buttons for code blocks. Added client-side so the markup stays clean
+  // and non-JS readers simply get a normal <pre>.
+  document.querySelectorAll('.blog-content pre').forEach((pre) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-btn';
+    btn.textContent = 'copy';
+    btn.addEventListener('click', async () => {
+      const code = pre.querySelector('code');
+      if (!code) return;
+      try {
+        await navigator.clipboard.writeText(code.textContent ?? '');
+        btn.textContent = 'copied';
+        btn.dataset.copied = 'true';
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          delete btn.dataset.copied;
+        }, 1600);
+      } catch {
+        btn.textContent = 'failed';
+        setTimeout(() => (btn.textContent = 'copy'), 1600);
+      }
+    });
+    pre.appendChild(btn);
+  });
+</script>
+
+<style>
+  .shell {
+    /* Blog pages read as one accent throughout: rules, h3 bars, tree spines
+       and blockquotes in cyan, links in purple, inline code in yellow. */
+    --accent: var(--cyan);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: var(--space-7);
+    align-items: start;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--space-7) var(--space-4) var(--space-7);
+  }
+
+  .article { min-width: 0; }
+
+  .head {
+    padding-bottom: var(--space-5);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    color: var(--fg-dim);
+  }
+  .back:hover { color: var(--pink); }
+
+  .head h1 { margin: var(--space-2) 0 var(--space-3); }
+
+  .lede {
+    max-width: var(--measure);
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-prose);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    color: var(--fg-dim);
+  }
+
+  .meta { font-size: var(--t-small); }
+  .meta dt {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--fg-faint);
+    text-transform: lowercase;
+  }
+  .meta dd { color: var(--fg-dim); }
+  .row { display: grid; grid-template-columns: subgrid; grid-column: span 2; }
+
+  .toc { position: sticky; top: var(--space-5); }
+  .toc-inner { border-left: 1px solid var(--line); padding-left: var(--space-4); }
+  .toc-title { margin: 0 0 var(--space-3); }
+  .toc ul { font-size: var(--t-small); }
+  .toc a { color: var(--fg-dim); display: block; line-height: 1.45; }
+  .toc a:hover { color: var(--accent); }
+  .toc .sub { margin-left: var(--space-3); }
+
+  @media (max-width: 1080px) {
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .toc { display: none; }
+  }
+
+  @media (max-width: 880px) {
+    .shell { padding: var(--space-5) var(--space-3) var(--space-6); }
+  }
+</style>

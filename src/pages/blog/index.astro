@@ -1,119 +1,233 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import fs from 'node:fs';
+import { readingTime } from '../../lib/readingTime';
 
 const posts = await getCollection('blog');
 posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const getReadingTime = (post) => {
-  let content = post.body || '';
-  if (!content && post.filePath) {
-    try { content = fs.readFileSync(post.filePath, 'utf-8'); } catch(e){}
-  }
-  const words = content.split(/\s+/).length;
-  const mins = Math.max(1, Math.ceil(words / 200));
-  return `${mins} min read`;
+// Grouped by year, newest first — the year becomes the section rule and each
+// post hangs off it as a tree child.
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const y = post.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://carloslorenzo.dev' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://carloslorenzo.dev/blog' },
+  ],
 };
 ---
 
-<Layout 
-  title="Blog | Carlos Lorenzo-Zúñiga Marí" 
+<Layout
+  title="Blog | Carlos Lorenzo-Zúñiga Marí"
   description="Research and technical deep-dives on neurotechnology, ML, and systems by Carlos Lorenzo-Zúñiga Marí."
-  keywords={["Blog", "Neurotechnology", "Machine Learning", "System Engineering"]}
+  keywords={['Blog', 'Neurotechnology', 'Machine Learning', 'System Engineering']}
 >
-  <script type="application/ld+json" slot="head">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://carloslorenzo.dev"
-      },{
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://carloslorenzo.dev/blog"
-      }]
-    }
-  </script>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  </Fragment>
 
-  <main style="min-height: 100vh; padding: 120px 5%; max-width: 900px; margin: 0 auto; color: var(--text);">
-    <a href="/" class="back-link" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; font-weight: 500;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-      <span>Back to Portfolio</span>
-    </a>
-    
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-      <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 0;">Technical Weblog</h1>
-      <a href="/rss.xml" aria-label="RSS Feed" style="color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; border: 1px solid var(--accent); padding: 0.25rem 0.75rem; border-radius: 4px; transition: background 0.2s, color 0.2s;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-        <span>RSS</span>
-      </a>
-    </div>
+  <a class="skip-link" href="#posts">Skip to posts</a>
 
-    <p style="opacity: 0.8; margin-bottom: 4rem; font-size: 1.2rem;">Thoughts, research, and deep-dives.</p>
-    
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      {posts.length > 0 ? posts.map((post) => (
-        <article style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2rem;">
-          <a href={`/blog/${post.id}`} class="post-preview-link" aria-label={`Read post: ${post.data.title}`} style="text-decoration: none; color: inherit; display: block;">
-            <header>
-              <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; transition: color 0.2s ease, transform 0.2s ease; font-weight: 600;">{post.data.title}</h2>
-              
-              <div style="display: flex; gap: 0.75rem; align-items: center; opacity: 0.6; margin-bottom: 1rem; font-size: 0.85rem; flex-wrap: wrap;">
-                <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric'})}</time>
-                <span aria-hidden="true" style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
-                <span>{getReadingTime(post)}</span>
-                
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <>
-                    <span aria-hidden="true" style="width: 4px; height: 4px; border-radius: 50%; background: currentColor;"></span>
-                  <div style="display: flex; gap: 0.5rem;">
-                    {post.data.tags.map(tag => (
-                      <span style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid rgba(255,255,255,0.3); padding: 1px 6px; border-radius: 4px; font-family: var(--font-mono, monospace);">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-            </header>
+  <main class="shell" id="top">
+    <header class="head">
+      <a href="/" class="back"><span aria-hidden="true">←</span> portfolio</a>
 
-            <p style="opacity: 0.9; line-height: 1.6;">{post.data.description}</p>
-          </a>
-        </article>
-      )) : (
-        <p style="opacity: 0.6;">No posts yet. Check back soon!</p>
-      )}
+      <span class="path">/blog</span>
+      <div class="titleRow">
+        <h1 class="t-h1">Technical Weblog</h1>
+        <a href="/rss.xml" class="rss" aria-label="RSS feed">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none"/></svg>
+          rss
+        </a>
+      </div>
+      <p class="lede">
+        Engineering notes on biosignals, hardware design and low-level systems.
+      </p>
+    </header>
+
+    <div id="posts">
+      {posts.length === 0 && <p class="empty">No posts yet — check back soon.</p>}
+
+      {years.map((year) => (
+        <section class="year">
+          <h2 class="t-rule"><span>{year}</span></h2>
+
+          <ul class="tree">
+            {byYear.get(year)!.map((post) => (
+              <li>
+                <a href={`/blog/${post.id}`} class="entry">
+                  <span class="entryTop">
+                    <time class="date" datetime={post.data.date.toISOString()}>
+                      {post.data.date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).replace('/', '-')}
+                    </time>
+                    <span class="title">{post.data.title}</span>
+                    <span class="read">{readingTime(post)}</span>
+                  </span>
+
+                  <span class="desc">{post.data.description}</span>
+
+                  {post.data.tags?.length > 0 && (
+                    <span class="tags">
+                      {post.data.tags.slice(0, 4).map((tag: string) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </span>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
     </div>
   </main>
+
+  <nav class="actions" aria-label="Primary actions">
+    <a href="/"><span aria-hidden="true">←</span> Portfolio</a>
+    <a href="#top"><span aria-hidden="true">↑</span> Top</a>
+    <a href="/rss.xml"><span aria-hidden="true">◉</span> RSS</a>
+  </nav>
 </Layout>
 
 <style>
-  .back-link {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color 0.2s ease, opacity 0.2s ease;
+  .shell {
+    --accent: var(--cyan);
+    max-width: 860px;
+    margin: 0 auto;
+    padding: var(--space-7) var(--space-4);
   }
-  .back-link:hover {
-    color: var(--accent);
-    opacity: 0.9;
+
+  .head {
+    padding-bottom: var(--space-5);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--line);
   }
-  
-  .post-preview-link h2 {
-    color: var(--primary);
+
+  .back {
+    display: inline-block;
+    margin-bottom: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    color: var(--fg-dim);
   }
-  .post-preview-link:hover h2 {
-    color: var(--accent);
-    transform: translateX(4px);
+  .back:hover { color: var(--pink); }
+
+  .titleRow {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin: var(--space-2) 0 var(--space-3);
   }
-  
-  a[href="/rss.xml"]:hover {
-    background: var(--accent);
-    color: var(--background) !important;
+
+  .rss {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--track);
+    color: var(--fg-dim);
+  }
+  .rss:hover { color: var(--orange); border-color: var(--orange); }
+
+  .lede {
+    max-width: var(--measure);
+    margin: 0;
+    font-family: var(--font-prose);
+    font-size: var(--t-lead);
+    color: var(--fg-dim);
+  }
+
+  .year { margin-bottom: var(--space-6); }
+  .year:last-child { margin-bottom: 0; }
+
+  /* The whole row is the link, which is what makes a hover state legitimate
+     here. Colour and background only — nothing moves. */
+  .entry {
+    display: block;
+    margin: calc(-1 * var(--space-2)) 0 0 calc(-1 * var(--space-2));
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    color: inherit;
+  }
+  .entry:hover { background: var(--bg-hover); }
+
+  .entryTop {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .date {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+    color: var(--fg-faint);
+  }
+
+  .title {
+    font-family: var(--font-mono);
+    font-size: var(--t-body);
+    font-weight: 700;
+    color: var(--fg);
+    line-height: 1.4;
+  }
+  .entry:hover .title { color: var(--accent); }
+
+  .read {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--track);
+    color: var(--fg-faint);
+    white-space: nowrap;
+  }
+
+  .desc {
+    display: block;
+    max-width: 66ch;
+    margin-top: var(--space-1);
+    padding-left: 3.5rem;
+    font-family: var(--font-prose);
+    font-size: var(--t-small);
+    line-height: 1.6;
+    color: var(--fg-dim);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+    padding-left: 3.5rem;
+  }
+
+  .empty { color: var(--fg-dim); }
+
+  @media (max-width: 880px) {
+    .shell { padding: var(--space-5) var(--space-3) var(--space-6); }
+  }
+
+  @media (max-width: 640px) {
+    .read { margin-left: 0; }
+    .desc, .tags { padding-left: 0; }
   }
 </style>

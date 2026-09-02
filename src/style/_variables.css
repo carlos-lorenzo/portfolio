@@ -1,48 +1,118 @@
+/* ============================================================================
+   Design tokens.
+
+   The canvas is neutral desaturated ink. Dracula hues appear ONLY as accents —
+   on text, glyphs and hairlines — never as a background wash.
+
+   Hues are damped from stock Dracula: those values are calibrated for a #282a36
+   background and read loud on a near-black one.
+   ========================================================================== */
+
 :root {
-  /* Colors */
-  --text: hsl(208, 35%, 93%);
-  --text-muted: hsl(204, 9%, 79%);
-  --background: #0D1117;
-  --surface: #161B22;
-  --primary: #58A6FF;
-  --secondary: #161B22;
-  --accent: #F78166;
-  --code-green: #7EE787;
-  --code-purple: #D2A8FF;
-  --border: #30363D;
+  /* ── canvas ─ solid and opaque. there is no wallpaper behind this. ──────── */
+  --bg:        #0d0e12;   /* page */
+  --bg-raised: #13151d;   /* boxes */
+  --bg-inset:  #0a0b0f;   /* code blocks, wells */
+  --bg-hover:  #181b25;   /* interactive hover ONLY */
 
+  /* ── structure ─ 1px hairlines, never 2px ──────────────────────────────── */
+  --line:      #1e2130;   /* rules, spines, dividers */
+  --border:    #262a3a;   /* box borders */
+  --border-hi: #343a4f;   /* raised box borders */
 
+  /* ── text ──────────────────────────────────────────────────────────────── */
+  --fg:        #e2e8f0;   /* body                        ~15:1 */
+  --fg-dim:    #9aa5b8;   /* meta, captions               ~7:1 */
+  --fg-faint:  #6d7ba1;   /* recessive meta: dates, labels, tree glyphs  4.6:1 */
 
-    /* Typography */
-    --font-sans: "Geist", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-    --font-size-base: 16px; /* browser default */
-    --line-height-base: 1.6;
+  /* ── dracula accents, damped for a darker canvas ───────────────────────── */
+  --pink:   #f26fbb;   /* active / interactive       */
+  --cyan:   #79dcef;   /* hardware, signals          */
+  --purple: #b088f0;   /* paths, links               */
+  --green:  #5fd97f;   /* live, success              */
+  --yellow: #e8ef94;   /* inline code, emphasis      */
+  --orange: #f0ad6a;
+  --red:    #f05f5f;
 
-    /* Spacing scale (modular) */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 16px;
-    --space-4: 24px;
-    --space-5: 32px;
-    --space-6: 48px;
-    --space-7: 64px;
+  /* Per-section accent. Reassigned on each <section>; tints that section's
+     heading rule, its tree spines and its span of the rail — nothing else. */
+  --accent: var(--purple);
 
-    /* Nav scroll offset — responsive per breakpoint */
-    --nav-offset: 80px;
+  /* The one surviving gradient: transient keyboard focus. Scarcity is what
+     keeps it from reading as decoration. */
+  --focus-gradient: linear-gradient(315deg, var(--pink), var(--cyan));
+
+  /* ── typography ────────────────────────────────────────────────────────── */
+  --font-mono:  'Iosevka', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-prose: 'Iosevka Aile', var(--font-mono);
+
+  --font-size-base: 16px;
+  --line-height-base: 1.65;
+
+  /* Compressed scale. Hierarchy comes from rule, colour and emphasis —
+     h2 is deliberately the same size as body text. */
+  --t-micro: 0.6875rem;  /* badges, box titles, line numbers */
+  --t-small: 0.8125rem;  /* meta, captions */
+  --t-body:  0.9375rem;  /* body, h3, h4 */
+  --t-lead:  1.0625rem;  /* blog prose */
+  --t-h2:    0.9375rem;  /* section titles — same as body */
+  --t-h1:    1.625rem;   /* one per page */
+
+  --track:      0.08em;  /* uppercase micro tracking */
+  --measure:    68ch;    /* prose line length */
+
+  /* ── geometry ──────────────────────────────────────────────────────────── */
+  --radius:    10px;
+  --radius-sm: 3px;      /* badges — deliberately not pills */
+
+  /* ── spacing ───────────────────────────────────────────────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 20px;
+  --space-5: 32px;
+  --space-6: 52px;
+  --space-7: 84px;
+
+  /* ── the rail ──────────────────────────────────────────────────────────── */
+  --rail-line-h: 24px;   /* single source of truth: row height AND the divisor
+                            Content.tsx uses to count lines */
+  --rail-w:      3.25rem;
+  --spine-w:     2px;
+
+  /* ── scroll offsets ────────────────────────────────────────────────────── */
+  --nav-offset: 24px;         /* no top bar any more; just breathing room */
+  --actions-h:  0px;          /* mobile bottom bar height; set at the breakpoint */
 }
 
-/* Responsive spacing adjustments */
-@media (min-width: 768px) {
+@media (max-width: 880px) {
   :root {
-    --space-4: 32px;
-    --space-5: 40px;
+    --rail-w: 0px;
+    --actions-h: 52px;
   }
 }
 
-/* On mobile the nav moves to the bottom — minimal top offset needed */
-@media (max-width: 640px) {
+@media (min-width: 1200px) {
   :root {
-    --nav-offset: 20px;
+    --space-6: 64px;
+    --space-7: 104px;
   }
+}
+
+/* ============================================================================
+   Compatibility aliases.
+   Older CSS modules still reference the previous token names. These map them
+   onto the new palette so nothing renders broken mid-migration. Remove once
+   every module has been converted.
+   ========================================================================== */
+:root {
+  --background:  var(--bg);
+  --surface:     var(--bg-raised);
+  --secondary:   var(--bg-raised);
+  --text:        var(--fg);
+  --text-muted:  var(--fg-dim);
+  --primary:     var(--purple);
+  --code-green:  var(--green);
+  --code-purple: var(--purple);
+  --font-sans:   var(--font-prose);
 }

@@ -1,247 +1,124 @@
-.tag {
-    display: inline-flex;
+.hero {
+    --accent: var(--pink);
+    display: flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: calc(var(--space-1) + 4px) var(--space-3);
-    width: fit-content;
-    border-radius: 9999px; /* capsule */
-    border: 1px solid var(--text);
-    background: var(--secondary); /* subtle primary tint */
-    color: var(--text);
-    font-size: 0.8125rem; /* 13px */
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    min-height: 100svh;
+    padding: var(--space-7) var(--space-4) var(--space-6);
 }
 
-/* Small layout spacing for hero container (used if you switch to className) */
-#hero {
-    padding: var(--space-6) 0;
+.grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-    height: 100dvh;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
     align-items: center;
-}
-
-#description {
+    gap: var(--space-7);
     width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
 }
 
-#description {
+/* If the visual is ever dropped, the hero collapses to one readable column
+   on its own. Nothing else has to change. */
+.grid:not(:has(.vis)) {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 78ch;
+}
+
+.left {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
-    align-items: flex-start;
-    justify-content: center;
-    padding: 0 var(--space-6) 0 0;
+    gap: var(--space-5);
+    min-width: 0;
+    animation: rise 0.5s ease-out both;
 }
 
-.tag {
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-color: rgba(255,255,255,0.06);
-    cursor: default;
-}
-
-/* Enhanced hero styling with dynamic blurred background */
-#hero {
-    position: relative;
-    overflow: hidden;
-    padding: calc(var(--space-6)) calc(var(--space-6) * 3);
+.head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
+    gap: var(--space-4);
 }
 
-#hero::before {
-    display: none;
+.ident { min-width: 0; }
+.ident h1 { margin: var(--space-2) 0 var(--space-3); }
+
+.tagline {
+    margin: 0;
+    max-width: 46ch;
+    font-family: var(--font-prose);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    color: var(--fg-dim);
 }
 
-/* Gradient fade at the bottom edge — dissolves orb glow into the background */
-#hero::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 250px;
-    background: linear-gradient(to bottom, transparent, var(--background));
-    z-index: 1;
-    pointer-events: none;
+/* Each .kv row is its own subgrid cell pair so the label column stays aligned. */
+.row {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: span 2;
 }
 
-/* Shared ambient orb base */
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none;
-    will-change: transform;
-}
-
-/* Primary blue — large, upper-left area */
-.orbPrimary {
-    width: 55%;
-    aspect-ratio: 1;
-    top: -12%;
-    left: -8%;
-    background: radial-gradient(circle at 40% 40%, rgba(88, 166, 255, 0.12), transparent 70%);
-    filter: blur(80px);
-}
-
-/* Accent orange — smaller, lower-right, subtler */
-.orbAccent {
-    width: 45%;
-    aspect-ratio: 1;
-    bottom: -8%;
-    right: -5%;
-    background: radial-gradient(circle at 60% 60%, rgba(247, 129, 102, 0.08), transparent 70%);
-    filter: blur(90px);
-}
-
-/* Muted purple — center, very faint fill between the two */
-.orbMuted {
-    width: 40%;
-    aspect-ratio: 1;
-    top: 30%;
-    left: 30%;
-    background: radial-gradient(circle at 50% 50%, rgba(210, 168, 255, 0.05), transparent 65%);
-    filter: blur(100px);
-}
-
-/* Adjective gradient text */
-.adjective {
-    display: inline-block;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* Content sits above the animated blurred backdrop (exclude blob) */
-#hero > .left,
-#hero > .right { position: relative; z-index: 2; }
-
-/* Align hero columns (support both module-scoped and global selectors) */
-.left,
-#hero .left {
+.cta {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    height: 100%;
-}
-
-.right,
-#hero .right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-}
-
-/* Prevent the floating sections from overlapping important hero content by
-   leaving a consistent right-safe area that matches the sections width */
-#hero {
-    --right-safe: calc(var(--space-6) * 3);
-    padding-right: var(--right-safe);
-}
-
-/* Hero text styles */
-#description h1 {
-    font-size: clamp(2rem, 4vw, 3.25rem);
-    line-height: 1.15;
-    margin: calc(var(--space-3)) 0 calc(var(--space-3) / 2);
-    color: var(--text);
-}
-
-#description p {
-    color: var(--text-muted);
-    max-width: 54ch;
-    margin-bottom: var(--space-4);
-}
-
-/* Waveform visual — borderless, no img rules needed */
-
-@media (max-width: 880px) {
-    /* Stack columns and remove the large right-safe padding so content centers */
-    #hero {
-        grid-template-columns: 1fr;
-        gap: var(--space-5);
-        height: auto;
-        padding: var(--space-6) var(--space-4);
-    }
-
-    #hero img { width: min(420px, 80vw); }
-    #description { text-align: center; align-items: center; padding: 0; }
-    #hero .left { justify-content: center; }
-    /* Ensure visual appears below text on small screens */
-    #hero .right { order: 0; }
-}
-
-@media (max-width: 640px) {
-    /* Tighter horizontal padding on very small screens */
-    #hero { padding: var(--space-5) var(--space-3); }
-}
-
-/* On larger screens keep text left-aligned beside the waveform */
-@media (min-width: 881px) {
-    #description { align-items: flex-start; text-align: left; padding-right: 0; }
-    .left, #hero .left { justify-content: flex-start; }
-}
-
-/* Actions row: launch button + socials side-by-side */
-.actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
     flex-wrap: wrap;
+    gap: var(--space-3);
 }
 
-/* Launch terminal button */
-.launch {
+.btn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    border-radius: 10px;
-    background: var(--primary);
-    border: 1px solid var(--primary);
-    color: var(--background);
+    gap: 0.45rem;
+    min-height: 38px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
     font-family: var(--font-mono);
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: var(--t-small);
     letter-spacing: 0.02em;
+    color: var(--fg);
     cursor: pointer;
-    transition: background 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+.btn:hover {
+    color: var(--fg);
+    background: var(--bg-hover);
+    border-color: var(--pink);
+}
+.btnPrimary { border-color: color-mix(in srgb, var(--pink) 45%, transparent); }
+.btnPrimary span { color: var(--pink); }
+
+.vis { min-width: 0; }
+.visMeta {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+    color: var(--fg-faint);
 }
 
-.launch:hover {
-    background: color-mix(in srgb, var(--primary) 85%, white);
-    box-shadow: 0 4px 18px rgba(88, 166, 255, 0.25);
-}
-
-.launchOutline {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    text-decoration: none;
-}
-
-.launchOutline:hover {
-    background-color: transparent !important;
-    box-shadow: 0 4px 18px rgba(247, 129, 102, 0.25);
-}
-
-.launchIcon {
-    font-size: 0.7rem;
-}
-
-.launch:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 3px;
+@keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
 }
 
 @media (max-width: 880px) {
-    .actions { justify-content: center; }
+    .hero {
+        min-height: auto;
+        padding: var(--space-6) var(--space-3) var(--space-5);
+    }
+    .grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-5);
+    }
+    /* The visual follows the text on small screens rather than crowding it. */
+    .vis { order: 2; }
+    .left { order: 1; }
+}
+
+@media (max-width: 480px) {
+    .head {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-3);
+    }
 }

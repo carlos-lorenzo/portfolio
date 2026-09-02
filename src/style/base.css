@@ -1,50 +1,106 @@
-@import './_variables.css';
+/* ============================================================================
+   Element defaults + the interaction policy.
+   ========================================================================== */
 
 html {
   font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-offset);
+  scroll-padding-bottom: calc(var(--actions-h) + var(--space-4));
+  background: var(--bg);
 }
 
-html, body {
-  font-family: var(--font-sans);
-  background: var(--background);
-  color: var(--text);
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  line-height: var(--line-height-base);
+  background: var(--bg);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: var(--line-height-base);
+  text-rendering: optimizeLegibility;
+
+  /* Dither grain. Keeps flat #0d0e12 from reading as default dark mode.
+     Monochrome and ~1.5% — it should be felt, not seen. */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 0);
+  background-size: 3px 3px;
+  background-attachment: fixed;
 }
 
-a {
-  color: var(--primary);
-  text-decoration: none;
-}
+#root { min-height: 100%; }
 
-button {
-  font: inherit;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* Basic typographic scale and rhythm */
-h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 var(--space-3); }
-h2 { font-size: 1.5rem; line-height: 1.2; margin: 0 0 var(--space-3); }
-h3 { font-size: 1.25rem; line-height: 1.25; margin: 0 0 var(--space-3); }
+a { color: var(--purple); text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; }
+b, strong { font-weight: 700; }
 
 p { margin: 0 0 var(--space-3); }
+p:last-child { margin-bottom: 0; }
 
-/* Use gap-based stacks where possible to preserve rhythm */
-.stack { display: flex; flex-direction: column; gap: var(--space-3); }
-
-/* Firefox */
-* {
-  scrollbar-width: none;      /* hides scrollbar */
-  -ms-overflow-style: none;   /* IE and old Edge */
+/* ── Interaction policy ─────────────────────────────────────────────────────
+   Interaction is reserved for things you can actually click. Everything else
+   is inert: no transform, no scale, no box-shadow, no opacity bloom, ever.
+   ------------------------------------------------------------------------ */
+a,
+button,
+[role="button"],
+summary,
+label {
+  transition: color 0.14s ease, background-color 0.14s ease, border-color 0.14s ease;
 }
 
-/* Chrome, Safari, Edge (Chromium) */
-*::-webkit-scrollbar {
-  display: none;
+a:hover, button:hover, [role="button"]:hover { color: var(--pink); }
+
+/* The one place the gradient survives: transient keyboard focus. */
+:focus { outline: none; }
+:focus-visible {
+  outline: none;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--pink);
+}
+@supports (background: linear-gradient(in oklab, red, blue)) {
+  :focus-visible {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--cyan);
+  }
+}
+
+::selection { background: color-mix(in srgb, var(--purple) 30%, transparent); color: var(--fg); }
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────
+   The previous stylesheet hid scrollbars on every element with
+   `scrollbar-width: none`, which removes a real affordance. Thin, not absent.
+   ------------------------------------------------------------------------ */
+* { scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 999px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--fg-faint); }
+
+/* ── Skip link ──────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  z-index: 9999;
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-raised);
+  border: 1px solid var(--pink);
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  font-size: var(--t-small);
+}
+.skip-link:focus { top: var(--space-3); }
+
+/* Reduced motion: kill every transition and animation outright. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

@@ -1,46 +1,275 @@
-/* Page-specific overrides */
+/* ============================================================================
+   .blog-content — MDX output.
 
-/* Blog Content Styles */
-.blog-content a {
-  color: var(--primary);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.2s ease, border-bottom 0.2s ease, opacity 0.2s ease;
-  font-weight: 500;
+   MDX emits plain h2/h3/h4/ul/blockquote, so the header system is applied to
+   the elements themselves here rather than via classes.
+   ========================================================================== */
+
+.blog-content {
+  font-family: var(--font-prose);
+  font-size: var(--t-lead);
+  line-height: 1.75;
+  color: var(--fg);
+  overflow-wrap: break-word;
 }
 
-.blog-content a:hover {
+/* One measure for the whole column, set in the prose face. Constraining each
+   child instead made mono headings (narrower `ch`) end well short of the
+   proportional paragraphs below them. */
+.blog-content { max-width: 72ch; }
+
+/* The first block should sit against the header rule, not 84px below it. */
+.blog-content > :first-child { margin-top: 0; }
+
+.blog-content p { margin: 0 0 var(--space-4); }
+
+/* ── headings ─ rule / bar / tree, all near body size ──────────────────── */
+.blog-content h2 {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5rem auto 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  margin: var(--space-7) 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--t-h2);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: var(--track);
+  line-height: 1;
   color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-  opacity: 0.9;
+}
+.blog-content h2::before,
+.blog-content h2::after { content: ""; height: 1px; background: var(--line); }
+
+.blog-content h3 {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin: var(--space-6) 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--fg);
+}
+.blog-content h3::before { content: ""; border-radius: 1px; background: var(--accent); }
+
+.blog-content h4 {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: var(--space-5) 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-body);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--accent);
+}
+.blog-content h4::before { content: "\2514\2500"; color: var(--fg-faint); font-style: normal; }
+.blog-content h4::before { content: "\2514\2500" / ""; }
+
+/* Heading anchors. Absolutely positioned so they never become grid items and
+   break the h2/h3 rule layouts above. */
+.blog-content :is(h2, h3, h4) > a[aria-hidden="true"] {
+  position: absolute;
+  left: -1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 0.25rem;
+  color: var(--fg-faint);
+  opacity: 0;
+  font-style: normal;
+  text-decoration: none;
+}
+.blog-content :is(h2, h3, h4):hover > a[aria-hidden="true"],
+.blog-content :is(h2, h3, h4) > a[aria-hidden="true"]:focus-visible { opacity: 1; }
+.blog-content :is(h2, h3, h4) > a[aria-hidden="true"]::before { content: "#"; }
+
+/* ── links ─ underline is the affordance, not colour alone ─────────────── */
+.blog-content a:not([aria-hidden="true"]) {
+  color: var(--purple);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--purple) 40%, transparent);
+  text-underline-offset: 3px;
+}
+.blog-content a:not([aria-hidden="true"]):hover {
+  color: var(--pink);
+  text-decoration-color: var(--pink);
 }
 
-.blog-content img {
-  display: block;
-  margin: 2rem auto;
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* ── lists ─ ul becomes a tree, ol keeps accent numerals ───────────────── */
+.blog-content ul { list-style: none; margin: 0 0 var(--space-4); padding: 0; }
+.blog-content ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-bottom: var(--space-2);
+}
+.blog-content ul > li:last-child { padding-bottom: 0; }
+.blog-content ul > li::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.4;
+}
+.blog-content ul > li:last-child::after { bottom: auto; height: 0.8em; }
+.blog-content ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.8em;
+  width: 0.9rem; height: 1px;
+  background: var(--accent);
+  opacity: 0.4;
 }
 
-/* Restore list markers inside blog content (reset.css removes them globally) */
-.blog-content ul,
 .blog-content ol {
-  margin: 0 0 1rem 1.25rem;
+  list-style: decimal;
+  margin: 0 0 var(--space-4) 1.6rem;
   padding: 0;
 }
-
-.blog-content ul {
-  list-style-type: disc;
-  list-style-position: outside;
+.blog-content ol > li { padding-bottom: var(--space-2); }
+.blog-content ol > li::marker {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
 }
 
-.blog-content ol {
-  list-style-type: decimal;
-  list-style-position: outside;
+.blog-content li > ul,
+.blog-content li > ol { margin-top: var(--space-2); margin-bottom: 0; }
+
+/* ── blockquote ─ a coloured spine, italic ─────────────────────────────── */
+.blog-content blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  color: var(--fg-dim);
+}
+.blog-content blockquote p:last-child { margin-bottom: 0; }
+
+/* ── code ──────────────────────────────────────────────────────────────── */
+.blog-content :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background: var(--bg-inset);
+  color: var(--yellow);
 }
 
-.blog-content li {
-  margin-bottom: 0.5rem;
+/* Shiki is already themed `dracula`, which finally matches the site. Only its
+   inline background needs overriding so the block sits in our own box —
+   inline styles need !important to beat. */
+.blog-content pre {
+  position: relative;
+  margin: var(--space-5) 0;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-inset) !important;
+  overflow-x: auto;
+  font-size: var(--t-small);
+  line-height: 1.65;
+}
+.blog-content pre code {
+  font-family: var(--font-mono);
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* The language, set into the top border — same move as .win--titled. */
+.blog-content pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  transform: translateY(-50%);
+  padding: 0 0.5rem;
+  background: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-style: italic;
+  letter-spacing: var(--track);
+  line-height: 1;
+  color: var(--fg-faint);
+}
+
+.copy-btn {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  z-index: 2;
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  text-transform: uppercase;
+  letter-spacing: var(--track);
+  color: var(--fg-dim);
+  cursor: pointer;
+  opacity: 0;
+}
+.blog-content pre:hover .copy-btn,
+.copy-btn:focus-visible { opacity: 1; }
+.copy-btn:hover { color: var(--pink); border-color: var(--pink); }
+.copy-btn[data-copied="true"] { color: var(--green); border-color: var(--green); opacity: 1; }
+@media (hover: none) { .copy-btn { opacity: 1; } }
+
+/* ── media ─ hairline, not a drop shadow ───────────────────────────────── */
+.blog-content img {
+  margin: var(--space-5) auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.blog-content figure { margin: var(--space-5) 0; }
+.blog-content figcaption {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  color: var(--fg-dim);
+  text-align: center;
+}
+
+.blog-content hr {
+  margin: var(--space-6) 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+/* ── tables ────────────────────────────────────────────────────────────── */
+.blog-content table {
+  width: 100%;
+  margin: var(--space-5) 0;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--t-small);
+  display: block;
+  overflow-x: auto;
+}
+.blog-content th,
+.blog-content td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid var(--line); }
+.blog-content th { color: var(--accent); font-style: italic; font-weight: 700; white-space: nowrap; }
+
+/* ── KaTeX ─ inherit our colour, and let wide display math scroll ──────── */
+.blog-content .katex { color: var(--fg); font-size: 1.05em; }
+.blog-content .katex-display {
+  margin: var(--space-5) 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: var(--space-2) 0;
+}
+
+@media (max-width: 640px) {
+  .blog-content { font-size: 1rem; }
+  .blog-content pre { padding: var(--space-3); border-radius: var(--radius-sm); }
 }

@@ -60,7 +60,7 @@ export default function EMGSignalVisualizer() {
 
             // Draw center line
             const centerY = canvas.height / 2;
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.strokeStyle = 'rgba(38, 42, 58, 0.9)';
             ctx.setLineDash([5, 5]);
             ctx.lineWidth = 1;
             ctx.beginPath();
@@ -70,7 +70,7 @@ export default function EMGSignalVisualizer() {
 
             // Draw signal
             ctx.setLineDash([]);
-            ctx.strokeStyle = filtersRef.current.rms ? '#f43f5e' : '#38bdf8'; 
+            ctx.strokeStyle = filtersRef.current.rms ? '#f26fbb' : '#79dcef'; 
             ctx.lineWidth = 2;
             ctx.beginPath();
             
@@ -97,56 +97,24 @@ export default function EMGSignalVisualizer() {
     };
 
     return (
-        <div style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            padding: '2rem',
-            borderRadius: '12px',
-            margin: '2rem 0',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem'
-        }}>
-            <div style={{ textAlign: 'center' }}>
-                <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem', color: 'var(--text)' }}>CUPPER Signal Chain</h3>
-                <p style={{ margin: 0, opacity: 0.7, fontSize: '0.9rem' }}>
-                    Simulated EMG signal through the analog front-end stages.
-                </p>
-            </div>
+        <figure className="win win--titled viz">
+            <span className="win__t">cupper_signal_chain</span>
+            <p className="viz__lede">Simulated EMG signal through the analog front-end stages.</p>
             
-            <canvas 
-                ref={canvasRef} 
-                style={{ 
-                    width: '100%', 
-                    height: '200px', 
-                    background: 'rgba(0,0,0,0.3)', 
-                    borderRadius: '8px',
-                    display: 'block' 
-                }} 
-            />
+            <canvas ref={canvasRef} className="viz__canvas" />
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div className="viz__toggles">
                 {(['hpf', 'lpf', 'rms'] as const).map(f => (
                     <button 
                         key={f}
                         onClick={() => toggleFilter(f)}
-                        style={{
-                            padding: '0.5rem 1rem',
-                            borderRadius: '4px',
-                            border: '1px solid',
-                            borderColor: filters[f] ? '#f43f5e' : 'rgba(255,255,255,0.2)',
-                            background: filters[f] ? 'rgba(244, 63, 94, 0.1)' : 'transparent',
-                            color: filters[f] ? '#f43f5e' : 'inherit',
-                            cursor: 'pointer',
-                            textTransform: 'uppercase',
-                            fontWeight: 'bold',
-                            fontFamily: 'monospace'
-                        }}
+                        className="viz__toggle"
+                        data-on={filters[f] || undefined}
                     >
                         {f} : {filters[f] ? 'ON' : 'OFF'}
                     </button>
                 ))}
             </div>
-        </div>
+        </figure>
     );
 }

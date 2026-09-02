@@ -1,69 +1,58 @@
-.projectCard {
-    background: rgba(22, 27, 34, 0.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: var(--space-5);
+.card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-2);
+    min-width: 0;
+    /* The card is entirely clickable via the stretched link below, so a hover
+       state here is legitimate. Colour and border only — nothing moves. */
+    transition: border-color 0.14s ease, background-color 0.14s ease;
+}
+.card:hover { border-color: var(--accent); background: var(--bg-hover); }
+.card:focus-within { border-color: var(--accent); }
+
+.path { font-size: var(--t-micro); }
+
+.title {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--t-body);
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--fg);
+}
+.title a { color: inherit; }
+.card:hover .title a { color: var(--accent); }
+
+/* Stretched link: the anchor's ::after covers the whole card, so the entire
+   surface is a hit target without nesting the other links inside it. */
+.stretch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+}
+
+.desc {
+    margin: 0;
+    font-family: var(--font-prose);
+    font-size: var(--t-small);
+    line-height: 1.65;
+    color: var(--fg-dim);
+}
+
+.tags { margin-top: auto; padding-top: var(--space-3); }
+
+/* Sits above the stretched link so these stay independently clickable. */
+.links {
     position: relative;
-    overflow: hidden;
-}
-
-
-.projectCard h3 {
-    font-size: 1.25rem;
-    color: var(--text);
-    margin: 0;
-    font-weight: 600;
-}
-
-.projectCard p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.55;
-    margin: 0;
-    flex: 1;
-}
-
-/* Horizontal row of link icons */
-.linksRow {
+    z-index: 1;
     display: flex;
+    gap: var(--space-3);
     align-items: center;
-    gap: var(--space-2);
-    flex-wrap: wrap;
+    margin-top: var(--space-1);
+    color: var(--fg-faint);
 }
-
-.projectCard a {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--text-muted);
-    font-size: 1.25rem;
-    width: fit-content;
-}
-
-.skillsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: auto;
-}
-
-.skill {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-1) var(--space-3);
-    border-radius: 9999px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.03);
-    color: var(--primary);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    cursor: default;
-}
-
-
+.links a { color: inherit; display: inline-flex; padding: 2px; }
+.links a:hover { color: var(--accent); }
+.links svg { width: 15px; height: 15px; }

@@ -1,100 +1,52 @@
-.footerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-5);
-    padding: var(--space-6) var(--space-4);
-    border-top: 1px solid var(--border);
-    margin-top: var(--space-6);
-    text-align: center;
+.footer { min-width: 0; }
+
+.blurb {
+    max-width: 52ch;
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-prose);
+    font-size: var(--t-lead);
+    color: var(--fg-dim);
 }
 
-/* Email copy-to-clipboard button */
-.emailButton {
+.row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.email {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-4);
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
-    color: var(--text);
-    background: rgba(22, 27, 34, 0.6);
-    backdrop-filter: blur(8px);
+    min-height: 38px;
+    padding: 0 var(--space-3);
     border: 1px solid var(--border);
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
-}
-
-.emailButton:hover {
-    border-color: var(--primary);
-}
-
-.emailButton:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-}
-
-.emailIcon {
-    color: var(--primary);
-    font-size: 1rem;
-}
-
-/* Email text wrapper — fixed size to prevent layout shift */
-.emailTextWrapper {
-    position: relative;
-    display: inline-grid;
-    justify-items: center;
-}
-
-.emailTextWrapper > * {
-    grid-area: 1 / 1;
-}
-
-/* Invisible sizers that hold the width of each possible text */
-.emailSizer {
-    visibility: hidden;
-    pointer-events: none;
-    height: 0;
-    overflow: hidden;
-}
-
-/* Copied feedback */
-.copiedFeedback {
-    color: var(--code-green);
-}
-
-/* Copyright */
-.copyright {
+    border-radius: var(--radius-sm);
+    background: var(--bg-raised);
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: var(--t-small);
+    color: var(--fg);
+    cursor: pointer;
 }
+.email:hover { color: var(--fg); border-color: var(--pink); background: var(--bg-hover); }
+.email svg { width: 14px; height: 14px; color: var(--fg-faint); }
+.email[data-copied] { border-color: var(--green); }
+.email[data-copied] .live,
+.email[data-copied] svg { color: var(--green); }
 
-.copyrightLink {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
+.stack { position: relative; display: inline-grid; }
+.sizer { visibility: hidden; height: 0; white-space: nowrap; }
+.live { grid-area: 1 / 1; align-self: center; white-space: nowrap; }
 
-.copyrightLink:hover {
-    color: var(--accent);
-}
-
-@media (max-width: 880px) {
-    .footerContainer {
-        padding: var(--space-6) var(--space-3);
-    }
-}
-
-@media (max-width: 640px) {
-    .footerContainer {
-        padding: var(--space-5) var(--space-2);
-        gap: var(--space-4);
-    }
-
-    .emailButton {
-        font-size: 0.85rem;
-        padding: var(--space-2) var(--space-3);
-    }
+.copyright {
+    margin: 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    letter-spacing: var(--track);
+    text-transform: uppercase;
+    color: var(--fg-faint);
 }
