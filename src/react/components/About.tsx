@@ -29,7 +29,7 @@ export default function About() {
                 <h2 id="about-heading">Hi — I'm Carlos</h2>
                 <p>
                 I like building things. More specifically, things that sit somewhere between biology, electronics, and software. 
-                I'm based in Valencia, where I'm a 2st-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a>,
+                I'm based in Valencia, where I'm a 2nd-year <strong>Biomedical Engineering</strong> student at <a href="https://www.upv.es/" target="_blank" rel="noopener noreferrer">UPV</a>,
                 a self-taught developer, and an electronic designer at <a href="https://www.linkedin.com/company/daidalonic/" target="_blank" rel="noopener noreferrer">DAIDALONIC</a>. 
                 </p>
 
